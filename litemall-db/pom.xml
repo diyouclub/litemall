@@ -37,6 +37,7 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
+
     </dependencies>
 
 
@@ -59,10 +60,23 @@
                         <artifactId>mysql-connector-java</artifactId>
                         <version>5.1.46</version>
                     </dependency>
+                    <!-- https://mvnrepository.com/artifact/com.itfsw/mybatis-generator-plugin -->
                     <dependency>
                         <groupId>com.itfsw</groupId>
                         <artifactId>mybatis-generator-plugin</artifactId>
                         <version>1.2.12</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/jdom/jdom -->
+                    <dependency>
+                        <groupId>dom4j</groupId>
+                        <artifactId>dom4j</artifactId>
+                        <version>1.6.1</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+                    <dependency>
+                        <groupId>org.freemarker</groupId>
+                        <artifactId>freemarker</artifactId>
+                        <version>2.3.26-incubating</version>
                     </dependency>
                 </dependencies>
             </plugin>

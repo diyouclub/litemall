@@ -246,6 +246,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/promotion/grouponActivity'),
         name: 'grouponActivity',
         meta: { title: '团购活动', noCache: true }
+      },
+      {
+        path: 'commission',
+        component: () => import('@/views/promotion/commission'),
+        name: 'commission',
+        meta: { title: '佣金规则列表', noCache: true }
       }
     ]
   },
