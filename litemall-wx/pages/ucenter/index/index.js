@@ -156,6 +156,17 @@ Page({
       });
     };
   },
+  goInvite() {
+    if (this.data.hasLogin) {
+      wx.navigateTo({
+        url: "/pages/ucenter/invitation/invitation"
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/login/login"
+      });
+    };
+  },
   bindPhoneNumber: function(e) {
     if (e.detail.errMsg !== "getPhoneNumber:ok") {
       // 拒绝授权

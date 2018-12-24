@@ -72,6 +72,14 @@ Page({
         wx.navigateTo({
           url: '../goods/goods?grouponId=' + id
         });
+      } else if (_type == 'user' ) {
+        // wx.navigateTo({
+        //   url: '../goods/goods?grouponId=' + id
+        // })
+        //
+        var userInfo = wx.getStorageSync('userInfo');
+        userInfo.invite_user = id;
+        wx.setStorageSync('userInfo', userInfo);
       } else {
         wx.navigateTo({
           url: '../index/index'

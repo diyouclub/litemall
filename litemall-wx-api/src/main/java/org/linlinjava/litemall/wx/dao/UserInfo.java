@@ -8,6 +8,7 @@ public class UserInfo {
     private String city;
     private String language;
     private Byte gender;
+    private String inviteUrl;
 
     public String getCountry() {
         return country;
@@ -63,5 +64,13 @@ public class UserInfo {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getInviteUrl() {
+        return inviteUrl;
+    }
+
+    public void setInviteUrl(String inviteUrl) {
+        this.inviteUrl = inviteUrl;
     }
 }

@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.core.notify.NotifyService;
 import org.linlinjava.litemall.core.notify.NotifyType;
+import org.linlinjava.litemall.core.qcode.QCodeService;
 import org.linlinjava.litemall.core.util.CharUtil;
 import org.linlinjava.litemall.core.util.JacksonUtil;
 import org.linlinjava.litemall.core.util.RegexUtil;
@@ -59,6 +60,9 @@ public class WxAuthController {
     @Autowired
     private CouponAssignService couponAssignService;
 
+    @Autowired
+    private QCodeService qCodeService;
+
     /**
      * 账号登录
      *
@@ -107,7 +111,7 @@ public class WxAuthController {
     /**
      * 微信登录
      *
-     * @param wxLoginInfo 请求内容，{ code: xxx, userInfo: xxx }
+     * @param wxLoginInfo 请求内容，{ code: xxx, userInfo: xxx,invite_user: x }
      * @param request     请求对象
      * @return 登录结果
      */
@@ -146,14 +150,28 @@ public class WxAuthController {
             user.setStatus((byte) 0);
             user.setLastLoginTime(LocalDateTime.now());
             user.setLastLoginIp(IpUtil.client(request));
+            // 仅在第一次登录注册时绑定上下级关系
+            if (null != wxLoginInfo.getInvite_user()) {
+                user.setPid(wxLoginInfo.getInvite_user());
+            }
 
             userService.add(user);
+
+            //生成用户邀请二维码
+            String inviteUrl = qCodeService.createUserInvitationCodeImage(user.getId());
+            user.setInviteUrl(inviteUrl);
+            userInfo.setInviteUrl(inviteUrl);
+            if (userService.updateById(user) == 0) {
+                return ResponseUtil.updatedDataFailed();
+            }
+            //
 
             // 新用户发送注册优惠券
             couponAssignService.assignForRegister(user.getId());
         } else {
             user.setLastLoginTime(LocalDateTime.now());
             user.setLastLoginIp(IpUtil.client(request));
+
             if (userService.updateById(user) == 0) {
                 return ResponseUtil.updatedDataFailed();
             }

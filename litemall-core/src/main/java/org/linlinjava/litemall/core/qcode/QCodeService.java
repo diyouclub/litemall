@@ -177,4 +177,28 @@ public class QCodeService {
         g2D.drawImage(imageToWrite, x, y, width, heigth, null);
         g2D.dispose();
     }
+
+    public String createUserInvitationCodeImage(Integer userId) {
+//        if (!SystemConfig.isAutoCreateShareImage())
+//            return "";
+
+        try {
+            //创建该用户的二维码
+            File file = wxMaService.getQrcodeService().createWxaCodeUnlimit("user," + userId, "pages/orderForm/orderForm");
+            FileInputStream inputStream = new FileInputStream(file);
+
+            //存储分享图
+            String url = storageService.store(inputStream, file.length(), "image/jpeg", "USER_INVITE_QCODE_" + userId + ".jpg");
+
+            return url;
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 }
