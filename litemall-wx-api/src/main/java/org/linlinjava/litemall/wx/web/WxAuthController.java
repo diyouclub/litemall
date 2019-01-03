@@ -181,6 +181,8 @@ public class WxAuthController {
         UserToken userToken = UserTokenManager.generateToken(user.getId());
         userToken.setSessionKey(sessionKey);
 
+        //invite_url
+        userInfo.setInviteUrl(user.getInviteUrl());
         Map<Object, Object> result = new HashMap<Object, Object>();
         result.put("token", userToken.getToken());
         result.put("tokenExpire", userToken.getExpireTime().toString());
