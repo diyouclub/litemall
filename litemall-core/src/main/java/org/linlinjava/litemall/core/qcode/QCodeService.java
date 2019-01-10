@@ -184,7 +184,7 @@ public class QCodeService {
 
         try {
             //创建该用户的二维码
-            File file = wxMaService.getQrcodeService().createWxaCodeUnlimit("user," + userId, "pages/orderForm/orderForm");
+            File file = wxMaService.getQrcodeService().createWxaCodeUnlimit("user," + userId, "pages/index/index");
             FileInputStream inputStream = new FileInputStream(file);
 
             //存储分享图
