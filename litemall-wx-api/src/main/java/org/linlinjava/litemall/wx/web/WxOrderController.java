@@ -668,7 +668,7 @@ public class WxOrderController {
             return WxPayNotifyResponse.success("订单已经处理成功!");
         }
 
-        // added by fujue 方便测试回调
+        //todo added by fujue 方便测试回调
 //        // 检查支付订单金额
 //        if (!totalFee.equals(order.getActualPrice().toString())) {
 //            return WxPayNotifyResponse.fail(order.getOrderSn() + " : 支付金额不符合 totalFee=" + totalFee);
