@@ -66,8 +66,9 @@ public class WxStorageController {
      * @param key 存储对象key
      * @return
      */
-    @GetMapping("/fetch/{key:.+}")
+    @GetMapping("/fetch/{key}")
     public ResponseEntity<Resource> fetch(@PathVariable String key) {
+        System.out.println("存储对象 fecth "+key);
         LitemallStorage litemallStorage = litemallStorageService.findByKey(key);
         if (key == null) {
             return ResponseEntity.notFound().build();
@@ -82,6 +83,7 @@ public class WxStorageController {
         if (file == null) {
             return ResponseEntity.notFound().build();
         }
+         System.out.println("存储对象 file  ="+file.getFilename());
         return ResponseEntity.ok().contentType(mediaType).body(file);
     }
 
@@ -100,10 +102,8 @@ public class WxStorageController {
         if (key.contains("../")) {
             return ResponseEntity.badRequest().build();
         }
-
         String type = litemallStorage.getType();
         MediaType mediaType = MediaType.parseMediaType(type);
-
         Resource file = storageService.loadAsResource(key);
         if (file == null) {
             return ResponseEntity.notFound().build();
