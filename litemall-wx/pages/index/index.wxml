@@ -37,7 +37,7 @@
     </navigator>
     <view class='icon-link-item' bindtap="modalShow">
       <image src='../../static/images/zag_icon3.png'></image>
-      <text>正品保障</text>
+      <text>保单图</text>
     </view>
   </view>
 

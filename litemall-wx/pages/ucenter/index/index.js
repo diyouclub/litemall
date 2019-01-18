@@ -156,6 +156,17 @@ Page({
       });
     };
   },
+  goVip() {
+    if (this.data.hasLogin) {
+      wx.navigateTo({
+        url: "/pages/category/category?id=1036010"
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/login/login"
+      });
+    };
+  },
   goInvite() {
     if (this.data.hasLogin) {
       wx.navigateTo({

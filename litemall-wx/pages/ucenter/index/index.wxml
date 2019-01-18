@@ -80,8 +80,9 @@
        <image class='user_column_item_image' src='/static/images/group.png'></image>
       <view class='user_column_item_text'>邀请有礼</view>
     </view>
-        <view class='user_column_item' >
-       
+    <view class='user_column_item'  bindtap='goVip'>
+        <image class='user_column_item_image' src='/static/images/vip.png'></image>
+        <view class='user_column_item_text'>升级会员</view>
     </view>
      <view class='user_column_item' >
        
