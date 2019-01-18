@@ -1,13 +1,85 @@
+.container{
+  background-color: #fff;
+}
 .banner {
   width: 750rpx;
-  height: 417rpx;
+  height: 317rpx;
+}
+
+.banner-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .banner image {
   width: 100%;
-  height: 417rpx;
+  height: 287rpx;
+  border-radius: 20rpx;
+  margin: 0 5rpx;
 }
-
+.tips {
+  display: flex;
+  flex-direction: row;
+}
+.tips-item{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tips-item image {
+  width: 32rpx;
+  height: 32rpx;
+}
+.tips-item text {
+  font-size: 22rpx;
+  color:#999
+}
+.icon-link {
+  display: flex;
+  flex-direction: row;
+  padding: 66rpx 0;
+}
+.icon-link-item{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.icon-link-item image {
+  display: block;
+  width: 128rpx;
+  height: 128rpx;
+}
+.icon-link-item text {
+  font-size: 32rpx;
+  color:#999
+}
+.title1 {
+  display: flex;
+  justify-content: center;
+}
+.title1 text {
+  font-size: 44rpx;
+  color: #333;
+}
+.title2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title2 view {
+  width: 88rpx;
+  height: 1px;
+  background: #999;
+}
+.title2 text {
+  font-size: 28rpx;
+  color: #666;
+  margin: 0 20rpx;
+}
 .m-menu {
   background: #fff;
   display: flex;
@@ -38,7 +110,10 @@
   line-height: 1;
   color: #333;
 }
-
+.modal-img{
+  width: 100%;
+  
+}
 .a-section {
   width: 750rpx;
   height: auto;

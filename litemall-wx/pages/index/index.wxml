@@ -1,20 +1,61 @@
 <!--index.wxml-->
 <view class="container">
-  <swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
-    <swiper-item wx:for="{{banner}}" wx:key="id">
+  <swiper class="banner"  autoplay="true" interval="3000" duration="1000" previous-margin="10px" next-margin="10px">
+    <swiper-item class="banner-item" wx:for="{{banner}}" wx:key="id">
       <!-- <navigator url="{{item.link}}"> -->
       <image src="{{item.url}}" background-size="cover"></image>
       <!-- </navigator> -->
     </swiper-item>
   </swiper>
+  <view class='tips'>
+    <view class='tips-item'>
+      <image src='../../static/images/z-1.png'></image>
+      <text>正品保证</text>
+    </view>
+     <view class='tips-item'>
+      <image src='../../static/images/z-2.png'></image>
+      <text>限时包邮</text>
+    </view>
+     <view class='tips-item'>
+      <image src='../../static/images/z-3.png'></image>
+      <text>7天放心退</text>
+    </view>
+     <view class='tips-item'>
+      <image src='../../static/images/z-4.png'></image>
+      <text>假一赔十</text>
+    </view>
+  </view>
+  
+  <view class='icon-link'>
+    <navigator url="/pages/category/category?id=1036010" class='icon-link-item'>
+      <image src='../../static/images/zag_icon1.png'></image>
+      <view><text>升级VIP</text></view>
+    </navigator>
+    <navigator url="/pages/catalog/catalog" class='icon-link-item'>
+      <image src='../../static/images/zag_icon2.png'></image>
+      <text>全部商品</text>
+    </navigator>
+    <view class='icon-link-item' bindtap="modalShow">
+      <image src='../../static/images/zag_icon3.png'></image>
+      <text>正品保障</text>
+    </view>
+  </view>
 
+  <view class='title1'>
+    <text>洛舟科技VIP解锁区</text>
+  </view>
+  <view class='title2'>
+    <view></view>
+    <text>多款特惠礼包等你挑选</text>
+    <view></view>
+  </view>
 
-  <view class="m-menu">
+  <!-- <view class="m-menu">
     <navigator class="item" url="/pages/category/category?id={{item.id}}" wx:for="{{channel}}" wx:key="id">
       <image src="{{item.iconUrl}}" background-size="cover"></image>
       <text>{{item.name}}</text>
     </navigator>
-  </view>
+  </view> -->
   <!-- edit by fujue
   <view class="a-section a-coupon" wx:if="{{coupon.length > 0}}">
     <view class="h">
@@ -102,13 +143,13 @@
   </view>
 -->
   <view class="a-section a-new" wx:if="{{newGoods.length > 0}}">
-    <view class="h">
+    <!-- <view class="h">
       <view>
         <navigator url="../newGoods/newGoods">
           <text class="txt">新品首发</text>
         </navigator>
       </view>
-    </view>
+    </view> -->
     <view class="b">
       <view class="item" wx:for="{{newGoods}}" wx:for-index="index" wx:for-item="item" wx:key="id">
         <navigator url="../goods/goods?id={{item.id}}">
@@ -186,4 +227,9 @@
       <view class="txt">{{'更多'+item.name+'好物 >'}}</view>
     </navigator>
   </view> -->
+  <modal title="正品保障" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view>
+      <image class="modal-img" data-src="../../static/images/z.jpg" src="../../static/images/z.jpg" mode='container' bindtap="previewImage"></image>
+    </view>
+  </modal>
 </view>

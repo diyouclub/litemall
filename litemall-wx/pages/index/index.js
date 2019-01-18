@@ -15,7 +15,9 @@ Page({
     floorGoods: [],
     banner: [],
     channel: [],
-    coupon: []
+    coupon: [],
+    categoryList:[],
+    modalHidden:true,
   },
 
   onShareAppMessage: function() {
@@ -25,7 +27,42 @@ Page({
       path: '/pages/index/index'
     }
   },
+  /**
+   * 显示弹窗
+   */
+  modalShow: function () {
+    this.setData({
+      modalHidden: false
+    })
+  },
+  /**
+   * 点击取消
+   */
+  modalCandel: function () {
+    // do something
+    this.setData({
+      modalHidden: true
+    })
+  },
 
+  /**
+   *  点击确认
+   */
+  modalConfirm: function () {
+    // do something
+    this.setData({
+      modalHidden: true
+    })
+  },
+  previewImage: function (e) {
+    var current = e.target.dataset.src;
+   
+    console.log(e.target);
+    wx.previewImage({
+      current: current, // 当前显示图片的http链接
+      urls: [current] // 需要预览的图片http链接列表
+    })
+  },
   onPullDownRefresh() {
     wx.showNavigationBarLoading() //在标题栏中显示加载
     this.getIndexData();
@@ -50,6 +87,12 @@ Page({
         });
       }
     });
+    // util.request(api.CatalogList).then(function (res) {
+    //   console.log(res.data);
+    //   that.setData({
+    //     categoryList: res.data.categoryList,
+    //   });
+    // });
   },
   onLoad: function(options) {
 
