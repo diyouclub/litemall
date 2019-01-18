@@ -181,8 +181,9 @@ public class WxAuthController {
         UserToken userToken = UserTokenManager.generateToken(user.getId());
         userToken.setSessionKey(sessionKey);
 
-        //invite_url
+        //返回给前端小程序  invite_url
         userInfo.setInviteUrl(user.getInviteUrl());
+        userInfo.setAgency_level(user.getAgencyLevel());
         Map<Object, Object> result = new HashMap<Object, Object>();
         result.put("token", userToken.getToken());
         result.put("tokenExpire", userToken.getExpireTime().toString());

@@ -73,6 +73,9 @@ public class WxStorageController {
         if (key == null) {
             return ResponseEntity.notFound().build();
         }
+        System.out.println("存储对象 key is not null  ");
+        System.out.println("存储对象  "+litemallStorage.getUrl());
+        System.out.println("存储对象  "+litemallStorage.getName());
         if (key.contains("../")) {
             return ResponseEntity.badRequest().build();
         }

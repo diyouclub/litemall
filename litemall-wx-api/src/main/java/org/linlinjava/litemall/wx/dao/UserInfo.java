@@ -10,6 +10,10 @@ public class UserInfo {
     private Byte gender;
     private String inviteUrl;
 
+
+
+    private Byte agency_level;
+
     public String getCountry() {
         return country;
     }
@@ -72,5 +76,13 @@ public class UserInfo {
 
     public void setInviteUrl(String inviteUrl) {
         this.inviteUrl = inviteUrl;
+    }
+
+    public Byte getAgency_level() {
+        return agency_level;
+    }
+
+    public void setAgency_level(Byte agency_level) {
+        this.agency_level = agency_level;
     }
 }

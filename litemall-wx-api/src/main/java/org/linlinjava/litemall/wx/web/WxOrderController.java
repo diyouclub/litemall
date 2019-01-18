@@ -674,9 +674,40 @@ public class WxOrderController {
 //            return WxPayNotifyResponse.fail(order.getOrderSn() + " : 支付金额不符合 totalFee=" + totalFee);
 //        }
 
+        //商品：省ID  1181002 市id 1181003 ，会员：所有商品
+        // 用户级别 普通、会员、市代、省代=>0123
+        boolean isUpgradeLevel = false;
+        byte agentcy_level = 1 ; //购买任何商品都从普通变为会员。
+        List<LitemallOrderGoods> orderGoods = orderGoodsService.findByOidAndGid(order.getId(),1181003);
+        if (orderGoods != null && orderGoods.size() > 0 ) {
+            // 存在市级
+            agentcy_level = 2;
+        }
+        orderGoods = orderGoodsService.findByOidAndGid(order.getId(),1181002);
+        if (orderGoods != null && orderGoods.size() > 0 ) {
+            // 存在省级
+            agentcy_level = 3;
+        }
+
+        LitemallUser user = userService.findById(order.getUserId());
+        byte user_agency = user.getAgencyLevel();
+        // 只有用户级别小于购买级别才升级
+        if (user_agency < agentcy_level) {
+            user.setAgencyLevel(agentcy_level);
+            userService.updateById(user);
+            //isUpgradeLevel
+
+        }
+        // 如果是省、市升级产品，并且只有一件商品，则自动完成订单。
+        if (agentcy_level > 1 && orderGoods.size() == 1) {
+            order.setOrderStatus(OrderUtil.STATUS_AUTO_CONFIRM);
+        }else {
+            order.setOrderStatus(OrderUtil.STATUS_PAY);
+        }
+
         order.setPayId(payId);
         order.setPayTime(LocalDateTime.now());
-        order.setOrderStatus(OrderUtil.STATUS_PAY);
+
         if (orderService.updateWithOptimisticLocker(order) == 0) {
             // 这里可能存在这样一个问题，用户支付和系统自动取消订单发生在同时
             // 如果数据库首先因为系统自动取消订单而更新了订单状态；
