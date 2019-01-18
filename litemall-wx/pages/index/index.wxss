@@ -378,6 +378,33 @@
   width: 302rpx;
   height: 302rpx;
 }
+.item_nopen{
+   width: 302rpx;
+  margin-top: 30rpx;
+  margin-left: 21rpx;
+  margin-right: 21rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center；
+}
+
+.item_nopen .img_nopen {
+  width: 232rpx;
+  height: 72rpx;
+}
+.item_nopen .img_nopen text {
+  font-size: 44rpx;
+  color: #ccc;
+  font-weight: bold
+}
+.item_nopen .nopen_discript{
+  width: 100%;
+}
+
+.item_nopen .nopen_discript text{
+  font-size: 25rpx;
+  color: #333;
+}
 
 .a-new .b .name {
   text-align: center;

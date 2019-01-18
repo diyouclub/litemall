@@ -7,7 +7,8 @@ Page({
   data: {
     userInfo: {
       nickName: '点击登录',
-      avatarUrl: 'http://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png'
+      avatarUrl: 'http://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png',
+      inviteUrl:''
     },
     order: {
       unpaid: 0,
@@ -15,13 +16,25 @@ Page({
       unrecv: 0,
       uncomment: 0
     },
-    hasLogin: false
+    hasLogin: false,
+    modalShow:false,
+    agency_level:0
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
   },
   onReady: function() {
 
+  },
+  showInviteModal:function(){
+    this.setData({
+      modalShow: true
+    });
+  },
+  closeQRCode:function(){
+    this.setData({
+      modalShow: false
+    });
   },
   onShow: function() {
 
@@ -30,14 +43,16 @@ Page({
       let userInfo = wx.getStorageSync('userInfo');
       this.setData({
         userInfo: userInfo,
-        hasLogin: true
+        hasLogin: true,
       });
 
       let that = this;
       util.request(api.UserIndex).then(function(res) {
         if (res.errno === 0) {
+          console.log(res.data);
           that.setData({
-            order: res.data.order
+            order: res.data.order,
+            agency_level: res.data.user.agency_level
           });
         }
       });

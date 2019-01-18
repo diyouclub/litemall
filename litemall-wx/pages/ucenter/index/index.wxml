@@ -3,6 +3,10 @@
     <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
     <view class="info">
       <text class="name">{{userInfo.nickName}}</text>
+      <view class="vip-area">
+        <text>会员等级</text> 
+        <image src="../../../static/images/v{{agency_level}}.png" background-size="container" mode='aspectFit'></image>
+      </view>
     </view>
   </view>
 
@@ -76,7 +80,7 @@
       <image class='user_column_item_image' src='/static/images/address.png'></image>
       <view class='user_column_item_text'>地址管理</view>
     </view>
-    <view class='user_column_item' bindtap='goInvite'>
+    <view class='user_column_item' bindtap='showInviteModal'>
        <image class='user_column_item_image' src='/static/images/group.png'></image>
       <view class='user_column_item_text'>邀请有礼</view>
     </view>
@@ -106,6 +110,17 @@
       <view class='user_column_item_text'>关于我们</view>
     </view> -->
   </view>
-
   <view class="logout" wx:if="{{hasLogin}}" bindtap="exitLogin">退出登录</view>
 </view>
+
+  <view class="attr-pop-box" hidden="{{!modalShow}}">
+    <view class="attr-pop">
+      <view class="close" bindtap="closeQRCode">
+        <image class="icon" src="/static/images/icon_close.png"></image>
+      </view>
+      <view class="img-info">
+        <image class="img" src="{{userInfo.inviteUrl}}"></image>
+      
+      </view>
+    </view>
+  </view>

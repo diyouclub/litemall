@@ -46,7 +46,7 @@
   </view>
   <view class='title2'>
     <view></view>
-    <text>多款特惠礼包等你挑选</text>
+    <text>专区特惠礼品只为您开放</text>
     <view></view>
   </view>
 
@@ -157,6 +157,10 @@
           <text class="name">{{item.name}}</text>
           <text class="price">￥{{item.retailPrice}}</text>
         </navigator>
+      </view>
+      <view class="item_nopen">
+          <view class='img_nopen'><text>VIP专区</text></view>
+          <view class="nopen_discript"><text>此功能暂未开放，敬请期待</text></view>
       </view>
     </view>
   </view>
