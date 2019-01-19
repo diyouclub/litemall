@@ -3,7 +3,9 @@ package org.linlinjava.litemall.wx.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.core.util.ResponseUtil;
+import org.linlinjava.litemall.db.domain.LitemallCommissionResult;
 import org.linlinjava.litemall.db.domain.LitemallUser;
+import org.linlinjava.litemall.db.service.LitemallCommissionResultService;
 import org.linlinjava.litemall.db.service.LitemallOrderService;
 import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.linlinjava.litemall.wx.annotation.LoginUser;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +32,8 @@ public class WxUserController {
     private LitemallOrderService orderService;
     @Autowired
     private LitemallUserService userService;
+    @Autowired
+    private LitemallCommissionResultService litemallCommissionResultService;
 
     /**
      * 用户个人页面数据
@@ -52,6 +57,9 @@ public class WxUserController {
         mapUser.put("invite_url",litemallUser.getInviteUrl());
         mapUser.put("agency_level",litemallUser.getAgencyLevel());
         data.put("user", mapUser);
+
+        List<LitemallCommissionResult> lstCommissionFee = litemallCommissionResultService.findByUserId(userId);
+        data.put("commission_fee",lstCommissionFee);
         return ResponseUtil.ok(data);
     }
 

@@ -38,6 +38,11 @@ public class PyramidService {
     private LitemallUserService userService;
 
     public List calcAgency(Byte buy_agency_level,BigDecimal totalFee, Integer param_user_id) {
+        if (buy_agency_level == 2) {
+            totalFee = new BigDecimal("300");
+        }else if (buy_agency_level == 3) {
+            totalFee = new BigDecimal("6800");
+        }
         lstAgencyCalcOrder = initAgency(buy_agency_level);
         List lstResult = new ArrayList();
         LitemallUser user = userService.findById(param_user_id);
@@ -127,7 +132,9 @@ public class PyramidService {
                 if (curUser != null) {
                     Map mFee = new HashMap();
                     mFee.put("fee", totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP));
-                    mFee.put("puser", curUser.getNickname());
+
+                    mFee.put("user_id", curUser.getId());
+                    mFee.put("user_name", curUser.getNickname());
                     mFee.put("desc", mCalc.get("desc"));
                     mFee.put("scale", mCalc.get("scale"));
                     mFee.put("name", mCalc.get("name"));
@@ -136,7 +143,7 @@ public class PyramidService {
                 } else {
                     Map mFee = new HashMap();
                     mFee.put("fee", totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP));
-                    mFee.put("puser", "公账");
+                    mFee.put("user_name", "公账");
                     mFee.put("desc", mCalc.get("desc"));
                     mFee.put("scale", mCalc.get("scale"));
                     mFee.put("name", mCalc.get("name"));
@@ -145,6 +152,26 @@ public class PyramidService {
             }
         }
 
+        if (buy_agency_level == 2) {
+            boolean isExistProvince = false;
+            String puser = "";
+            Integer puser_id = 0;
+            for (int i = lstResult.size() -1 ; i >=0; i--) {
+                Map map = (Map) lstResult.get(i);
+                if (isExistProvince) {
+                    if ("公账".equals(map.get("user_name"))) {
+                        map.put("user_name",puser);
+                        map.put("user_id",puser_id);
+                    }
+                }
+                if ("省代".equals(map.get("name"))) {
+                    isExistProvince = true;
+                    puser = map.get("user_name").toString();
+                    puser_id = (Integer) map.get("user_id");
+                }
+
+            }
+        }
         System.out.println("代理关系:");
         for (int i = 0; i < lstParentTree.size(); i++) {
             LitemallUser temp = lstParentTree.get(i);
@@ -171,12 +198,12 @@ public class PyramidService {
             Map map = (Map) lstResult.get(i);
 
             //System.out.println("计算结果:第"+(i+1)+"条,规则："+map.get("desc")+"\n用户："+map.get("puser"));
-            System.out.println("计算结果:第" + (i + 1) + "条，" + map.get("puser") + ",金额= " + map.get("fee") + ",比例= " + map.get("scale") + "%，规则=" + map.get("name"));
+            System.out.println("计算结果:第" + (i + 1) + "条，" + map.get("user_name") + ",金额= " + map.get("fee") + ",比例= " + map.get("scale") + "%，规则=" + map.get("name"));
         }
 
 
 
-        return null ;
+        return lstResult ;
     }
 
 
@@ -279,6 +306,8 @@ public class PyramidService {
                 }
             }
         }
+
+
 
         System.out.println("代理关系:");
         for (int i = 0; i < lstParentTree.size(); i++) {

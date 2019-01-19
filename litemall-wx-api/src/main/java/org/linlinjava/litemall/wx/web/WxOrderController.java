@@ -25,6 +25,7 @@ import org.linlinjava.litemall.db.util.CouponUserConstant;
 import org.linlinjava.litemall.db.util.OrderHandleOption;
 import org.linlinjava.litemall.db.util.OrderUtil;
 import org.linlinjava.litemall.wx.annotation.LoginUser;
+import org.linlinjava.litemall.wx.service.PyramidService;
 import org.linlinjava.litemall.wx.util.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -113,6 +114,11 @@ public class WxOrderController {
     private LitemallCouponUserService couponUserService;
     @Autowired
     private CouponVerifyService couponVerifyService;
+    @Autowired
+    private PyramidService pyramidService;
+    @Autowired
+    private LitemallCommissionResultService litemallCommissionResultService;
+
 
     private String detailedAddress(LitemallAddress litemallAddress) {
         Integer provinceId = litemallAddress.getProvinceId();
@@ -699,11 +705,38 @@ public class WxOrderController {
 
         }
         // 如果是省、市升级产品，并且只有一件商品，则自动完成订单。
-        if (agentcy_level > 1 && orderGoods.size() == 1) {
-            order.setOrderStatus(OrderUtil.STATUS_AUTO_CONFIRM);
-        }else {
-            order.setOrderStatus(OrderUtil.STATUS_PAY);
+        if (agentcy_level > 1 ) {
+            if (orderGoods.size() == 1) {
+                order.setOrderStatus(OrderUtil.STATUS_AUTO_CONFIRM);
+            }else {
+                order.setOrderStatus(OrderUtil.STATUS_PAY);
+            }
+
+            // 分佣计算start
+            System.out.println("分佣计算start----------------");
+            System.out.println("//////////////////////////////////////////////////");
+            List lst = pyramidService.calcAgency(agentcy_level,new BigDecimal("0"),order.getUserId());
+            for (int i = 0 ; i < lst.size() ; i++) {
+                Map map = (Map) lst.get(i);
+                LitemallCommissionResult litemallCommissionResult = new LitemallCommissionResult();
+                litemallCommissionResult.setOrderId(order.getId());
+                litemallCommissionResult.setFee((BigDecimal) map.get("fee"));
+                litemallCommissionResult.setUserId((Integer) map.get("user_id"));
+                litemallCommissionResult.setUserName((String) map.get("user_name"));
+                litemallCommissionResult.setScale(new BigDecimal(map.get("scale").toString()).divide(new BigDecimal("100")));
+                litemallCommissionResult.setRuleDesc((String) map.get("desc"));
+                litemallCommissionResult.setRuleName((String) map.get("name"));
+
+                litemallCommissionResultService.add(litemallCommissionResult);
+
+            }
+
+            System.out.println("分佣计算end----------------");
+            // 分佣计算end
         }
+
+
+
 
         order.setPayId(payId);
         order.setPayTime(LocalDateTime.now());
