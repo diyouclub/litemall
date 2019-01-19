@@ -60,6 +60,29 @@ public class WxUserController {
 
         List<LitemallCommissionResult> lstCommissionFee = litemallCommissionResultService.findByUserId(userId);
         data.put("commission_fee",lstCommissionFee);
+
+
+        return ResponseUtil.ok(data);
+    }
+
+    /**
+     * 用户子级用户数据
+     * <p>
+     *
+     * @param userId 用户ID
+     * @return 用户个人页面数据
+     */
+    @GetMapping("subUserList")
+    public Object userlist(@LoginUser Integer userId) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+
+        Map<Object, Object> data = new HashMap<Object, Object>();
+
+        List<LitemallUser> litemallUsers = userService.findUserListByPid(userId);
+        data.put("userList", litemallUsers);
+
         return ResponseUtil.ok(data);
     }
 

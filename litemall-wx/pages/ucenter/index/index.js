@@ -56,6 +56,13 @@ Page({
           });
         }
       });
+      // 查询下级用户
+      util.request(api.SubUserList).then(function (res) {
+        if (res.errno === 0) {
+          console.log(res.data);
+          
+        }
+      });
     }
 
   },

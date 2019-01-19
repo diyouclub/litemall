@@ -74,8 +74,7 @@ public class LitemallCommissionResultService {
 
     public List<LitemallCommissionResult> findByUserId(Integer userid) {
         LitemallCommissionResultExample example = new LitemallCommissionResultExample();
-        LitemallCommissionResultExample.Criteria criteria = example.createCriteria();
-        criteria.andUserIdEqualTo(userid);
+        example.or().andUserIdEqualTo(userid);
         return litemallCommissionResultMapper.selectByExample(example);
     }
 }

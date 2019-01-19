@@ -109,4 +109,12 @@ public class LitemallUserService {
     public void deleteById(Integer id) {
         userMapper.logicalDeleteByPrimaryKey(id);
     }
+
+    public List<LitemallUser> findUserListByPid(Integer userId) {
+        LitemallUserExample example = new LitemallUserExample();
+        example.or().andPidEqualTo(userId).andDeletedEqualTo(false);
+        return userMapper.selectByExample(example);
+    }
+
+
 }

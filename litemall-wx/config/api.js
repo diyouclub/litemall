@@ -97,5 +97,6 @@ module.exports = {
   StorageUpload: WxApiRoot + 'storage/upload', //图片上传,
 
   UserIndex: WxApiRoot + 'user/index', //个人页面用户相关信息
+  SubUserList: WxApiRoot + 'user/subUserList', //下级用户相关信息
 
 };
