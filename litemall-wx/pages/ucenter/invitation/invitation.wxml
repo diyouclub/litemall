@@ -1,16 +1,11 @@
 <!--pages/wallet/wallet.wxml-->
 <view class="page">
-  <view class="sc mt10" >
+  <!-- <view class="sc mt10" >
     <view class="df_1 df">     
       <text class="qb_02">{{user.money}}</text>
       <text class="qb_01">({{user.unit}})</text>
     </view>
-
-    <!-- <view class="hd" style="transform:rotateZ({{angle}}deg);">
-        <image class="wave" src="/images/wave.png" mode="aspectFill"></image>
-        <image class="wave wave-bg" src="/images/wave.png" mode="aspectFill"></image>
-    </view> -->
-  </view> 
+  </view>  -->
 
 
   <view class="use_detail" style="width: 100%;margin: 0 auto;position: relative;height:55%;">
@@ -20,65 +15,31 @@
     </view>
     <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="position:relative;" bindchange="bindChange">
       <swiper-item >
-        <view class="search_no" style='padding-top:60px' wx:if="{{list_1.length < 1}}">
-          <view class="font_14"  style='padding-bottom:2%;'><image class="scimg" src="/images/search_no.png"></image></view>
-          <text>暂时还没充值记录/(ㄒoㄒ)/~~</text>
-        </view>
         <view class='obtain_box'>
-          <scroll-view scroll-y="true" style='height:100%;overflow:auto;padding-bottom:45px;'>
-          <view class='jf_obtain' style='color:#777;' wx:for="{{list_1}}">
-            <view class='obtain_bt_3'>
-              <view style='color: #999;font-size: 30rpx;'>{{item.time}}</view>
-            </view>
-            <view class='obtain_bt_2' wx:if="{{item.type == 2 || item.type == 4 || item.type == 6 || item.type == 11 || item.type == 12 || item.type == 21 }}">
-              -{{item.money}}
-              <text class='my_money' wx:if="{{item.type == 2}}">(申请提现)</text>
-              <text class='my_money' wx:if="{{item.type == 4}}">(消费)</text>
-              <text class='my_money' wx:if="{{item.type == 6}}">(红包)</text>
-              <text class='my_money' wx:if="{{item.type == 11}}">(系统扣款)</text>
-              <text class='my_money' wx:if="{{item.type == 12}}">(转好友)</text>
-              <text class='my_money' wx:if="{{item.type == 21}}">(提现成功)</text>
-            </view>
-            <view class='obtain_bt_2' wx:if="{{item.type == 1 || item.type == 5 || item.type == 13 || item.type == 14 || item.type == 22 || item.type == 23 || item.type == 24}}">
-              +{{item.money}}  
-              <text class='my_money' wx:if="{{item.type == 1}}">(充值)</text>
-              <text class='my_money' wx:if="{{item.type == 5}}">(退款)</text>
-              <text class='my_money' wx:if="{{item.type == 13}}">(转入)</text>
-              <text class='my_money' wx:if="{{item.type == 14}}">(系统充值)</text>
-              <text class='my_money' wx:if="{{item.type == 22}}">(提现失败)</text>
-              <text class='my_money' wx:if="{{item.type == 23}}">(取消订单)</text>
-               <text class='my_money' wx:if="{{item.type == 24}}">(分享)</text>
-            </view>
-          </view>
+          <scroll-view scroll-y="true" style='height:100%;padding-bottom:45px;'>
+              <view  class="list-item2">
+                <view class="item4"><text>姓名</text></view>
+                <view class="item5"><text>等级</text></view>
+                <view class="item6"><text>时间</text></view>
+              </view>
+              <view wx:for="{{inviteArr}}" wx:key="id" class="list-item">
+                <view class="item1"><text>{{item.nickname}}</text></view>
+                <view class="item2">
+                  <text wx:if="{{item.agencyLevel === 0}}">用户</text>
+                  <text wx:if="{{item.agencyLevel === 1}}">会员</text>
+                  <text wx:if="{{item.agencyLevel === 2}}">市代</text>
+                  <text wx:if="{{item.agencyLevel === 3}}">省代</text>
+                  <!-- <text>{{item.agencyLevel}}</text> -->
+                </view>
+                <view class="item3"><text>{{item.addTime}}</text></view>
+              </view>
           </scroll-view>
         </view>
       </swiper-item>
       <swiper-item>
-        <view class="search_no" style='padding-top:50px;' wx:if="{{list_2.length < 1}}">
-          <view class="font_14" style='padding-bottom:2%;'><image class="scimg" src="/images/search_no.png"></image></view>
-          <text>暂时还没提现记录/(ㄒoㄒ)/~~</text>
-        </view>
         <view class='obtain_box'>
           <scroll-view scroll-y="true" style="height:100%;overflow:auto;padding-bottom:45px;">
-          <view class='jf_obtain' style='color:#777;' wx:for="{{list_2}}">
-            <view class='obtain_bt_3'>
-                <!-- <view style='color:#333;'>{{item.user_name}} -->
-                <view style='color: #999;font-size: 30rpx;'>{{item.time}}</view>
-                <!-- </view> -->
-            </view>
-            <view class='obtain_bt_2' wx:if="{{item.type == 21}}">
-              -{{item.money}}
-              <text class='my_money' >(成功)</text>
-            </view>
-            <view class='obtain_bt_2' wx:if="{{item.type == 22}}">
-              +{{item.money}}
-              <text class='my_money' >(失败)</text>
-            </view>
-            <view class='obtain_bt_2' wx:if="{{item.type == 2}}">
-              {{item.money}}
-              <text class='my_money' >(申请)</text>
-            </view>
-          </view>
+            <view style='text-align:center'>暂无记录 </view>
           </scroll-view>
         </view>
       </swiper-item>

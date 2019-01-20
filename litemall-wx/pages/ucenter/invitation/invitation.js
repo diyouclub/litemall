@@ -15,7 +15,8 @@ Page({
       money:100,
       unit:'元'
     },
-    qrcode_url:''
+    qrcode_url:'',
+    inviteArr:[]
   },
   //页面加载完成函数 
   onReady: function () {
@@ -37,7 +38,7 @@ Page({
   },
   onLoad: function (options) {
    
- 
+    this.getInviteList();
     //this.requestMyData();
   },
   /** 
@@ -73,6 +74,23 @@ Page({
   closeQRCode: function () {
     this.setData({
       isShow: false
+    });
+  },
+  getInviteList: function () {
+    let that = this;
+    util.request(api.InviteList).then(function (res) {
+      if (res.errno === 0) {
+        var getDateLength = res.data.userList.length;
+        for (var i = 0; i < getDateLength; i++) {
+          if (res.data.userList[i].addTime.length < 20) {
+            res.data.userList[i].addTime = res.data.userList[i].addTime.substring(0, 10);
+          }
+        }
+        that.setData({
+          inviteArr: res.data.userList
+        })
+        console.log(res)
+      }
     });
   },
   // 请求我的数据
