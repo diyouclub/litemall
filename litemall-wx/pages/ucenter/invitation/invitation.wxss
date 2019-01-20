@@ -148,9 +148,7 @@ contact-button{
   width: 100%;  
   text-align: center;  
   line-height: 80rpx;
-  position:absolute;
-  top:-80rpx;
-  left:0;
+  
 }  
 .swiper-tab-list{  
     font-size: 30rpx;  
@@ -167,8 +165,7 @@ contact-button{
   width:100%;
   margin:0 auto;
   height:100%;
-  text-align:center;
-  overflow: auto
+  overflow: auto;
 }
 
 .jf_obtain{
@@ -414,6 +411,40 @@ contact-button{
   width: 550rpx;
   background: #f4f4f4;
   margin-right: 31.25rpx;
+}
+.list-item {
+  display: flex;
+  height: 88rpx;
+}
+.list-item text {
+  font-size: 27rpx;
+  color: #000;
+}
+.item2{
+  text-align: center;
+   flex: 1;
+}
+.item1{
+  text-align: center;
+   flex: 1;
+}
+.item3{
+  text-align: center;
+   flex: 1;
+}
+.list-item2{
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+}
+.list-item2 view{
+  flex: 1;
+  text-align: center;
+}
+.list-item2 text {
+  font-size: 33rpx;
+  font-weight: bold;
+  color: #333;
 }
 /* 
 .attr-pop .info { 
