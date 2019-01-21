@@ -33,13 +33,24 @@
                 </view>
                 <view class="item3"><text>{{item.addTime}}</text></view>
               </view>
+              <view style='text-align:center;margin-top:30rpx' wx:if="{{inviteArr.length < 1}}">暂无记录 </view>
           </scroll-view>
         </view>
       </swiper-item>
       <swiper-item>
         <view class='obtain_box'>
           <scroll-view scroll-y="true" style="height:100%;overflow:auto;padding-bottom:45px;">
-            <view style='text-align:center'>暂无记录 </view>
+                <view  class="list-item2">
+                  <view class="item4"><text>用户名</text></view>
+                  <view class="item5"><text>金额</text></view>
+                  <view class="item6"><text>时间</text></view>
+                </view>
+                <view wx:for="{{commissionArr}}" wx:key="id" class="list-item">
+                  <view class="item1"><text>{{item.userName}}</text></view>
+                  <view class="item2"><text>{{item.fee}}</text></view>
+                  <view class="item3"><text>{{item.addTime}}</text></view>
+                </view>
+                <view style='text-align:center;margin-top:30rpx' wx:if="{{commissionArr.length < 1}}">暂无记录 </view>
           </scroll-view>
         </view>
       </swiper-item>

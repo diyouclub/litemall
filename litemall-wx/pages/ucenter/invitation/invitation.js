@@ -16,7 +16,8 @@ Page({
       unit:'元'
     },
     qrcode_url:'',
-    inviteArr:[]
+    inviteArr:[],
+    commissionArr:[]
   },
   //页面加载完成函数 
   onReady: function () {
@@ -39,6 +40,7 @@ Page({
   onLoad: function (options) {
    
     this.getInviteList();
+    this.getRewardList();
     //this.requestMyData();
   },
   /** 
@@ -74,6 +76,23 @@ Page({
   closeQRCode: function () {
     this.setData({
       isShow: false
+    });
+  },
+  getRewardList: function () {
+    let that = this;
+    util.request(api.CommissionList).then(function (res) {
+      if (res.errno === 0) {
+        var getDateLength = res.data.commission.length;
+        for (var i = 0; i < getDateLength; i++) {
+          if (res.data.commission[i].addTime.length < 20) {
+            res.data.commission[i].addTime = res.data.commission[i].addTime.substring(0, 10);
+          }
+        }
+        that.setData({
+          commissionArr: res.data.commission
+        })
+        console.log(res)
+      }
     });
   },
   getInviteList: function () {
