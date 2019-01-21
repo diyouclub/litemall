@@ -159,8 +159,9 @@
         </navigator>
       </view>
       <view class="item_nopen">
-          <view class='img_nopen'><text>VIP专区</text></view>
-          <view class="nopen_discript"><text>此功能暂未开放，敬请期待</text></view>
+          <image class="no-image" src="../../static/images/z_nopen.png" background-size="cover"></image>
+          <!-- <view class='img_nopen'><text>VIP专区</text></view>
+          <view class="nopen_discript"><text>此功能暂未开放，敬请期待</text></view> -->
       </view>
     </view>
   </view>
