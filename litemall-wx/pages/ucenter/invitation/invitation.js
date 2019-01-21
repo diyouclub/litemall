@@ -87,6 +87,15 @@ Page({
           if (res.data.commission[i].addTime.length < 20) {
             res.data.commission[i].addTime = res.data.commission[i].addTime.substring(0, 10);
           }
+          var strLength = res.data.commission[i].userName.length;
+          var str = '';
+          if (strLength>2) {
+          for (let j = 0; j < strLength-2 ;j++){
+            str+='*'
+          }
+          res.data.commission[i].userName = res.data.commission[i].userName[0] + str + res.data.commission[i].userName[strLength - 1];
+
+          }
         }
         that.setData({
           commissionArr: res.data.commission
@@ -103,6 +112,14 @@ Page({
         for (var i = 0; i < getDateLength; i++) {
           if (res.data.userList[i].addTime.length < 20) {
             res.data.userList[i].addTime = res.data.userList[i].addTime.substring(0, 10);
+          }
+          var strLength = res.data.userList[i].nickname.length;
+          var str = ''
+          if (strLength > 2) {
+            for (let j = 0; j < strLength - 2; j++) {
+              str += '*'
+            }
+            res.data.userList[i].nickname = res.data.userList[i].nickname[0] + str + res.data.userList[i].nickname[strLength-1];
           }
         }
         that.setData({

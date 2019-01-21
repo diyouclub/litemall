@@ -96,9 +96,7 @@
     </view>
  -->
     <view class="dibu_1" bindtap='showQRCode'>
-      <button class="sharebtn">
-          <view class='sharebtn_text'>扫码邀请</view>
-        </button>
+          <text>扫码邀请</text>
     </view>
     <!-- <navigator  class="dibu_2" url="../user/withdrawals">  -->
       
