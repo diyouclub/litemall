@@ -4,8 +4,12 @@
     <view class="info">
       <text class="name">{{userInfo.nickName}}</text>
       <view class="vip-area">
-        <text>会员等级</text> 
+        <text class="vip-tit">会员等级</text> 
         <image src="../../../static/images/v{{agency_level}}.png" background-size="container" mode='aspectFit'></image>
+        <text class="vip-discript" wx:if="{{agency_level===0}}">普通用户</text>
+        <text class="vip-discript" wx:if="{{agency_level===1}}">会员</text> 
+        <text class="vip-discript" wx:if="{{agency_level===2}}">市代</text> 
+        <text class="vip-discript" wx:if="{{agency_level===3}}">省代</text>  
       </view>
     </view>
   </view>

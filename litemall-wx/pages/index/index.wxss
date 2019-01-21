@@ -358,12 +358,11 @@
 .a-new .b {
   width: 750rpx;
   height: auto;
-  overflow: hidden;
+  display: flex;
   padding: 0 31rpx 45rpx 31rpx;
 }
 
 .a-new .b .item {
-  float: left;
   width: 302rpx;
   margin-top: 10rpx;
   margin-left: 21rpx;
@@ -379,13 +378,14 @@
   height: 302rpx;
 }
 .item_nopen{
-   width: 302rpx;
-  margin-top: 30rpx;
+  width: 302rpx;
   margin-left: 21rpx;
   margin-right: 21rpx;
   display: flex;
   flex-direction: column;
-  align-items: center；
+  align-items: center;
+  justify-content: center;  
+
 }
 
 .item_nopen .img_nopen {
@@ -404,6 +404,10 @@
 .item_nopen .nopen_discript text{
   font-size: 25rpx;
   color: #333;
+}
+.item_nopen .no-image{
+  width: 302rpx;
+  height: 302rpx;
 }
 
 .a-new .b .name {
