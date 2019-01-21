@@ -49,8 +49,8 @@ page {
   font-size: 28rpx;
 }
 .vip-area image {
-  width: 64rpx;
-  height: 64rpx;
+  width: 48rpx;
+  height: 48rpx;
   margin-left: 30rpx;
 }
 .vip-area .vip-discript {
