@@ -589,7 +589,7 @@ public class WxOrderController {
             Integer fee = 0;
             BigDecimal actualPrice = order.getActualPrice();
             //todo add by fujue for test
-            actualPrice = new BigDecimal("0.01");
+            //actualPrice = new BigDecimal("0.01");
             fee = actualPrice.multiply(new BigDecimal(100)).intValue();
             orderRequest.setTotalFee(fee);
             orderRequest.setSpbillCreateIp(IpUtil.getIpAddr(request));
@@ -675,10 +675,10 @@ public class WxOrderController {
         }
 
         //todo added by fujue 方便测试回调
-//        // 检查支付订单金额
-//        if (!totalFee.equals(order.getActualPrice().toString())) {
-//            return WxPayNotifyResponse.fail(order.getOrderSn() + " : 支付金额不符合 totalFee=" + totalFee);
-//        }
+        // 检查支付订单金额
+        if (!totalFee.equals(order.getActualPrice().toString())) {
+            return WxPayNotifyResponse.fail(order.getOrderSn() + " : 支付金额不符合 totalFee=" + totalFee);
+        }
 
         //商品：省ID  1181002 市id 1181003 ，会员：所有商品
         // 用户级别 普通、会员、市代、省代=>0123

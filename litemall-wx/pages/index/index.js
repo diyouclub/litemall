@@ -22,8 +22,8 @@ Page({
 
   onShareAppMessage: function() {
     return {
-      title: 'litemall小程序商场',
-      desc: '开源微信小程序商城',
+      title: '洛舟科技商城-首页',
+      desc: '洛舟科技商城',
       path: '/pages/index/index'
     }
   },
@@ -120,9 +120,8 @@ Page({
         //   url: '../goods/goods?grouponId=' + id
         // })
         //
-        var userInfo = wx.getStorageSync('userInfo');
-        userInfo.invite_user = id;
-        wx.setStorageSync('userInfo', userInfo);
+       
+        wx.setStorageSync('invite_user', id);
       } else {
         wx.navigateTo({
           url: '../index/index'

@@ -75,7 +75,7 @@
 
 
   <view class="dibu" style=''>
-    <navigator class="dibu_1" url="../user/recharge"> 
+    <!-- <navigator class="dibu_1" url="../user/recharge"> 
          <button class="sharebtn" open-type="share" >
           <view class='sharebtn_text'>分享给好友</view>
         </button>
@@ -83,7 +83,7 @@
     <view>
       <text class="dibu_3">|</text>
     </view>
-
+ -->
     <view class="dibu_1" bindtap='showQRCode'>
       <button class="sharebtn">
           <view class='sharebtn_text'>扫码邀请</view>

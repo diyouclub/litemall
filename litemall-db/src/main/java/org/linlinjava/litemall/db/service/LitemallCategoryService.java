@@ -33,7 +33,7 @@ public class LitemallCategoryService {
 
     public List<LitemallCategory> queryL1() {
         LitemallCategoryExample example = new LitemallCategoryExample();
-        example.or().andLevelEqualTo("L1").andDeletedEqualTo(false);
+        example.or().andLevelEqualTo("L1").andDeletedEqualTo(false).andIdNotEqualTo(1036010); // 不显示升级会员类目
         return categoryMapper.selectByExample(example);
     }
 

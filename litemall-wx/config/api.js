@@ -97,6 +97,7 @@ module.exports = {
   StorageUpload: WxApiRoot + 'storage/upload', //图片上传,
 
   UserIndex: WxApiRoot + 'user/index', //个人页面用户相关信息
-  InviteList: WxApiRoot + 'user/subUserList', //邀请list
+  InviteList: WxApiRoot + 'user/subUserList', //list
+  CommissionList: WxApiRoot + 'user/commissionList', //list
 
 };

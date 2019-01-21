@@ -28,7 +28,7 @@ Page({
     let that = this;
     return {
       title: '邀请团购',
-      desc: '唯爱与美食不可辜负',
+      desc: '洛舟科技商城',
       path: '/pages/index/index?grouponId=' + this.data.linkGrouponId
     }
   },
