@@ -637,7 +637,7 @@ public class WxOrderController {
         try {
 
 
-        System.out.println("收到回调");
+        System.out.println("收到回调////////////////////////////////////////////////////");
         String xmlResult = null;
         try {
             xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
@@ -668,18 +668,20 @@ public class WxOrderController {
         if (order == null) {
             return WxPayNotifyResponse.fail("订单不存在 sn=" + orderSn);
         }
+        System.out.println("1订单存在："+orderSn + ",费用："+totalFee);
 
         // 检查这个订单是否已经处理过
         if (OrderUtil.isPayStatus(order) && order.getPayId() != null) {
             return WxPayNotifyResponse.success("订单已经处理成功!");
         }
-
+        System.out.println("2订单没有处理过：");
         //todo added by fujue 方便测试回调
         // 检查支付订单金额
         if (!totalFee.equals(order.getActualPrice().toString())) {
             return WxPayNotifyResponse.fail(order.getOrderSn() + " : 支付金额不符合 totalFee=" + totalFee);
         }
 
+        System.out.println("3订单金额符合");
         //商品：省ID  1181002 市id 1181003 ，会员：所有商品
         // 用户级别 普通、会员、市代、省代=>0123
         boolean isUpgradeLevel = false;
@@ -695,6 +697,8 @@ public class WxOrderController {
             agentcy_level = 3;
         }
 
+        System.out.println("4用户级别="+agentcy_level);
+
         LitemallUser user = userService.findById(order.getUserId());
         byte user_agency = user.getAgencyLevel();
         // 只有用户级别小于购买级别才升级
@@ -704,6 +708,7 @@ public class WxOrderController {
             //isUpgradeLevel
 
         }
+
         // 如果是省、市升级产品，并且只有一件商品，则自动完成订单。
         if (agentcy_level > 1 ) {
             if (orderGoods.size() == 1) {
@@ -733,6 +738,11 @@ public class WxOrderController {
 
             System.out.println("分佣计算end----------------");
             // 分佣计算end
+        }else  {
+            // 购买任意产品 升级为会员 agency_level = 1
+            order.setOrderStatus(OrderUtil.STATUS_PAY);
+            //todo 168分佣算法
+
         }
 
 

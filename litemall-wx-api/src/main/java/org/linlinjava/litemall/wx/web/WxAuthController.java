@@ -167,7 +167,7 @@ public class WxAuthController {
             //
 
             // 新用户发送注册优惠券
-            couponAssignService.assignForRegister(user.getId());
+            //couponAssignService.assignForRegister(user.getId());
         } else {
             user.setLastLoginTime(LocalDateTime.now());
             user.setLastLoginIp(IpUtil.client(request));
@@ -318,7 +318,7 @@ public class WxAuthController {
         userService.add(user);
 
         // 给新用户发送注册优惠券
-        couponAssignService.assignForRegister(user.getId());
+        //couponAssignService.assignForRegister(user.getId());
 
         // userInfo
         UserInfo userInfo = new UserInfo();

@@ -26,9 +26,9 @@ public class WxIndexController {
      */
     @RequestMapping("/index")
     public Object index() {
-        //pyramidService.calcSell(new BigDecimal("168.00"),12);
-        pyramidService.calcAgency((byte) 2,new BigDecimal("300"),12);
-        pyramidService.calcAgency((byte) 3,new BigDecimal("6800"),12);
+        pyramidService.calcSell(new BigDecimal("168.00"),14);
+        //pyramidService.calcAgency((byte) 2,new BigDecimal("300"),28);
+        //pyramidService.calcAgency((byte) 3,new BigDecimal("6800"),28);
         return ResponseUtil.ok("hello world, this is wx service");
     }
 
