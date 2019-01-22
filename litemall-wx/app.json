@@ -1,6 +1,5 @@
 {
   "pages": [
-    
     "pages/index/index",
     "pages/catalog/catalog",
     "pages/newGoods/newGoods",
@@ -38,9 +37,8 @@
     "pages/groupon/grouponDetail/grouponDetail",
     "pages/groupon/grouponList/grouponList",
     "pages/coupon/coupon",
-    "pages/ucenter/invitation/invitation"
-    
-    
+    "pages/ucenter/invitation/invitation",
+    "pages/ucenter/bind/bind"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FFFFFF",

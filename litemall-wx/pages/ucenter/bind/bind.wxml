@@ -1,0 +1,24 @@
+<view  class="form-class">
+  <form bindsubmit="formSubmit" bindreset="formReset">
+
+    <view class="section">
+      <view class="section__title">用户名</view>
+      <view class="input-box">
+      <input name="input" placeholder-style="color:#666;font-size:32rpx;" placeholder="请输入用户名" />
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section__title">密码</view>
+      <view class="input-box">
+      <input name="input" placeholder-style="color:#666;font-size:32rpx;" password placeholder="请输入用户密码" />
+      </view>
+    </view>
+
+    <view class="btn-area">
+      <button form-type="submit" class="btn1" type="primary">绑  定</button>
+      <button form-type="reset" class="btn2" >重  置</button>
+    </view>
+  </form>
+</view>
+

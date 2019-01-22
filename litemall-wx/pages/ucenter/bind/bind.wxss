@@ -1,0 +1,24 @@
+/* pages/ucenter/bind/bind.wxss */
+.form-class{
+  width: 100%;
+  height: 100vh;
+  background-color: #fbf9fe;
+}
+.section{
+  padding: 10rpx 20rpx;
+}
+.section__title{
+  text-align: center;
+  font-size: 40rpx;
+  padding:33rpx 0;
+}
+.input-box{
+  background-color: #fff;
+  padding: 10rpx 10rpx;
+}
+.btn-area{
+  padding:  66rpx 20rpx;
+}
+.btn1{
+  margin-bottom: 40rpx;
+}
