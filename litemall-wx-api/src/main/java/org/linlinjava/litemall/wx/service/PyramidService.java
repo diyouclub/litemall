@@ -40,6 +40,7 @@ public class PyramidService {
 
     public List calcSell(BigDecimal totalFee, Integer param_user_id) {
         lstSellCalcOrder = init();
+        BigDecimal bdRemail = new BigDecimal("0");
         List lstResult = new ArrayList();
         LitemallUser user = userService.findById(param_user_id);
         Assert.state(user != null, "用户不存在");
@@ -82,8 +83,15 @@ public class PyramidService {
 
                 if (level_limit <= cur_calc_level) {
 
+                    if (phaseNum == 2 && level_limit == cur_calc_level) {
+                        //市级的情况
 
-                    if ("once".equals(calc_flag)) {
+                    //}else if (phaseNum == 4 && level_limit == cur_calc_level) {
+
+                    }else {
+
+
+                    if ("once".equals(calc_flag) ||  "try".equals(calc_flag)) {
                         user_limit_index = lstParentTree.size() > cur_user_index ? cur_user_index + 1 : lstParentTree.size();
 
                     } else {
@@ -99,46 +107,86 @@ public class PyramidService {
                         level_limit = level_limit < user_level ? user_level : level_limit;
 
 
-                        if ("once".equals(calc_flag) || "final".equals(calc_flag) ) {
+                        if ("once".equals(calc_flag)  ) {
+                            if ( user_level == 3 && phaseNum != 5) {
+
+                            }else {
+                                cur_user_index = iUser + 1;
+                            }
+
+                        }
+
+                        if ("final".equals(calc_flag)) {
                             cur_user_index = iUser + 1;
                         }
                         if (compareLevel(oper, user_level, cur_calc_level)) { //参与计算的条件
                             if ("loop".equals(calc_flag) && phaseNum == 2 && user_level == 2 ) {
                                 cur_user_index = iUser + 1;
                             }
+                            if ("try".equals(calc_flag)) {
+                                cur_user_index = iUser + 1;
+                            }
                             break;
                         } else {
+                            if ("try".equals(calc_flag)) {
+                                if (user_level <level_limit) {
+                                    cur_user_index = iUser + 1;
+                                }
+                            }
 
                             curUser = null;
                         }
 
 
                     }
+                    }
+                }else if (level_limit > cur_calc_level) {
+                    //第一父级 已经是 市级或升级
+                    //进公账
                 }
 
 
                 if (curUser != null) {
                     Map mFee = new HashMap();
                     mFee.put("fee", totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP));
-                    mFee.put("puser", curUser.getNickname());
+
+                    mFee.put("user_id", curUser.getId());
+                    mFee.put("user_name", curUser.getNickname());
                     mFee.put("desc", mCalc.get("desc"));
                     mFee.put("scale", mCalc.get("scale"));
                     mFee.put("name", mCalc.get("name"));
+
                     lstResult.add(mFee);
 
                 } else {
                     Map mFee = new HashMap();
                     mFee.put("fee", totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP));
-                    mFee.put("puser", "公账");
+
+                    mFee.put("user_id", 0);
+                    mFee.put("user_name", "公账");
                     mFee.put("desc", mCalc.get("desc"));
                     mFee.put("scale", mCalc.get("scale"));
                     mFee.put("name", mCalc.get("name"));
+
                     lstResult.add(mFee);
                 }
+
+                    bdRemail  = bdRemail.add(totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP)) ;
             }
         }
 
 
+        // 最后补上剩余金额
+        Map mFee = new HashMap();
+        mFee.put("fee", totalFee.subtract(bdRemail));
+
+        mFee.put("user_id", 0);
+        mFee.put("user_name", "公账");
+        mFee.put("desc", "剩余金额");
+        mFee.put("scale", "0");
+        mFee.put("name", "计算剩余");
+
+        lstResult.add(mFee);
 
         System.out.println("代理关系:");
         for (int i = 0; i < lstParentTree.size(); i++) {
@@ -166,13 +214,13 @@ public class PyramidService {
             Map map = (Map) lstResult.get(i);
 
             //System.out.println("计算结果:第"+(i+1)+"条,规则："+map.get("desc")+"\n用户："+map.get("puser"));
-            System.out.println("计算结果:第" + (i + 1) + "条，" + map.get("puser") + ",金额= " + map.get("fee") + ",比例= " + map.get("scale") + "%，规则=" + map.get("name"));
+            System.out.println("计算结果:第" + (i + 1) + "条，" + map.get("user_name") + ",金额= " + map.get("fee") + ",比例= " + map.get("scale") + "%，规则=" + map.get("name"));
         }
 
 
 
 
-        return null;
+        return lstResult;
     }
 
 
@@ -188,6 +236,7 @@ public class PyramidService {
         Map mapPhase2= new HashMap();
         Map mapPhase3= new HashMap();
         Map mapPhase4= new HashMap();
+        Map mapPhase5= new HashMap();
 
 
         List lstPhase1 = new ArrayList();
@@ -195,7 +244,7 @@ public class PyramidService {
 
         item.put("calc_flag", "once");
         item.put("scale", "18");
-        item.put("agency_level", AGENCY_LEVEL_NORMAL);
+        item.put("agency_level", AGENCY_LEVEL_MEMBER);
         item.put("agency_oper", ">=");
         item.put("desc", "第一条规则：第一父级获得18%");
         item.put("name", "上级");
@@ -226,7 +275,7 @@ public class PyramidService {
 
         List lstPhase3 = new ArrayList();
         item = new HashMap();
-        item.put("calc_flag", "once");
+        item.put("calc_flag", "try");
         item.put("scale", "6");
         item.put("agency_level", AGENCY_LEVEL_CITY);
         item.put("agency_oper", "=");
@@ -235,7 +284,7 @@ public class PyramidService {
         lstPhase3.add(item);
 
         item = new HashMap();
-        item.put("calc_flag", "once");
+        item.put("calc_flag", "try");
         item.put("scale", "8");
         item.put("agency_level", AGENCY_LEVEL_CITY);
         item.put("agency_oper", "=");
@@ -260,6 +309,12 @@ public class PyramidService {
         item.put("name", "省代");
         lstPhase4.add(item);
 
+
+        mapPhase4.put("rule",lstPhase4);
+        mapPhase4.put("phase",4);
+        lstSellCalcOrder.add(mapPhase4);
+
+        List lstPhase5 = new ArrayList();
         item = new HashMap();
         item.put("calc_flag", "once");
         item.put("scale", "1");
@@ -267,7 +322,7 @@ public class PyramidService {
         item.put("agency_oper", "=");
         item.put("desc", "第六条规则：省代1获得1%");
         item.put("name", "省代1");
-        lstPhase4.add(item);
+        lstPhase5.add(item);
 
         item = new HashMap();
         item.put("calc_flag", "once");
@@ -276,13 +331,13 @@ public class PyramidService {
         item.put("agency_oper", "=");
         item.put("desc", "第七条规则：省代2获得2%");
         item.put("name", "省代2");
-        lstPhase4.add(item);
+        lstPhase5.add(item);
+
+        mapPhase5.put("rule",lstPhase5);
+        mapPhase5.put("phase",5);
 
 
-        mapPhase4.put("rule",lstPhase4);
-        mapPhase4.put("phase",4);
-
-        lstSellCalcOrder.add(mapPhase4);
+        lstSellCalcOrder.add(mapPhase5);
         return lstSellCalcOrder;
     }
 
@@ -416,11 +471,13 @@ public class PyramidService {
 
 
     public List calcAgency(Byte buy_agency_level,BigDecimal totalFee, Integer param_user_id) {
-        if (buy_agency_level == 2) {
-            totalFee = new BigDecimal("300");
-        }else if (buy_agency_level == 3) {
-            totalFee = new BigDecimal("6800");
-        }
+//        if (buy_agency_level == 2) {
+//            totalFee = new BigDecimal("300");
+//        }else if (buy_agency_level == 3) {
+//            totalFee = new BigDecimal("6800");
+//        }
+
+        BigDecimal bdRemail = new BigDecimal("0");
         lstAgencyCalcOrder = initAgency(buy_agency_level);
         List lstResult = new ArrayList();
         LitemallUser user = userService.findById(param_user_id);
@@ -527,6 +584,8 @@ public class PyramidService {
                     mFee.put("name", mCalc.get("name"));
                     lstResult.add(mFee);
                 }
+
+                bdRemail = bdRemail.add(totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP)) ;
             }
         }
 
@@ -550,6 +609,19 @@ public class PyramidService {
 
             }
         }
+
+
+        // 最后补上剩余金额
+        Map mFee = new HashMap();
+        mFee.put("fee", totalFee.subtract(bdRemail));
+
+        mFee.put("user_id", 0);
+        mFee.put("user_name", "公账");
+        mFee.put("desc", "剩余金额");
+        mFee.put("scale", "0");
+        mFee.put("name", "计算剩余");
+
+
         System.out.println("代理关系:");
         for (int i = 0; i < lstParentTree.size(); i++) {
             LitemallUser temp = lstParentTree.get(i);

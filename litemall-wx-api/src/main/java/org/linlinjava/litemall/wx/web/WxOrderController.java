@@ -720,7 +720,7 @@ public class WxOrderController {
             // 分佣计算start
             System.out.println("分佣计算start----------------");
             System.out.println("//////////////////////////////////////////////////");
-            List lst = pyramidService.calcAgency(agentcy_level,new BigDecimal("0"),order.getUserId());
+            List lst = pyramidService.calcAgency(agentcy_level,order.getActualPrice(),order.getUserId());
             for (int i = 0 ; i < lst.size() ; i++) {
                 Map map = (Map) lst.get(i);
                 LitemallCommissionResult litemallCommissionResult = new LitemallCommissionResult();
@@ -731,6 +731,7 @@ public class WxOrderController {
                 litemallCommissionResult.setScale(new BigDecimal(map.get("scale").toString()).divide(new BigDecimal("100")));
                 litemallCommissionResult.setRuleDesc((String) map.get("desc"));
                 litemallCommissionResult.setRuleName((String) map.get("name"));
+                litemallCommissionResult.setCommissionType(String.valueOf(agentcy_level));
 
                 litemallCommissionResultService.add(litemallCommissionResult);
 
@@ -742,6 +743,27 @@ public class WxOrderController {
             // 购买任意产品 升级为会员 agency_level = 1
             order.setOrderStatus(OrderUtil.STATUS_PAY);
             //todo 168分佣算法
+            // 分佣计算start
+            System.out.println("168分佣计算start----------------");
+            System.out.println("/////////////////////////////////////////////////");
+            List lst = pyramidService.calcSell(order.getActualPrice(),order.getUserId());
+            for (int i = 0 ; i < lst.size() ; i++) {
+                Map map = (Map) lst.get(i);
+                LitemallCommissionResult litemallCommissionResult = new LitemallCommissionResult();
+                litemallCommissionResult.setOrderId(order.getId());
+                litemallCommissionResult.setFee((BigDecimal) map.get("fee"));
+                litemallCommissionResult.setUserId((Integer) map.get("user_id"));
+                litemallCommissionResult.setUserName((String) map.get("user_name"));
+                litemallCommissionResult.setScale(new BigDecimal(map.get("scale").toString()).divide(new BigDecimal("100")));
+                litemallCommissionResult.setRuleDesc((String) map.get("desc"));
+                litemallCommissionResult.setRuleName((String) map.get("name"));
+                litemallCommissionResult.setCommissionType(String.valueOf(agentcy_level));
+
+                litemallCommissionResultService.add(litemallCommissionResult);
+
+            }
+
+            System.out.println("168分佣计算end----------------");
 
         }
 
