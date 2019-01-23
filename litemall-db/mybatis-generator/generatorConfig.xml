@@ -172,6 +172,14 @@
         <table tableName="litemall_commission_result">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="litemall_account">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="litemall_account_detail">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+
 
     </context>
 </generatorConfiguration>
