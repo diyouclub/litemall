@@ -8,6 +8,7 @@ import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.db.domain.LitemallUser;
 import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,37 +23,14 @@ import java.util.Map;
 import static org.linlinjava.litemall.admin.util.AdminResponseCode.ADMIN_INVALID_NAME;
 import static org.linlinjava.litemall.admin.util.AdminResponseCode.ADMIN_INVALID_PASSWORD;
 
-@RestController
-@RequestMapping("/user/user")
+@Controller
+@RequestMapping("/user/main")
 @Validated
-public class UserUserController {
-    private final Log logger = LogFactory.getLog(UserUserController.class);
+public class UserMainController {
+    private final Log logger = LogFactory.getLog(UserMainController.class);
 
     @Autowired
     private LitemallUserService userService;
-
-    @GetMapping("/info")
-    public Object info(String token) {
-        Integer userId = UserTokenManager.getUserId(token);
-        if (userId == null) {
-            return ResponseUtil.badArgumentValue();
-        }
-        LitemallUser user = userService.findById(userId);
-        if (user == null) {
-            return ResponseUtil.badArgumentValue();
-        }
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("name", user.getUsername());
-        data.put("avatar", user.getAvatar());
-
-        // 目前roles不支持，这里简单设置admin
-        List<String> roles = new ArrayList<>();
-        roles.add("user");
-        data.put("roles", roles);
-        data.put("introduction", "user introduction");
-        return ResponseUtil.ok(data);
-    }
 
 
 
@@ -74,7 +52,7 @@ public class UserUserController {
     @GetMapping("/index")
     public Object index() {
 
-        return null;
+        return "index";
     }
 
 
