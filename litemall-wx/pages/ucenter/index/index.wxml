@@ -92,15 +92,15 @@
         <image class='user_column_item_image' src='/static/images/vip.png'></image>
         <view class='user_column_item_text'>升级会员</view>
     </view>
-     <!-- <view class='user_column_item' bindtap='goBind'>
-        <image class='user_column_item_image' src='/static/images/bind.png'></image>
-        <view class='user_column_item_text'>绑定后台</view>
-    </view> -->
     <view class='user_column_item'>
       <button class='user_column_item_phone'  open-type="getPhoneNumber" bindgetphonenumber="bindPhoneNumber"></button>
-      <!-- <image class='user_column_item_image' src='/static/images/mobile.png'></image> -->
-      <image class='user_column_item_image' src='/static/images/bind.png'></image>
-      <view class='user_column_item_text'>绑定后台</view>
+      <image class='user_column_item_image' src='/static/images/mobile.png'></image>
+      <!-- <image class='user_column_item_image' src='/static/images/bind.png'></image> -->
+      <view class='user_column_item_text'>绑定手机</view>
+    </view>
+    <view class='user_column_item' bindtap='goBind'>
+        <image class='user_column_item_image' src='/static/images/bind.png'></image>
+        <view class='user_column_item_text'>绑定后台</view>
     </view>
   
      <!-- <view class='user_column_item' bindtap='goFeedback'>

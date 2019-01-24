@@ -311,6 +311,24 @@ export const asyncRouterMap = [
       }
     ]
   },
+  {
+    path: '/income',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'incomeManage',
+    meta: {
+      title: '审核',
+      icon: 'chart'
+    },
+    children: [
+      {
+        path: 'income-list',
+        component: () => import('@/views/income/incomelist.vue'),
+        name: 'incomeList',
+        meta: { title: '提现列表', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: 'external-link',
   //   component: Layout,

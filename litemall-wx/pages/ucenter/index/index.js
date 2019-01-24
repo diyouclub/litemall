@@ -41,6 +41,7 @@ Page({
     //获取用户的登录信息
     if (app.globalData.hasLogin) {
       let userInfo = wx.getStorageSync('userInfo');
+      console.log(userInfo)
       this.setData({
         userInfo: userInfo,
         hasLogin: true,
