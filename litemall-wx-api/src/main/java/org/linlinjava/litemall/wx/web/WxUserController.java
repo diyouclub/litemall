@@ -58,6 +58,13 @@ public class WxUserController {
         mapUser.put("agency_level",litemallUser.getAgencyLevel());
         data.put("user", mapUser);
 
+        //查询省级用户
+        LitemallUser userProvince = userService.getProvince1stUser(userId);
+        Map mapUpUser = new HashMap();
+        mapUpUser.put("name",userProvince.getNickname());
+        mapUpUser.put("mobile",userProvince.getMobile());
+        data.put("upUser", mapUpUser);
+
 
         return ResponseUtil.ok(data);
     }

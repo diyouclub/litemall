@@ -121,4 +121,27 @@ public class LitemallUserService {
         return userMapper.selectByExample(example);
     }
 
+    public LitemallUser getProvince1stUser(Integer userId) {
+        LitemallUser litemallUser =null;
+        if (userId == 0 ) {
+            //最
+            return findById(1);
+        }else {
+            litemallUser = findById(userId);
+        }
+
+        while (3 != litemallUser.getAgencyLevel()) {
+            litemallUser = findById(litemallUser.getPid());
+            if (litemallUser == null ) {
+                return findById(1);
+            }
+            if (litemallUser.getPid() == 0 ) {
+                return findById(1);
+            }
+        }
+
+        return litemallUser;
+    }
+
+
 }
