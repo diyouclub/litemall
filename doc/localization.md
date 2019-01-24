@@ -8,3 +8,7 @@ mvn deploy:deploy-file -DgroupId=org.freemarker -DartifactId=freemarker -Dversio
 20190123 
 用户ID  = 51 58 80 81 普通改成市级
 用户ID  = 74 76 普通改成省级
+
+20190124
+用户ID  = 84 普通改成省级
+

@@ -118,6 +118,10 @@ public class WxOrderController {
     private PyramidService pyramidService;
     @Autowired
     private LitemallCommissionResultService litemallCommissionResultService;
+    @Autowired
+    private LitemallAccountService litemallAccountService;
+    @Autowired
+    private LitemallAccountDetailService litemallAccountDetailService;
 
 
     private String detailedAddress(LitemallAddress litemallAddress) {
@@ -675,7 +679,6 @@ public class WxOrderController {
             return WxPayNotifyResponse.success("订单已经处理成功!");
         }
         System.out.println("2订单没有处理过：");
-        //todo added by fujue 方便测试回调
         // 检查支付订单金额
         if (!totalFee.equals(order.getActualPrice().toString())) {
             return WxPayNotifyResponse.fail(order.getOrderSn() + " : 支付金额不符合 totalFee=" + totalFee);
@@ -735,6 +738,17 @@ public class WxOrderController {
 
                 litemallCommissionResultService.add(litemallCommissionResult);
 
+                // 初始化账户
+                LitemallAccount litemallAccount = litemallAccountService.findByUser(litemallCommissionResult.getUserId());
+                if (litemallAccount == null ) {
+                    litemallAccount = new LitemallAccount();
+                    litemallAccount.setUserId(litemallCommissionResult.getUserId());
+                    litemallAccount.setBalance(new BigDecimal("0"));
+                    litemallAccountService.add(litemallAccount);
+                }
+                Litemall
+
+
             }
 
             System.out.println("分佣计算end----------------");
@@ -742,7 +756,7 @@ public class WxOrderController {
         }else  {
             // 购买任意产品 升级为会员 agency_level = 1
             order.setOrderStatus(OrderUtil.STATUS_PAY);
-            //todo 168分佣算法
+            // 168分佣算法
             // 分佣计算start
             System.out.println("168分佣计算start----------------");
             System.out.println("/////////////////////////////////////////////////");
