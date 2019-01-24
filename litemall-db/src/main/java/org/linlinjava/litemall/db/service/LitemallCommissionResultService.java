@@ -77,4 +77,26 @@ public class LitemallCommissionResultService {
         example.or().andUserIdEqualTo(userid);
         return litemallCommissionResultMapper.selectByExample(example);
     }
+    public List<LitemallCommissionResult> queryByUserId(String startTime, String endTime, Integer userid, Integer page, Integer limit) {
+        LitemallCommissionResultExample example = new LitemallCommissionResultExample();
+        LitemallCommissionResultExample.Criteria criteria = example.createCriteria();
+        example.or().andUserIdEqualTo(userid);
+        if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
+            LocalDateTime startDate = LocalDateTime.parse(startTime);
+            LocalDateTime endDate = LocalDateTime.parse(endTime);
+            criteria.andAddTimeBetween(startDate,endDate);
+        }
+        return litemallCommissionResultMapper.selectByExample(example);
+    }
+    public int countByUserId(String startTime,String endTime, Integer userid, Integer page, Integer limit) {
+        LitemallCommissionResultExample example = new LitemallCommissionResultExample();
+        LitemallCommissionResultExample.Criteria criteria = example.createCriteria();
+        example.or().andUserIdEqualTo(userid);
+        if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
+            LocalDateTime startDate = LocalDateTime.parse(startTime);
+            LocalDateTime endDate = LocalDateTime.parse(endTime);
+            criteria.andAddTimeBetween(startDate,endDate);
+        }
+        return (int)litemallCommissionResultMapper.countByExample(example);
+    }
 }

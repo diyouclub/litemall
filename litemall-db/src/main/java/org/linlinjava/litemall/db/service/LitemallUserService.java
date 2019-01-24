@@ -115,6 +115,10 @@ public class LitemallUserService {
         example.or().andPidEqualTo(userId).andDeletedEqualTo(false);
         return userMapper.selectByExample(example);
     }
-
+    public List<LitemallUser> findUser(String mobile) {
+        LitemallUserExample example = new LitemallUserExample();
+        example.or().andMobileEqualTo(mobile).andDeletedEqualTo(false);
+        return userMapper.selectByExample(example);
+    }
 
 }
