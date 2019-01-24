@@ -787,7 +787,7 @@ public class LitemallAccountDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultIdEqualTo(String value) {
+        public Criteria andResultIdEqualTo(Integer value) {
             addCriterion("result_id =", value, "resultId");
             return (Criteria) this;
         }
@@ -804,7 +804,7 @@ public class LitemallAccountDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultIdNotEqualTo(String value) {
+        public Criteria andResultIdNotEqualTo(Integer value) {
             addCriterion("result_id <>", value, "resultId");
             return (Criteria) this;
         }
@@ -821,7 +821,7 @@ public class LitemallAccountDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultIdGreaterThan(String value) {
+        public Criteria andResultIdGreaterThan(Integer value) {
             addCriterion("result_id >", value, "resultId");
             return (Criteria) this;
         }
@@ -838,7 +838,7 @@ public class LitemallAccountDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultIdGreaterThanOrEqualTo(String value) {
+        public Criteria andResultIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("result_id >=", value, "resultId");
             return (Criteria) this;
         }
@@ -855,7 +855,7 @@ public class LitemallAccountDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultIdLessThan(String value) {
+        public Criteria andResultIdLessThan(Integer value) {
             addCriterion("result_id <", value, "resultId");
             return (Criteria) this;
         }
@@ -872,7 +872,7 @@ public class LitemallAccountDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultIdLessThanOrEqualTo(String value) {
+        public Criteria andResultIdLessThanOrEqualTo(Integer value) {
             addCriterion("result_id <=", value, "resultId");
             return (Criteria) this;
         }
@@ -889,32 +889,22 @@ public class LitemallAccountDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andResultIdLike(String value) {
-            addCriterion("result_id like", value, "resultId");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultIdNotLike(String value) {
-            addCriterion("result_id not like", value, "resultId");
-            return (Criteria) this;
-        }
-
-        public Criteria andResultIdIn(List<String> values) {
+        public Criteria andResultIdIn(List<Integer> values) {
             addCriterion("result_id in", values, "resultId");
             return (Criteria) this;
         }
 
-        public Criteria andResultIdNotIn(List<String> values) {
+        public Criteria andResultIdNotIn(List<Integer> values) {
             addCriterion("result_id not in", values, "resultId");
             return (Criteria) this;
         }
 
-        public Criteria andResultIdBetween(String value1, String value2) {
+        public Criteria andResultIdBetween(Integer value1, Integer value2) {
             addCriterion("result_id between", value1, value2, "resultId");
             return (Criteria) this;
         }
 
-        public Criteria andResultIdNotBetween(String value1, String value2) {
+        public Criteria andResultIdNotBetween(Integer value1, Integer value2) {
             addCriterion("result_id not between", value1, value2, "resultId");
             return (Criteria) this;
         }
