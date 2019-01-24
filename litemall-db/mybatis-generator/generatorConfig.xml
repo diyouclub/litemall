@@ -178,6 +178,10 @@
         <table tableName="litemall_account_detail">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        <table tableName="litemall_money_apply">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
 
 
 
