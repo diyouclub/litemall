@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.admin.annotation.LoginAdmin;
 import org.linlinjava.litemall.admin.annotation.LoginUser;
+import org.linlinjava.litemall.core.util.JacksonUtil;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
@@ -61,7 +62,9 @@ public class AdminMoneyApplyController {
     }
 
     @PostMapping("/audit")
-    public Object apply(@LoginAdmin Integer adminId,String auditFlag,int applyId){
+    public Object apply(@LoginAdmin Integer adminId,@RequestBody String body){
+        String auditFlag = JacksonUtil.parseString(body, "auditFlag");
+        int applyId = JacksonUtil.parseInteger(body, "applyId");
         if (adminId == null) {
             return ResponseUtil.unlogin();
         }
