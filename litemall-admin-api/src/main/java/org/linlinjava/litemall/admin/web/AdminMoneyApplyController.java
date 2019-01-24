@@ -2,8 +2,8 @@ package org.linlinjava.litemall.admin.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.admin.annotation.LoginAdmin;
 import org.linlinjava.litemall.admin.annotation.LoginUser;
-import org.linlinjava.litemall.core.util.JacksonUtil;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
@@ -19,18 +19,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user/Commission")
+@RequestMapping("/admin/moneyApply")
 @Validated
-public class UserCommissionResultController {
-    private final Log logger = LogFactory.getLog(UserCommissionResultController.class);
+public class AdminMoneyApplyController {
+    private final Log logger = LogFactory.getLog(AdminMoneyApplyController.class);
 
     @Autowired
     private LitemallCommissionResultService commissionResultService;
@@ -41,60 +39,44 @@ public class UserCommissionResultController {
 
 
     @GetMapping("/list")
-    public Object list(@LoginUser Integer userId,
+    public Object list(@LoginAdmin Integer adminId,
+            String userName,
                        String startTime,
                        String endTime,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        if (userId == null) {
+        if (adminId == null) {
             return ResponseUtil.unlogin();
         }
 
-        List<LitemallCommissionResult> commissionResults = null;
-        try {
-            commissionResults = commissionResultService.queryByUserId(startTime,endTime,userId, page, limit);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        int total = commissionResultService.countByUserId(startTime,endTime,userId, page, limit);
+        List<LitemallMoneyApply> commissionResults = litemallMoneyApplyService.queryAll(startTime,endTime,userName, page, limit);
+//        int total = commissionResultService.countByUserId(startTime,endTime,userName, page, limit);
         Map<String, Object> data = new HashMap<>();
-        data.put("total", total);
+//        data.put("total", total);
         data.put("commissionResults", commissionResults);
 
         return ResponseUtil.ok(data);
     }
 
-
-    @PostMapping("/apply")
-    public Object apply(@LoginUser Integer userId,@RequestBody String body){
-        if (userId == null) {
+    @PostMapping("/audit")
+    public Object apply(@LoginAdmin Integer adminId,String auditFlag,int applyId){
+        if (adminId == null) {
             return ResponseUtil.unlogin();
         }
-        int accountId = JacksonUtil.parseInteger(body, "accountId");
-        String brokerage = JacksonUtil.parseString(body, "brokerage");
-        String money = JacksonUtil.parseString(body, "money");
-        String finally_money = JacksonUtil.parseString(body, "finally_money");
-        if(StringUtils.isEmpty(money)||StringUtils.isEmpty(brokerage)||StringUtils.isEmpty(finally_money)){
+        if(StringUtils.isEmpty(auditFlag)||StringUtils.isEmpty(applyId)){
             return ResponseUtil.badArgumentValue();
         }
-        LitemallMoneyApply lmas=litemallMoneyApplyService.findByUser(userId);
-        if(lmas!=null) {
-            if (lmas.getAuditFlag().equals("0")) {
-                return ResponseUtil.applyFailed();
-            }
+        LitemallMoneyApply lmas=litemallMoneyApplyService.findById(applyId);
+        lmas.setAuditFlag(auditFlag);
+        lmas.setApplyTime(LocalDateTime.now());
+        lmas.setAuditUser(adminId);
+        litemallMoneyApplyService.updateById(lmas);
+        if(auditFlag.equals("2")){
+            litemallAccountService.addMoney(lmas.getMoney(),lmas.getApplyUser());
         }
-        LitemallMoneyApply litemallMoneyApply=new LitemallMoneyApply();
-        litemallMoneyApply.setAccountId(accountId);
-        litemallMoneyApply.setApplyUser(userId);
-        litemallMoneyApply.setMoney(new BigDecimal(money));
-        litemallMoneyApply.setBrokerage(new BigDecimal(brokerage));
-        litemallMoneyApply.setFinallyMoney(new BigDecimal(finally_money));
-        litemallMoneyApply.setApplyTime(LocalDateTime.now());
-        litemallMoneyApplyService.add(litemallMoneyApply);
-        litemallAccountService.subtractMoney(new BigDecimal(money),userId);
-        return ResponseUtil.ok(litemallMoneyApply);
+        return ResponseUtil.ok();
 
     }
     @GetMapping("/account")

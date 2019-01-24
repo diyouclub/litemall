@@ -1451,6 +1451,10 @@ public class LitemallCommissionResultExample {
             addCriterion("add_time between", value1, value2, "addTime");
             return (Criteria) this;
         }
+        public Criteria andAddTimeBetween(String value1, String value2) {
+            addCriterion("add_time between", value1, value2, "addTime");
+            return (Criteria) this;
+        }
 
         public Criteria andAddTimeNotBetween(LocalDateTime value1, LocalDateTime value2) {
             addCriterion("add_time not between", value1, value2, "addTime");

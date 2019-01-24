@@ -3,10 +3,7 @@ package org.linlinjava.litemall.db.service;
 import com.github.pagehelper.PageHelper;
 import org.linlinjava.litemall.db.dao.LitemallAccountMapper;
 import org.linlinjava.litemall.db.dao.LitemallMoneyApplyMapper;
-import org.linlinjava.litemall.db.domain.LitemallAccount;
-import org.linlinjava.litemall.db.domain.LitemallAccountExample;
-import org.linlinjava.litemall.db.domain.LitemallMoneyApply;
-import org.linlinjava.litemall.db.domain.LitemallMoneyApplyExample;
+import org.linlinjava.litemall.db.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -69,6 +66,24 @@ public class LitemallMoneyApplyService {
         example.or().andApplyUserEqualTo(userId).andDeletedEqualTo(false);
         return litemallMoneyApplyMapper.selectOneByExample(example);
     }
-
+    /**
+     * 管理员审核列表
+     * @param startTime
+     * @param endTime
+     * @param userName
+     * @param page
+     * @param limit
+     * @return
+     */
+    public List<LitemallMoneyApply> queryAll(String startTime, String endTime, String userName, Integer page, Integer limit) {
+        LitemallMoneyApplyExample example = new LitemallMoneyApplyExample();
+        LitemallMoneyApplyExample.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
+            example.or().andAddTimeBetween(startTime,endTime);
+        }else {
+        }
+        PageHelper.startPage(page, limit);
+        return litemallMoneyApplyMapper.selectByExample(example);
+    }
 
 }

@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -77,26 +81,30 @@ public class LitemallCommissionResultService {
         example.or().andUserIdEqualTo(userid);
         return litemallCommissionResultMapper.selectByExample(example);
     }
-    public List<LitemallCommissionResult> queryByUserId(String startTime, String endTime, Integer userid, Integer page, Integer limit) {
+    public List<LitemallCommissionResult> queryByUserId(String startTime, String endTime, Integer userid, Integer page, Integer limit) throws ParseException {
         LitemallCommissionResultExample example = new LitemallCommissionResultExample();
         LitemallCommissionResultExample.Criteria criteria = example.createCriteria();
-        example.or().andUserIdEqualTo(userid);
+
         if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
-            LocalDateTime startDate = LocalDateTime.parse(startTime);
-            LocalDateTime endDate = LocalDateTime.parse(endTime);
-            criteria.andAddTimeBetween(startDate,endDate);
+            example.or().andUserIdEqualTo(userid).andAddTimeBetween(startTime,endTime);
+//            criteria.andAddTimeBetween(startTime,endTime);
+        }else {
+            example.or().andUserIdEqualTo(userid);
         }
+        PageHelper.startPage(page, limit);
         return litemallCommissionResultMapper.selectByExample(example);
     }
     public int countByUserId(String startTime,String endTime, Integer userid, Integer page, Integer limit) {
         LitemallCommissionResultExample example = new LitemallCommissionResultExample();
         LitemallCommissionResultExample.Criteria criteria = example.createCriteria();
-        example.or().andUserIdEqualTo(userid);
         if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
-            LocalDateTime startDate = LocalDateTime.parse(startTime);
-            LocalDateTime endDate = LocalDateTime.parse(endTime);
-            criteria.andAddTimeBetween(startDate,endDate);
+            example.or().andUserIdEqualTo(userid).andAddTimeBetween(startTime,endTime);
+//            criteria.andAddTimeBetween(startTime,endTime);
+        }else {
+            example.or().andUserIdEqualTo(userid);
         }
         return (int)litemallCommissionResultMapper.countByExample(example);
     }
+
+
 }
