@@ -10,9 +10,11 @@ import org.linlinjava.litemall.core.validator.Sort;
 import org.linlinjava.litemall.db.domain.LitemallAccount;
 import org.linlinjava.litemall.db.domain.LitemallCommissionResult;
 import org.linlinjava.litemall.db.domain.LitemallMoneyApply;
+import org.linlinjava.litemall.db.domain.LitemallUser;
 import org.linlinjava.litemall.db.service.LitemallAccountService;
 import org.linlinjava.litemall.db.service.LitemallCommissionResultService;
 import org.linlinjava.litemall.db.service.LitemallMoneyApplyService;
+import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -38,6 +40,8 @@ public class UserCommissionResultController {
     private LitemallMoneyApplyService litemallMoneyApplyService;
     @Autowired
     private LitemallAccountService litemallAccountService;
+    @Autowired
+    private LitemallUserService litemallUserService;
 
 
     @GetMapping("/list")
@@ -85,6 +89,7 @@ public class UserCommissionResultController {
                 return ResponseUtil.applyFailed();
             }
         }
+        LitemallUser litemallUser=litemallUserService.findById(userId);
         LitemallMoneyApply litemallMoneyApply=new LitemallMoneyApply();
         litemallMoneyApply.setAccountId(accountId);
         litemallMoneyApply.setApplyUser(userId);
@@ -92,6 +97,7 @@ public class UserCommissionResultController {
         litemallMoneyApply.setBrokerage(new BigDecimal(brokerage));
         litemallMoneyApply.setFinallyMoney(new BigDecimal(finally_money));
         litemallMoneyApply.setApplyTime(LocalDateTime.now());
+        litemallMoneyApply.setApplyUserName(litemallUser.getMobile());
         litemallMoneyApplyService.add(litemallMoneyApply);
         litemallAccountService.subtractMoney(new BigDecimal(money),userId);
         return ResponseUtil.ok(litemallMoneyApply);

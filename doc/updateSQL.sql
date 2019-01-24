@@ -15,3 +15,7 @@ CHANGE COLUMN `commission_result_id` `account_id` INT(11) NULL DEFAULT NULL COMM
 ADD COLUMN `money` DECIMAL(12,2) NULL COMMENT '金额' AFTER `account_id`,
 ADD COLUMN `brokerage` DECIMAL(12,2) NULL AFTER `money`,
 ADD COLUMN `finall_money` DECIMAL(12,2) NULL COMMENT '实际到账金额' AFTER `brokerage`;
+
+
+ALTER TABLE `litemall`.`litemall_money_apply`
+ADD COLUMN `apply_user_name` VARCHAR(45) NULL COMMENT '申请人姓名' AFTER `deleted`;

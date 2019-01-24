@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -79,11 +80,61 @@ public class LitemallMoneyApplyService {
         LitemallMoneyApplyExample example = new LitemallMoneyApplyExample();
         LitemallMoneyApplyExample.Criteria criteria = example.createCriteria();
         if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
-            example.or().andAddTimeBetween(startTime,endTime);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(startTime,df);
+            LocalDateTime endDate = LocalDateTime.parse(endTime,df);
+            example.or().andAddTimeBetween(startDate,endDate);
         }else {
         }
         PageHelper.startPage(page, limit);
         return litemallMoneyApplyMapper.selectByExample(example);
     }
-
+    public int countByAll(String startTime,String endTime, Integer userid, Integer page, Integer limit) {
+        LitemallMoneyApplyExample example = new LitemallMoneyApplyExample();
+        LitemallMoneyApplyExample.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(startTime,df);
+            LocalDateTime endDate = LocalDateTime.parse(endTime,df);
+            example.or().andAddTimeBetween(startDate,endDate);
+        }else {
+        }
+        return (int)litemallMoneyApplyMapper.countByExample(example);
+    }
+    /**
+     * 用户查看自己申请列表
+     * @param startTime
+     * @param endTime
+     * @param userId
+     * @param page
+     * @param limit
+     * @return
+     */
+    public List<LitemallMoneyApply> queryByUserId(String startTime, String endTime, Integer userId, Integer page, Integer limit) {
+        LitemallMoneyApplyExample example = new LitemallMoneyApplyExample();
+        LitemallMoneyApplyExample.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(startTime,df);
+            LocalDateTime endDate = LocalDateTime.parse(endTime,df);
+            example.or().andApplyUserEqualTo(userId).andAddTimeBetween(startDate,endDate);
+        }else {
+            example.or().andApplyUserEqualTo(userId);
+        }
+        PageHelper.startPage(page, limit);
+        return litemallMoneyApplyMapper.selectByExample(example);
+    }
+    public int countByUserId(String startTime,String endTime, Integer userId, Integer page, Integer limit) {
+        LitemallMoneyApplyExample example = new LitemallMoneyApplyExample();
+        LitemallMoneyApplyExample.Criteria criteria = example.createCriteria();
+        if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(startTime,df);
+            LocalDateTime endDate = LocalDateTime.parse(endTime,df);
+            example.or().andApplyUserEqualTo(userId).andAddTimeBetween(startDate,endDate);
+        }else {
+            example.or().andApplyUserEqualTo(userId);
+        }
+        return (int)litemallMoneyApplyMapper.countByExample(example);
+    }
 }

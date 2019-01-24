@@ -354,9 +354,9 @@ public class WxAuthController {
     public Object reset(@RequestBody String body, HttpServletRequest request) {
         String password = JacksonUtil.parseString(body, "password");
         String mobile = JacksonUtil.parseString(body, "mobile");
-        String code = JacksonUtil.parseString(body, "code");
+//        String code = JacksonUtil.parseString(body, "code");
 
-        if (mobile == null || code == null || password == null) {
+        if (mobile == null  || password == null) {
             return ResponseUtil.badArgument();
         }
 

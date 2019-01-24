@@ -86,7 +86,10 @@ public class LitemallCommissionResultService {
         LitemallCommissionResultExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
-            example.or().andUserIdEqualTo(userid).andAddTimeBetween(startTime,endTime);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(startTime,df);
+            LocalDateTime endDate = LocalDateTime.parse(endTime,df);
+            example.or().andUserIdEqualTo(userid).andAddTimeBetween(startDate,endDate);
 //            criteria.andAddTimeBetween(startTime,endTime);
         }else {
             example.or().andUserIdEqualTo(userid);
@@ -98,7 +101,10 @@ public class LitemallCommissionResultService {
         LitemallCommissionResultExample example = new LitemallCommissionResultExample();
         LitemallCommissionResultExample.Criteria criteria = example.createCriteria();
         if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime) ) {
-            example.or().andUserIdEqualTo(userid).andAddTimeBetween(startTime,endTime);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(startTime,df);
+            LocalDateTime endDate = LocalDateTime.parse(endTime,df);
+            example.or().andUserIdEqualTo(userid).andAddTimeBetween(startDate,endDate);
 //            criteria.andAddTimeBetween(startTime,endTime);
         }else {
             example.or().andUserIdEqualTo(userid);
