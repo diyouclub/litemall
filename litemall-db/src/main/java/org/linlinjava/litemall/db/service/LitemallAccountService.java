@@ -76,10 +76,34 @@ public class LitemallAccountService {
             litemallAccount = new LitemallAccount();
             litemallAccount.setUserId(userId);
             litemallAccount.setBalance(new BigDecimal("0"));
+            litemallAccount.setAddTime(LocalDateTime.now());
+            litemallAccount.setUpdateTime(LocalDateTime.now());
+
             this.add(litemallAccount);
         }
 
         return litemallAccount;
     }
 
+    public LitemallAccount addMoney(BigDecimal fee, Integer userId) {
+        LitemallAccount litemallAccount = this.findByUser(userId);
+        if (litemallAccount == null ) {
+            litemallAccount =  this.initUserAccount(userId);
+        }
+        litemallAccount.setBalance(litemallAccount.getBalance().add(fee));
+        litemallAccount.setUpdateTime(LocalDateTime.now());
+        litemallAccountMapper.updateByPrimaryKey(litemallAccount);
+        return litemallAccount;
+    }
+
+    public LitemallAccount subtractMoney(BigDecimal fee, Integer userId) {
+        LitemallAccount litemallAccount = this.findByUser(userId);
+        if (litemallAccount == null ) {
+            litemallAccount =  this.initUserAccount(userId);
+        }
+        litemallAccount.setBalance(litemallAccount.getBalance().subtract(fee));
+        litemallAccount.setUpdateTime(LocalDateTime.now());
+        litemallAccountMapper.updateByPrimaryKey(litemallAccount);
+        return litemallAccount;
+    }
 }

@@ -162,7 +162,7 @@ public class PyramidService {
                     Map mFee = new HashMap();
                     mFee.put("fee", totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP));
 
-                    mFee.put("user_id", 0);
+                    mFee.put("user_id", 1);
                     mFee.put("user_name", "公账");
                     mFee.put("desc", mCalc.get("desc"));
                     mFee.put("scale", mCalc.get("scale"));
@@ -180,7 +180,7 @@ public class PyramidService {
         Map mFee = new HashMap();
         mFee.put("fee", totalFee.subtract(bdRemail));
 
-        mFee.put("user_id", 0);
+        mFee.put("user_id", 1);
         mFee.put("user_name", "公账");
         mFee.put("desc", "剩余金额");
         mFee.put("scale", "0");
@@ -578,6 +578,7 @@ public class PyramidService {
                 } else {
                     Map mFee = new HashMap();
                     mFee.put("fee", totalFee.multiply(new BigDecimal(scale)).divide(new BigDecimal("100"), BigDecimal.ROUND_HALF_UP));
+                    mFee.put("user_id", 1);
                     mFee.put("user_name", "公账");
                     mFee.put("desc", mCalc.get("desc"));
                     mFee.put("scale", mCalc.get("scale"));
@@ -615,7 +616,7 @@ public class PyramidService {
         Map mFee = new HashMap();
         mFee.put("fee", totalFee.subtract(bdRemail));
 
-        mFee.put("user_id", 0);
+        mFee.put("user_id", 1);
         mFee.put("user_name", "公账");
         mFee.put("desc", "剩余金额");
         mFee.put("scale", "0");
