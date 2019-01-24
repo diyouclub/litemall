@@ -112,5 +112,17 @@ public class WxUserController {
 
         return ResponseUtil.ok(data);
     }
+    @GetMapping("info")
+    public Object getInfo(@LoginUser Integer userId) {
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+
+        Map<Object, Object> data = new HashMap<Object, Object>();
+
+        LitemallUser litemallUser=userService.findById(userId);
+        data.put("info",litemallUser);
+        return ResponseUtil.ok(data);
+    }
 
 }
