@@ -81,7 +81,9 @@ public class ResponseUtil {
     public static Object badArgumentValue() {
         return fail(402, "参数值不对");
     }
-
+    public static Object applyFailed() {
+        return fail(403, "还有未处理的提现申请");
+    }
     public static Object unlogin() {
         return fail(501, "请登录");
     }
