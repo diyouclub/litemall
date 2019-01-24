@@ -67,7 +67,7 @@ public class LitemallAccountDetail {
      *
      * @mbg.generated
      */
-    private String resultId;
+    private Integer resultId;
 
     /**
      *
@@ -200,7 +200,7 @@ public class LitemallAccountDetail {
      *
      * @mbg.generated
      */
-    public String getResultId() {
+    public Integer getResultId() {
         return resultId;
     }
 
@@ -212,7 +212,7 @@ public class LitemallAccountDetail {
      *
      * @mbg.generated
      */
-    public void setResultId(String resultId) {
+    public void setResultId(Integer resultId) {
         this.resultId = resultId;
     }
 
@@ -384,7 +384,7 @@ public class LitemallAccountDetail {
         accountId("account_id", "accountId", "INTEGER", false),
         money("money", "money", "DECIMAL", false),
         detailType("detail_type", "detailType", "VARCHAR", false),
-        resultId("result_id", "resultId", "VARCHAR", false),
+        resultId("result_id", "resultId", "INTEGER", false),
         addTime("add_time", "addTime", "TIMESTAMP", false),
         updateTime("update_time", "updateTime", "TIMESTAMP", false),
         deleted("deleted", "deleted", "BIT", false);

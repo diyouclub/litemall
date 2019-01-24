@@ -10,7 +10,7 @@
     <result column="account_id" jdbcType="INTEGER" property="accountId" />
     <result column="money" jdbcType="DECIMAL" property="money" />
     <result column="detail_type" jdbcType="VARCHAR" property="detailType" />
-    <result column="result_id" jdbcType="VARCHAR" property="resultId" />
+    <result column="result_id" jdbcType="INTEGER" property="resultId" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -117,7 +117,7 @@
       distinct
     </if>
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -176,7 +176,7 @@
     -->
     select
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -218,7 +218,7 @@
       result_id, add_time, update_time, 
       deleted)
     values (#{accountId,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, #{detailType,jdbcType=VARCHAR}, 
-      #{resultId,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{resultId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallAccountDetail">
@@ -264,7 +264,7 @@
         #{detailType,jdbcType=VARCHAR},
       </if>
       <if test="resultId != null">
-        #{resultId,jdbcType=VARCHAR},
+        #{resultId,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -307,7 +307,7 @@
         detail_type = #{record.detailType,jdbcType=VARCHAR},
       </if>
       <if test="record.resultId != null">
-        result_id = #{record.resultId,jdbcType=VARCHAR},
+        result_id = #{record.resultId,jdbcType=INTEGER},
       </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
@@ -333,7 +333,7 @@
       account_id = #{record.accountId,jdbcType=INTEGER},
       money = #{record.money,jdbcType=DECIMAL},
       detail_type = #{record.detailType,jdbcType=VARCHAR},
-      result_id = #{record.resultId,jdbcType=VARCHAR},
+      result_id = #{record.resultId,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT}
@@ -358,7 +358,7 @@
         detail_type = #{detailType,jdbcType=VARCHAR},
       </if>
       <if test="resultId != null">
-        result_id = #{resultId,jdbcType=VARCHAR},
+        result_id = #{resultId,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
@@ -381,7 +381,7 @@
     set account_id = #{accountId,jdbcType=INTEGER},
       money = #{money,jdbcType=DECIMAL},
       detail_type = #{detailType,jdbcType=VARCHAR},
-      result_id = #{resultId,jdbcType=VARCHAR},
+      result_id = #{resultId,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
@@ -412,7 +412,7 @@
     -->
     select
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>

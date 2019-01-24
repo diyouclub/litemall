@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -64,5 +65,29 @@ public class LitemallAccountDetailService {
 
     public LitemallAccountDetail findById(Integer id) {
         return litemallAccountDetailMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 查询账户明细方法
+     * @param accountId
+     * @return
+     */
+    public List<LitemallAccountDetail> findByAccountId(Integer accountId) {
+        LitemallAccountDetailExample example = new LitemallAccountDetailExample();
+        example.or().andAccountIdEqualTo(accountId).andDeletedEqualTo(false);
+        return litemallAccountDetailMapper.selectByExample(example);
+    }
+    /**
+     * 费用收入接口
+     */
+    public LitemallAccountDetail add(LitemallAccount litemallAccount, BigDecimal bdMoney,String detail_type,Integer resultId) {
+        LitemallAccountDetail litemallAccountDetail = new LitemallAccountDetail();
+        litemallAccountDetail.setAccountId(litemallAccount.getId());
+        litemallAccountDetail.setMoney(bdMoney);
+        litemallAccountDetail.setDetailType(detail_type);
+        litemallAccountDetail.setAddTime(LocalDateTime.now());
+        litemallAccountDetail.setResultId(resultId);
+        this.add(litemallAccountDetail);
+        return litemallAccountDetail;
     }
 }

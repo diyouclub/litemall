@@ -740,6 +740,11 @@ public class WxOrderController {
 
                 // 初始化账户
                 LitemallAccount litemallAccount = litemallAccountService.initUserAccount(litemallCommissionResult.getUserId());
+                // 记录账户明细
+                LitemallAccountDetail litemallAccountDetail = litemallAccountDetailService.add(litemallAccount,litemallCommissionResult.getFee(), String.valueOf(agentcy_level),litemallCommissionResult.getUserId());
+                // 更新账户
+
+
 
 
 
