@@ -739,14 +739,8 @@ public class WxOrderController {
                 litemallCommissionResultService.add(litemallCommissionResult);
 
                 // 初始化账户
-                LitemallAccount litemallAccount = litemallAccountService.findByUser(litemallCommissionResult.getUserId());
-                if (litemallAccount == null ) {
-                    litemallAccount = new LitemallAccount();
-                    litemallAccount.setUserId(litemallCommissionResult.getUserId());
-                    litemallAccount.setBalance(new BigDecimal("0"));
-                    litemallAccountService.add(litemallAccount);
-                }
-                Litemall
+                LitemallAccount litemallAccount = litemallAccountService.initUserAccount(litemallCommissionResult.getUserId());
+
 
 
             }
