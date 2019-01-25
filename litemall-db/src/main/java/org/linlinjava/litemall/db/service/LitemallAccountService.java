@@ -76,8 +76,12 @@ public class LitemallAccountService {
             litemallAccount = new LitemallAccount();
             litemallAccount.setUserId(userId);
             litemallAccount.setBalance(new BigDecimal("0"));
+            litemallAccount.setFrozenBalance(new BigDecimal("0"));
             litemallAccount.setAddTime(LocalDateTime.now());
             litemallAccount.setUpdateTime(LocalDateTime.now());
+            litemallAccount.setAccountType("1");
+            litemallAccount.setAccountStatus("1");
+            litemallAccount.setDeleted(false);
 
             this.add(litemallAccount);
         }

@@ -741,7 +741,7 @@ public class WxOrderController {
                 // 更新账户
                 LitemallAccount litemallAccount = litemallAccountService.addMoney(litemallCommissionResult.getFee(),litemallCommissionResult.getUserId());
                 // 记录账户明细
-                LitemallAccountDetail litemallAccountDetail = litemallAccountDetailService.add(litemallAccount,litemallCommissionResult.getFee(), String.valueOf(agentcy_level),litemallCommissionResult.getUserId());
+                LitemallAccountDetail litemallAccountDetail = litemallAccountDetailService.add(litemallAccount,litemallCommissionResult.getFee(), String.valueOf(agentcy_level),litemallCommissionResult.getId());
 
 
 
@@ -774,7 +774,7 @@ public class WxOrderController {
                 // 更新账户
                 LitemallAccount litemallAccount = litemallAccountService.addMoney(litemallCommissionResult.getFee(),litemallCommissionResult.getUserId());
                 // 记录账户明细
-                LitemallAccountDetail litemallAccountDetail = litemallAccountDetailService.add(litemallAccount,litemallCommissionResult.getFee(), String.valueOf(agentcy_level),litemallCommissionResult.getUserId());
+                LitemallAccountDetail litemallAccountDetail = litemallAccountDetailService.add(litemallAccount,litemallCommissionResult.getFee(), String.valueOf(agentcy_level),litemallCommissionResult.getId());
 
 
             }
