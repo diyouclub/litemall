@@ -23,7 +23,8 @@
       highlight-current-row>
       <el-table-column align="center" label="ID" prop="id"/>
       <el-table-column align="center" label="用户名" prop="apply_user_name"/>
-
+      <el-table-column align="center" label="开户银行" prop="bandName"/>
+      <el-table-column align="center" label="银行卡号" prop="bankCard"/>
       <el-table-column align="center" label="时间" prop="addTime"/>
 
       <el-table-column align="center" label="手续费" prop="brokerage"/>
@@ -39,48 +40,24 @@
           <p v-else>审核不通过</p>
         </template>
       </el-table-column>
-
+      <el-table-column align="center" label="转账状态">
+        <template slot-scope="scope">
+          <p v-if="scope.row.applyFlag === '1'">已转账</p>
+          <p v-else>未转账</p>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="审核" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button :disabled="scope.row.auditFlag !=='0'" type="primary" size="mini" @click="handlePass(scope.row,true)">通过</el-button>
           <el-button :disabled="scope.row.auditFlag !=='0'" type="danger" size="mini" @click="handlePass(scope.row,fasle)">不通过</el-button>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="操作" class-name="small-padding">
+        <template slot-scope="scope">
+          <el-button :disabled="scope.row.auditFlag !=='1' || scope.row.applyFlag === '1'" type="success" size="mini" @click="handleAudit(scope.row)">确认转账</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-
-    <!-- 添加或修改对话框 -->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form
-        ref="dataForm"
-        :rules="rules"
-        :model="dataForm"
-        status-icon
-        label-position="left"
-        label-width="100px"
-        style="width: 400px; margin-left:50px;">
-        <el-form-item label="商品ID" prop="goodsId">
-          <el-input v-model="dataForm.goodsId"/>
-        </el-form-item>
-        <el-form-item label="团购折扣" prop="discount">
-          <el-input v-model="dataForm.discount"/>
-        </el-form-item>
-        <el-form-item label="团购人数要求" prop="discountMember">
-          <el-input v-model="dataForm.discountMember"/>
-        </el-form-item>
-        <el-form-item label="过期时间" prop="expireTime">
-          <el-date-picker
-            v-model="dataForm.expireTime"
-            type="datetime"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd HH:mm:ss"/>
-        </el-form-item>
-      </el-form>
-      <!-- <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">确定</el-button>
-        <el-button v-else type="primary" @click="updateData">确定</el-button>
-      </div> -->
-    </el-dialog>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
@@ -92,7 +69,7 @@
 </template>
 
 <script>
-import { listIncome, listAudit } from '@/api/income'
+import { listIncome, listAudit, transfer } from '@/api/income'
 import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -147,7 +124,30 @@ export default {
           })
         }
         this.getList()
-      }).catch(err => {
+      })
+    },
+    handleAudit(row) {
+      this.$confirm('是否确认已转账?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const params = {
+          applyId: row.id,
+          applyFlag: 1
+        }
+        transfer(params).then(res => {
+          if (!res.errno) {
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            })
+            this.getList()
+          }
+        }).catch(() => {
+
+        })
+      }).catch(() => {
 
       })
     },
