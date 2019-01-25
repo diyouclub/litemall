@@ -22,6 +22,7 @@
     <result column="apply_user_name" jdbcType="VARCHAR" property="applyUserName" />
     <result column="band_name" jdbcType="VARCHAR" property="bandName" />
     <result column="bank_card" jdbcType="VARCHAR" property="bankCard" />
+    <result column="apply_flag" jdbcType="VARCHAR" property="applyFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -96,7 +97,7 @@
     -->
     id, account_id, money, brokerage, finally_money, apply_user, apply_time, audit_flag, 
     audit_user, audit_time, add_time, update_time, deleted, apply_user_name, band_name, 
-    bank_card
+    bank_card, apply_flag
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallMoneyApplyExample" resultMap="BaseResultMap">
     <!--
@@ -135,7 +136,7 @@
       <otherwise>
         id, account_id, money, brokerage, finally_money, apply_user, apply_time, audit_flag, 
           audit_user, audit_time, add_time, update_time, deleted, apply_user_name, band_name, 
-          bank_card
+          bank_card, apply_flag
       </otherwise>
     </choose>
     from litemall_money_apply
@@ -196,7 +197,7 @@
       <otherwise>
         id, account_id, money, brokerage, finally_money, apply_user, apply_time, audit_flag, 
           audit_user, audit_time, add_time, update_time, deleted, apply_user_name, band_name, 
-          bank_card
+          bank_card, apply_flag
       </otherwise>
     </choose>
     from litemall_money_apply
@@ -232,14 +233,14 @@
       finally_money, apply_user, apply_time, 
       audit_flag, audit_user, audit_time, 
       add_time, update_time, deleted, 
-      apply_user_name, band_name, bank_card
-      )
+      apply_user_name, band_name, bank_card, 
+      apply_flag)
     values (#{accountId,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, #{brokerage,jdbcType=DECIMAL}, 
       #{finallyMoney,jdbcType=DECIMAL}, #{applyUser,jdbcType=INTEGER}, #{applyTime,jdbcType=TIMESTAMP}, 
       #{auditFlag,jdbcType=VARCHAR}, #{auditUser,jdbcType=INTEGER}, #{auditTime,jdbcType=TIMESTAMP}, 
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
-      #{applyUserName,jdbcType=VARCHAR}, #{bandName,jdbcType=VARCHAR}, #{bankCard,jdbcType=VARCHAR}
-      )
+      #{applyUserName,jdbcType=VARCHAR}, #{bandName,jdbcType=VARCHAR}, #{bankCard,jdbcType=VARCHAR}, 
+      #{applyFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallMoneyApply">
     <!--
@@ -296,6 +297,9 @@
       <if test="bankCard != null">
         bank_card,
       </if>
+      <if test="applyFlag != null">
+        apply_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="accountId != null">
@@ -342,6 +346,9 @@
       </if>
       <if test="bankCard != null">
         #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="applyFlag != null">
+        #{applyFlag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -410,6 +417,9 @@
       <if test="record.bankCard != null">
         bank_card = #{record.bankCard,jdbcType=VARCHAR},
       </if>
+      <if test="record.applyFlag != null">
+        apply_flag = #{record.applyFlag,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -436,7 +446,8 @@
       deleted = #{record.deleted,jdbcType=BIT},
       apply_user_name = #{record.applyUserName,jdbcType=VARCHAR},
       band_name = #{record.bandName,jdbcType=VARCHAR},
-      bank_card = #{record.bankCard,jdbcType=VARCHAR}
+      bank_card = #{record.bankCard,jdbcType=VARCHAR},
+      apply_flag = #{record.applyFlag,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -493,6 +504,9 @@
       <if test="bankCard != null">
         bank_card = #{bankCard,jdbcType=VARCHAR},
       </if>
+      <if test="applyFlag != null">
+        apply_flag = #{applyFlag,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -516,7 +530,8 @@
       deleted = #{deleted,jdbcType=BIT},
       apply_user_name = #{applyUserName,jdbcType=VARCHAR},
       band_name = #{bandName,jdbcType=VARCHAR},
-      bank_card = #{bankCard,jdbcType=VARCHAR}
+      bank_card = #{bankCard,jdbcType=VARCHAR},
+      apply_flag = #{applyFlag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectOneByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallMoneyApplyExample" resultMap="BaseResultMap">
@@ -552,7 +567,7 @@
       <otherwise>
         id, account_id, money, brokerage, finally_money, apply_user, apply_time, audit_flag, 
           audit_user, audit_time, add_time, update_time, deleted, apply_user_name, band_name, 
-          bank_card
+          bank_card, apply_flag
       </otherwise>
     </choose>
     from litemall_money_apply

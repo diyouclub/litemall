@@ -82,6 +82,30 @@ public class AdminMoneyApplyController {
         return ResponseUtil.ok();
 
     }
+
+    /**
+     * 转账
+     * @param adminId
+     * @param body
+     * @return
+     */
+    @PostMapping("/Transfer")
+    public Object transfer(@LoginAdmin Integer adminId,@RequestBody String body){
+        String applyFlag = JacksonUtil.parseString(body, "applyFlag");
+        int applyId = JacksonUtil.parseInteger(body, "applyId");
+        if (adminId == null) {
+            return ResponseUtil.unlogin();
+        }
+        if(StringUtils.isEmpty(applyFlag)||StringUtils.isEmpty(applyId)){
+            return ResponseUtil.badArgumentValue();
+        }
+        LitemallMoneyApply lmas=litemallMoneyApplyService.findById(applyId);
+        lmas.setApplyFlag(applyFlag);
+        lmas.setApplyTime(LocalDateTime.now());
+        litemallMoneyApplyService.updateById(lmas);
+        return ResponseUtil.ok();
+
+    }
     @GetMapping("/account")
     public Object account(@LoginUser Integer userId){
         if (userId == null) {
