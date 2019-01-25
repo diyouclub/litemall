@@ -80,6 +80,8 @@ public class UserCommissionResultController {
         String brokerage = JacksonUtil.parseString(body, "brokerage");
         String money = JacksonUtil.parseString(body, "money");
         String finally_money = JacksonUtil.parseString(body, "finally_money");
+        String band_name = JacksonUtil.parseString(body, "band_name");
+        String bank_card = JacksonUtil.parseString(body, "bank_card");
         if(StringUtils.isEmpty(money)||StringUtils.isEmpty(brokerage)||StringUtils.isEmpty(finally_money)){
             return ResponseUtil.badArgumentValue();
         }
@@ -98,6 +100,8 @@ public class UserCommissionResultController {
         litemallMoneyApply.setFinallyMoney(new BigDecimal(finally_money));
         litemallMoneyApply.setApplyTime(LocalDateTime.now());
         litemallMoneyApply.setApplyUserName(litemallUser.getMobile());
+        litemallMoneyApply.setBandName(band_name);
+        litemallMoneyApply.setBankCard(bank_card);
         litemallMoneyApplyService.add(litemallMoneyApply);
         litemallAccountService.subtractMoney(new BigDecimal(money),userId);
         return ResponseUtil.ok(litemallMoneyApply);

@@ -86,6 +86,7 @@ public class LitemallMoneyApplyService {
             example.or().andAddTimeBetween(startDate,endDate);
         }else {
         }
+        example.setOrderByClause("id DESC");
         PageHelper.startPage(page, limit);
         return litemallMoneyApplyMapper.selectByExample(example);
     }
@@ -121,6 +122,7 @@ public class LitemallMoneyApplyService {
         }else {
             example.or().andApplyUserEqualTo(userId);
         }
+        example.setOrderByClause("id DESC");
         PageHelper.startPage(page, limit);
         return litemallMoneyApplyMapper.selectByExample(example);
     }
