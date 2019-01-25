@@ -7,9 +7,10 @@
         v-model="dateValue"
         type="daterange"
         value-format="yyyy-MM-dd HH:mm:ss"
-        range-separator="至"
+        range-separator="-"
         start-placeholder="开始日期"
-        end-placeholder="结束日期"/>
+        end-placeholder="结束日期"
+        @change="changeDate"/>
     </div>
 
     <!-- 查询结果 -->
@@ -81,7 +82,7 @@ export default {
       list: [],
       total: 0,
       listLoading: true,
-      dateValue: ['', ''],
+      dateValue: '',
       listQuery: {
         page: 1,
         limit: 20,
@@ -116,14 +117,22 @@ export default {
         applyId: row.id,
         auditFlag: flag ? '1' : '2'
       }
-      listAudit(params).then(res => {
-        if (!res.errno) {
-          this.$message({
-            message: res.errmsg,
-            type: 'success'
-          })
-        }
-        this.getList()
+      this.$confirm('是否确认审核该条记录?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        listAudit(params).then(res => {
+          if (!res.data.errno) {
+            this.$message({
+              message: res.data.errmsg,
+              type: 'success'
+            })
+          }
+          this.getList()
+        })
+      }).catch(() => {
+
       })
     },
     handleAudit(row) {
@@ -137,10 +146,11 @@ export default {
           applyFlag: 1
         }
         transfer(params).then(res => {
-          if (!res.errno) {
+          console.log(res)
+          if (!res.data.errno) {
             this.$message({
               type: 'success',
-              message: '操作成功!'
+              message: res.data.errmsg
             })
             this.getList()
           }
@@ -150,6 +160,12 @@ export default {
       }).catch(() => {
 
       })
+    },
+    changeDate(value) {
+      if (!this.dateValue) {
+        this.dateValue = ''
+      }
+      this.getList()
     },
     getList() {
       const params = {
