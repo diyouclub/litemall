@@ -99,7 +99,7 @@ public class UserCommissionResultController {
         litemallMoneyApply.setBrokerage(new BigDecimal(brokerage));
         litemallMoneyApply.setFinallyMoney(new BigDecimal(finally_money));
         litemallMoneyApply.setApplyTime(LocalDateTime.now());
-        litemallMoneyApply.setApplyUserName(litemallUser.getMobile());
+        litemallMoneyApply.setApplyUserName(litemallUser.getNickname());
         litemallMoneyApply.setBandName(band_name);
         litemallMoneyApply.setBankCard(bank_card);
         litemallMoneyApplyService.add(litemallMoneyApply);
