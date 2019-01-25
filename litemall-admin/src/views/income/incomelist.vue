@@ -40,11 +40,21 @@
           <p v-else>审核不通过</p>
         </template>
       </el-table-column>
-
+      <el-table-column align="center" label="转账状态">
+        <template slot-scope="scope">
+          <p v-if="scope.row.applyFlag === '1'">已转账</p>
+          <p v-else>未转账</p>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="审核" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button :disabled="scope.row.auditFlag !=='0'" type="primary" size="mini" @click="handlePass(scope.row,true)">通过</el-button>
           <el-button :disabled="scope.row.auditFlag !=='0'" type="danger" size="mini" @click="handlePass(scope.row,fasle)">不通过</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="操作" class-name="small-padding">
+        <template slot-scope="scope">
+          <el-button :disabled="scope.row.auditFlag !=='1' || scope.row.applyFlag === '1'" type="success" size="mini" @click="handleAudit(scope.row)">确认转账</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -59,7 +69,7 @@
 </template>
 
 <script>
-import { listIncome, listAudit } from '@/api/income'
+import { listIncome, listAudit, transfer } from '@/api/income'
 import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -114,6 +124,31 @@ export default {
           })
         }
         this.getList()
+      })
+    },
+    handleAudit(row) {
+      this.$confirm('是否确认已转账?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const params = {
+          applyId: row.id,
+          applyFlag: 1
+        }
+        transfer(params).then(res => {
+          if (!res.errno) {
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            })
+            this.getList()
+          }
+        }).catch(() => {
+
+        })
+      }).catch(() => {
+
       })
     },
     getList() {

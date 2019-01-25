@@ -15,4 +15,10 @@ export function listAudit(data) {
     data
   })
 }
-
+export function transfer(data) {
+  return request({
+    url: '/moneyApply/Transfer',
+    method: 'post',
+    data
+  })
+}
