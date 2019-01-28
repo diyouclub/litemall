@@ -239,20 +239,22 @@ Page({
       }
     });
   },
-  connactKf:function(){
-    wx.makePhoneCall({
-      phoneNumber: '1340000' // 仅为示例，并非真实的电话号码
-    })
+  handleContact:function(e){
+    console.log(e.path)
+    console.log(e.query)
   },
   connactSd: function() {
     let that = this;
     wx.showModal({
       title: '上级用户',
       content: `姓名:${that.data.upUser.name}  电话:${that.data.upUser.mobile}`,
-      confirmText:'关闭',
-      showCancel:false,
+      confirmText:'呼叫',
       success(res) {
-        
+        if (res.confirm) {
+          wx.makePhoneCall({
+            phoneNumber: that.data.upUser.mobile 
+          })
+        }
       }
     })
   },
