@@ -107,11 +107,10 @@
         <image class='user_column_item_image' src='/static/images/bind.png'></image>
         <view class='user_column_item_text'>绑定后台</view>
     </view>
-        <view class='user_column_item' bindtap='connactKf' >
+        <view class='user_column_item'  >
+        <button class='user_column_item_phone' open-type="contact" bindcontact="handleContact"></button>
         <image class='user_column_item_image' src='/static/images/lianxi.png'></image>
-        <picker bindchange="bindPickerChange" value="{{index}}" range="{{[1,2,3]}}">
           <view class='user_column_item_text'>联系客服</view>
-        </picker>
     </view>
         <view class='user_column_item'  bindtap='connactSd'>
         <image class='user_column_item_image' src='/static/images/lianxidianyuan.png'></image>

@@ -15,9 +15,9 @@
       <el-table-column align="center" width="100px" label="用户ID" prop="id" sortable/>
 
       <el-table-column align="center" label="用户名" prop="nickname"/>
-      <el-table-column align="center" label="性别" prop="gender">
+      <el-table-column align="center" label="头像" prop="gender">
         <template slot-scope="scope">
-          <img :src="scope.row.avatar" >
+          <img :src="scope.row.avatar" class="avatar-img">
         </template>
       </el-table-column>
       <el-table-column align="center" label="手机号码" prop="mobile"/>
@@ -28,9 +28,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="用户等级" prop="userLevel">
+      <el-table-column align="center" label="代理级别" prop="agencyLevel">
         <template slot-scope="scope">
-          <el-tag >{{ levelDic[scope.row.userLevel] }}</el-tag>
+          <el-tag >{{ levelDic[scope.row.agencyLevel] }}</el-tag>
         </template>
       </el-table-column>
 
@@ -72,7 +72,7 @@
         <el-form-item label="生日" prop="birthday">
           <el-date-picker :readonly="isReadOnly" v-model="dataForm.birthday" type="date" value-format="yyyy-MM-dd"/>
         </el-form-item>
-        <el-form-item label="用户等级" prop="agencyLevel">
+        <el-form-item label="代理级别" prop="agencyLevel">
           <el-select v-model="dataForm.agencyLevel">
             <el-option :value="0" label="普通用户"/>
             <el-option :value="1" label="VIP"/>
@@ -260,3 +260,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .avatar-img{
+    max-width: 60px;
+  }
+</style>
