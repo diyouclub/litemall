@@ -1,14 +1,5 @@
 <!--pages/wallet/wallet.wxml-->
 <view class="page">
-  <!-- <view class="sc mt10" >
-    <view class="df_1 df">     
-      <text class="qb_02">{{user.money}}</text>
-      <text class="qb_01">({{user.unit}})</text>
-    </view>
-  </view>  -->
-
-
-  <view class="use_detail" style="width: 100%;margin: 0 auto;position: relative;height:55%;">
     <view class="swiper-tab">
       <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">邀请记录</view>
       <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">奖励记录</view>
@@ -39,7 +30,7 @@
       </swiper-item>
       <swiper-item>
         <view class='obtain_box'>
-          <scroll-view scroll-y="true" style="height:100%;overflow:auto;padding-bottom:45px;">
+          <scroll-view scroll-y="true" style="height:100%;padding-bottom:45px;">
                 <view  class="list-item2">
                   <view class="item4"><text>用户名</text></view>
                   <view class="item5"><text>金额</text></view>
@@ -55,52 +46,23 @@
         </view>
       </swiper-item>
     </swiper>
-  </view>
-
-
-<!-- 规格选择界面 -->
-<view class="attr-pop-box" hidden="{{!isShow}}">
-  <view class="attr-pop">
-    <view class="close" bindtap="closeQRCode">
-      <image class="icon" src="/static/images/icon_close.png"></image>
+    <view class="dibu" style=''>
+      <view class="dibu_1" bindtap='showQRCode'>
+            <text>扫码邀请</text>
+      </view>
     </view>
-    <view class="img-info">
-      <image class="img" src="{{qrcode_url}}"></image>
-     
-    </view>
-  </view>
-</view>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <view class="dibu" style=''>
-    <!-- <navigator class="dibu_1" url="../user/recharge"> 
-         <button class="sharebtn" open-type="share" >
-          <view class='sharebtn_text'>分享给好友</view>
-        </button>
-    </navigator> 
-    <view>
-      <text class="dibu_3">|</text>
-    </view>
- -->
-    <view class="dibu_1" bindtap='showQRCode'>
-          <text>扫码邀请</text>
-    </view>
-    <!-- <navigator  class="dibu_2" url="../user/withdrawals">  -->
+  <!-- 规格选择界面 -->
+  <view class="attr-pop-box" hidden="{{!isShow}}">
+    <view class="attr-pop">
+      <view class="close" bindtap="closeQRCode">
+        <image class="icon" src="/static/images/icon_close.png"></image>
+      </view>
+      <view class="img-info">
+        <image class="img" src="{{qrcode_url}}"></image>
       
-    <!-- </navigator> -->
-    
+      </view>
+    </view>
   </view>
+
 </view>
