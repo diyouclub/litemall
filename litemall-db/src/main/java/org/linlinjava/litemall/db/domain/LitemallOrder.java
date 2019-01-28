@@ -1219,4 +1219,14 @@ public class LitemallOrder {
             }
         }
     }
+
+    private LitemallUser litemallUser;
+
+    public LitemallUser getLitemallUser() {
+        return litemallUser;
+    }
+
+    public void setLitemallUser(LitemallUser litemallUser) {
+        this.litemallUser = litemallUser;
+    }
 }

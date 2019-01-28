@@ -105,8 +105,7 @@ public class WxUserController {
 
         Map<Object, Object> data = new HashMap<Object, Object>();
 
-
-        List<LitemallCommissionResult> lstCommissionFee = litemallCommissionResultService.findByUserId(userId);
+        List<LitemallCommissionResult> lstCommissionFee = litemallCommissionResultService.getCommissionList(userId);
         data.put("commission",lstCommissionFee);
 
 

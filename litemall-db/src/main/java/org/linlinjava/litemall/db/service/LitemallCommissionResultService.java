@@ -113,4 +113,8 @@ public class LitemallCommissionResultService {
     }
 
 
+    public List<LitemallCommissionResult> getCommissionList(Integer user_id) {
+        return litemallCommissionResultMapper.getCommissionList(user_id);
+    }
+
 }

@@ -516,4 +516,31 @@
     update litemall_commission_result set deleted = 1
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getCommissionList" parameterType="int" resultMap="commissionMap">
+        SELECT
+            c.nickname, c.mobile, a.user_name, a.fee, a.add_time
+        FROM
+            litemall_commission_result a,
+            litemall_order b,
+            litemall_user c
+        WHERE
+          a.order_id = b.id AND b.user_id = c.id
+        and a.user_id =  #{user_id}
+    </select>
+
+  <resultMap id="commissionMap" type="org.linlinjava.litemall.db.domain.LitemallCommissionResult">
+    <id property="id" column="id"/>
+    <result property="userName" column="user_name"/>
+    <result property="fee" column="fee"/>
+    <result property="addTime" column="add_time"/>
+
+    <!-- 指定某些实体类属性对应的类型 -->
+    <association property="litemallOrder" javaType="org.linlinjava.litemall.db.domain.LitemallOrder">
+      <association property="litemallUser" javaType="org.linlinjava.litemall.db.domain.LitemallUser">
+        <result property="nickname" column="nickname"/>
+        <result property="mobile" column="mobile"/>
+      </association>
+    </association>
+  </resultMap>
 </mapper>
