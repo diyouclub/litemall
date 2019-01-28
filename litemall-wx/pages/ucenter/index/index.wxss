@@ -65,6 +65,20 @@ page {
   color: #7f7f7f;
   font-size: 30rpx;
 }
+.up-user .up-t{
+  color: #fff;
+  font-size: 28rpx;
+}
+.up-user .up-n{
+  color: #fcfcfc;
+  font-size: 24rpx;
+  margin-left: 30rpx;
+}
+.up-user .up-m{
+  color: #fcfcfc;
+  font-size: 24rpx;
+  margin-left: 30rpx;
+}
 
 .user_area {
   /* border: 1px solid black; */
@@ -107,15 +121,15 @@ page {
 
 .user_column {
   /* border: 1px solid black; */
-  height: 140rpx;
+  /* height: 140rpx; */
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
 }
 
 .user_column_item {
-  width: 30%;
-  height: 100%;
+  width: 25%;
+  height: 140rpx;
   background: #fff;
   text-align: center;
   position: relative;

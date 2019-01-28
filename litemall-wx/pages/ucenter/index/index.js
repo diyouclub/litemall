@@ -18,7 +18,11 @@ Page({
     },
     hasLogin: false,
     modalShow:false,
-    agency_level:0
+    agency_level:0,
+    upUser: {
+      mobile: '',
+      name: ''
+    }
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -53,7 +57,8 @@ Page({
           console.log(res.data);
           that.setData({
             order: res.data.order,
-            agency_level: res.data.user.agency_level
+            agency_level: res.data.user.agency_level,
+            upUser: res.data.upUser
           });
         }
       });
@@ -233,6 +238,23 @@ Page({
         });
       }
     });
+  },
+  connactKf:function(){
+    wx.makePhoneCall({
+      phoneNumber: '1340000' // 仅为示例，并非真实的电话号码
+    })
+  },
+  connactSd: function() {
+    let that = this;
+    wx.showModal({
+      title: '上级用户',
+      content: `姓名:${that.data.upUser.name}  电话:${that.data.upUser.mobile}`,
+      confirmText:'关闭',
+      showCancel:false,
+      success(res) {
+        
+      }
+    })
   },
   goAfterSale: function() {
     wx.showToast({
