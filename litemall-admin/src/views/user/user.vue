@@ -14,8 +14,12 @@
     <el-table v-loading="listLoading" :data="list" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
       <el-table-column align="center" width="100px" label="用户ID" prop="id" sortable/>
 
-      <el-table-column align="center" label="用户名" prop="username"/>
-
+      <el-table-column align="center" label="用户名" prop="nickname"/>
+      <el-table-column align="center" label="性别" prop="gender">
+        <template slot-scope="scope">
+          <img :src="scope.row.avatar" >
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="手机号码" prop="mobile"/>
 
       <el-table-column align="center" label="性别" prop="gender">
@@ -23,8 +27,6 @@
           <el-tag >{{ genderDic[scope.row.gender] }}</el-tag>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="生日" prop="birthday"/>
 
       <el-table-column align="center" label="用户等级" prop="userLevel">
         <template slot-scope="scope">
@@ -51,30 +53,31 @@
     <!-- 添加或修改对话框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="dataForm.username"/>
+        <el-form-item label="用户名" prop="nickname">
+          <el-input :readonly="isReadOnly" v-model="dataForm.nickname"/>
         </el-form-item>
         <el-form-item label="手机号码" prop="mobile">
-          <el-input v-model="dataForm.mobile"/>
+          <el-input :readonly="isReadOnly" v-model="dataForm.mobile"/>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="dataForm.password" type="password" auto-complete="off"/>
+          <el-input v-model="dataForm.password" :readonly="isReadOnly" type="password" auto-complete="off"/>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
-          <el-select v-model="dataForm.gender">
+          <el-select v-model="dataForm.gender" :disabled="isReadOnly" >
             <el-option :value="0" label="未知"/>
             <el-option :value="1" label="男"/>
             <el-option :value="2" label="女"/>
           </el-select>
         </el-form-item>
         <el-form-item label="生日" prop="birthday">
-          <el-date-picker v-model="dataForm.birthday" type="date" value-format="yyyy-MM-dd"/>
+          <el-date-picker :readonly="isReadOnly" v-model="dataForm.birthday" type="date" value-format="yyyy-MM-dd"/>
         </el-form-item>
-        <el-form-item label="用户等级" prop="userLevel">
-          <el-select v-model="dataForm.userLevel">
+        <el-form-item label="用户等级" prop="agencyLevel">
+          <el-select v-model="dataForm.agencyLevel">
             <el-option :value="0" label="普通用户"/>
-            <el-option :value="1" label="VIP用户"/>
-            <el-option :value="2" label="高级VIP用户"/>
+            <el-option :value="1" label="VIP"/>
+            <el-option :value="2" label="市代"/>
+            <el-option :value="3" label="省代"/>
           </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="status">
@@ -107,6 +110,7 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
+      isReadOnly: false,
       listQuery: {
         page: 1,
         limit: 20,
@@ -117,11 +121,11 @@ export default {
       },
       dataForm: {
         id: undefined,
-        username: '',
+        nickname: '',
         mobile: '',
         password: undefined,
         gender: 0,
-        userLevel: 0,
+        agencyLevel: 0,
         birthday: undefined,
         status: 0
       },
@@ -132,13 +136,13 @@ export default {
         create: '创建'
       },
       rules: {
-        username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+        nickname: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
         mobile: [{ required: true, message: '手机号码不能为空', trigger: 'blur' }],
         password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       },
       downloadLoading: false,
       genderDic: ['未知', '男', '女'],
-      levelDic: ['普通用户', 'VIP用户', '高级VIP用户'],
+      levelDic: ['普通用户', 'VIP', '市代', '省代'],
       statusDic: ['可用', '禁用', '注销']
     }
   },
@@ -152,6 +156,7 @@ export default {
         this.list = response.data.data.items
         this.total = response.data.data.total
         this.listLoading = false
+        console.log(this.list)
       }).catch(() => {
         this.list = []
         this.total = 0
@@ -165,7 +170,7 @@ export default {
     resetForm() {
       this.dataForm = {
         id: undefined,
-        username: '',
+        nickname: '',
         mobile: '',
         pass: undefined,
         checkPass: undefined,
@@ -178,6 +183,7 @@ export default {
     handleCreate() {
       this.resetForm()
       this.dialogStatus = 'create'
+      this.isReadOnly = false
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -205,6 +211,7 @@ export default {
     handleUpdate(row) {
       this.dataForm = Object.assign({}, row)
       this.dialogStatus = 'update'
+      this.isReadOnly = true
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
