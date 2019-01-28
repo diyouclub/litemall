@@ -34,6 +34,8 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="上级用户" prop="parentUser.nickname"/>
+
       <el-table-column align="center" label="状态" prop="status">
         <template slot-scope="scope">
           <el-tag>{{ statusDic[scope.row.status] }}</el-tag>
@@ -142,7 +144,7 @@ export default {
       },
       downloadLoading: false,
       genderDic: ['未知', '男', '女'],
-      levelDic: ['普通用户', 'VIP', '市代', '省代'],
+      levelDic: ['普通用户', '会员', '市代', '省代'],
       statusDic: ['可用', '禁用', '注销']
     }
   },
