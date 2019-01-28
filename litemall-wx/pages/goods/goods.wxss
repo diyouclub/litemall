@@ -793,7 +793,8 @@
 }
 
 .number-item .selnum {
-  width: 322rpx;
+  /* width: 322rpx; */
+  width: 60px;
   height: 71rpx;
   border: 1px solid #ccc;
   display: flex;

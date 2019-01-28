@@ -11,6 +11,11 @@
         <text class="vip-discript" wx:if="{{agency_level===2}}">市代</text> 
         <text class="vip-discript" wx:if="{{agency_level===3}}">省代</text>  
       </view>
+      <!-- <view class='up-user'>
+        <text class='up-t' >上级用户</text>
+        <text class='up-n'>{{upUser.name}}</text>
+        <text class='up-m'>{{upUser.mobile}}</text>
+      </view> -->
     </view>
   </view>
 
@@ -101,6 +106,16 @@
     <view class='user_column_item' bindtap='goBind'>
         <image class='user_column_item_image' src='/static/images/bind.png'></image>
         <view class='user_column_item_text'>绑定后台</view>
+    </view>
+        <view class='user_column_item' bindtap='connactKf' >
+        <image class='user_column_item_image' src='/static/images/lianxi.png'></image>
+        <picker bindchange="bindPickerChange" value="{{index}}" range="{{[1,2,3]}}">
+          <view class='user_column_item_text'>联系客服</view>
+        </picker>
+    </view>
+        <view class='user_column_item'  bindtap='connactSd'>
+        <image class='user_column_item_image' src='/static/images/lianxidianyuan.png'></image>
+        <view class='user_column_item_text'>联系省代</view>
     </view>
   
      <!-- <view class='user_column_item' bindtap='goFeedback'>
