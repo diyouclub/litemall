@@ -51,7 +51,7 @@ public class LitemallUserService {
         LitemallUserExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(username)) {
-            criteria.andUsernameLike("%" + username + "%");
+            criteria.andNicknameLike("%" + username + "%");
         }
         if (!StringUtils.isEmpty(mobile)) {
             criteria.andMobileEqualTo(mobile);
@@ -71,7 +71,7 @@ public class LitemallUserService {
         LitemallUserExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(username)) {
-            criteria.andUsernameLike("%" + username + "%");
+            criteria.andNicknameLike("%" + username + "%");
         }
         if (!StringUtils.isEmpty(mobile)) {
             criteria.andMobileEqualTo(mobile);
