@@ -182,6 +182,17 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <!--银行卡认证相关表-->
+        <table tableName="litemall_bank">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="litemall_bankcard">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="litemall_bankcard_auth_call">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
 
 
 
