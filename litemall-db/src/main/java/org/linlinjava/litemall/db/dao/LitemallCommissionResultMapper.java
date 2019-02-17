@@ -156,6 +156,4 @@ public interface LitemallCommissionResultMapper {
      * @project https://github.com/itfsw/mybatis-generator-plugin
      */
     int logicalDeleteByPrimaryKey(Integer id);
-
-    List<LitemallCommissionResult> getCommissionList(Integer user_id);
 }

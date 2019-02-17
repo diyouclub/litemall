@@ -701,16 +701,4 @@ public class LitemallCommissionResult {
             }
         }
     }
-
-    private LitemallOrder litemallOrder ;
-
-
-    public LitemallOrder getLitemallOrder() {
-        return litemallOrder;
-    }
-
-    public void setLitemallOrder(LitemallOrder litemallOrder) {
-        this.litemallOrder = litemallOrder;
-    }
-
 }

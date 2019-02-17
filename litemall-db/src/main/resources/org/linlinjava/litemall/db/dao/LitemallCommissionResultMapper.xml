@@ -530,16 +530,16 @@
     </select>
 
   <resultMap id="commissionMap" type="org.linlinjava.litemall.db.domain.LitemallCommissionResult">
-    <id property="id" column="id"/>
-    <result property="userName" column="user_name"/>
-    <result property="fee" column="fee"/>
-    <result property="addTime" column="add_time"/>
+    <id column="id" property="id" />
+    <result column="user_name" property="userName" />
+    <result column="fee" property="fee" />
+    <result column="add_time" property="addTime" />
 
     <!-- 指定某些实体类属性对应的类型 -->
-    <association property="litemallOrder" javaType="org.linlinjava.litemall.db.domain.LitemallOrder">
-      <association property="litemallUser" javaType="org.linlinjava.litemall.db.domain.LitemallUser">
-        <result property="nickname" column="nickname"/>
-        <result property="mobile" column="mobile"/>
+    <association javaType="org.linlinjava.litemall.db.domain.LitemallOrder" property="litemallOrder">
+      <association javaType="org.linlinjava.litemall.db.domain.LitemallUser" property="litemallUser">
+        <result column="nickname" property="nickname" />
+        <result column="mobile" property="mobile" />
       </association>
     </association>
   </resultMap>

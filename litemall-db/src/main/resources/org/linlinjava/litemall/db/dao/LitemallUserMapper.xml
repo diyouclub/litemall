@@ -25,14 +25,7 @@
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
-    <association property="parentUser"
-                 javaType="org.linlinjava.litemall.db.domain.LitemallUser"
-                 select="selectById"
-                 column="pid" />
   </resultMap>
-  <select id="selectById" resultMap="BaseResultMap">
-		select * from litemall_user where id = #{xxx}
-	</select>
   <sql id="Example_Where_Clause">
     <!--
       WARNING - @mbg.generated
@@ -638,5 +631,8 @@
     update litemall_user set deleted = 1
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectById" resultMap="BaseResultMap">
+		select * from litemall_user where id = #{xxx}
+	</select>
 
 </mapper>
