@@ -289,7 +289,6 @@ public class LitemallBankcardAuthCallWithBLOBs extends LitemallBankcardAuthCall 
             && (this.getResponseLength() == null ? other.getResponseLength() == null : this.getResponseLength().equals(other.getResponseLength()))
             && (this.getResponseStatus() == null ? other.getResponseStatus() == null : this.getResponseStatus().equals(other.getResponseStatus()))
             && (this.getResponseType() == null ? other.getResponseType() == null : this.getResponseType().equals(other.getResponseType()))
-            && (this.getSerialization() == null ? other.getSerialization() == null : this.getSerialization().equals(other.getSerialization()))
             && (this.getAddTime() == null ? other.getAddTime() == null : this.getAddTime().equals(other.getAddTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleted() == null ? other.getDeleted() == null : this.getDeleted().equals(other.getDeleted()))
@@ -325,7 +324,6 @@ public class LitemallBankcardAuthCallWithBLOBs extends LitemallBankcardAuthCall 
         result = prime * result + ((getResponseLength() == null) ? 0 : getResponseLength().hashCode());
         result = prime * result + ((getResponseStatus() == null) ? 0 : getResponseStatus().hashCode());
         result = prime * result + ((getResponseType() == null) ? 0 : getResponseType().hashCode());
-        result = prime * result + ((getSerialization() == null) ? 0 : getSerialization().hashCode());
         result = prime * result + ((getAddTime() == null) ? 0 : getAddTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleted() == null) ? 0 : getDeleted().hashCode());
@@ -360,7 +358,6 @@ public class LitemallBankcardAuthCallWithBLOBs extends LitemallBankcardAuthCall 
         responseLength("response_length", "responseLength", "BIGINT", false),
         responseStatus("response_status", "responseStatus", "INTEGER", false),
         responseType("response_type", "responseType", "VARCHAR", false),
-        serialization("serialization", "serialization", "VARCHAR", false),
         addTime("add_time", "addTime", "TIMESTAMP", false),
         updateTime("update_time", "updateTime", "TIMESTAMP", false),
         deleted("deleted", "deleted", "BIT", false),

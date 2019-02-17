@@ -19,7 +19,6 @@
     <result column="response_length" jdbcType="BIGINT" property="responseLength" />
     <result column="response_status" jdbcType="INTEGER" property="responseStatus" />
     <result column="response_type" jdbcType="VARCHAR" property="responseType" />
-    <result column="serialization" jdbcType="VARCHAR" property="serialization" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -110,7 +109,7 @@
     -->
     id, ip, memo, `operator`, request_charset, request_date, request_method, request_url, 
     response_charset, response_date, response_length, response_status, response_type, 
-    serialization, add_time, update_time, deleted
+    add_time, update_time, deleted
   </sql>
   <sql id="Blob_Column_List">
     <!--
@@ -169,7 +168,7 @@
       distinct
     </if>
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -177,7 +176,7 @@
       <otherwise>
         id, ip, memo, `operator`, request_charset, request_date, request_method, request_url, 
           response_charset, response_date, response_length, response_status, response_type, 
-          serialization, add_time, update_time, deleted, `exception`, request_header, request_parameter, 
+          add_time, update_time, deleted, `exception`, request_header, request_parameter, 
           response_content, response_cookie, response_header, decrypt_response_content
       </otherwise>
     </choose>
@@ -235,7 +234,7 @@
     -->
     select
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -243,7 +242,7 @@
       <otherwise>
         id, ip, memo, `operator`, request_charset, request_date, request_method, request_url, 
           response_charset, response_date, response_length, response_status, response_type, 
-          serialization, add_time, update_time, deleted, `exception`, request_header, request_parameter, 
+          add_time, update_time, deleted, `exception`, request_header, request_parameter, 
           response_content, response_cookie, response_header, decrypt_response_content
       </otherwise>
     </choose>
@@ -280,20 +279,20 @@
       request_charset, request_date, request_method, 
       request_url, response_charset, response_date, 
       response_length, response_status, response_type, 
-      serialization, add_time, update_time, 
-      deleted, `exception`, request_header, 
-      request_parameter, response_content, 
-      response_cookie, response_header, 
-      decrypt_response_content)
+      add_time, update_time, deleted, 
+      `exception`, request_header, request_parameter, 
+      response_content, response_cookie, 
+      response_header, decrypt_response_content
+      )
     values (#{ip,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
       #{requestCharset,jdbcType=VARCHAR}, #{requestDate,jdbcType=TIMESTAMP}, #{requestMethod,jdbcType=VARCHAR}, 
       #{requestUrl,jdbcType=VARCHAR}, #{responseCharset,jdbcType=VARCHAR}, #{responseDate,jdbcType=TIMESTAMP}, 
       #{responseLength,jdbcType=BIGINT}, #{responseStatus,jdbcType=INTEGER}, #{responseType,jdbcType=VARCHAR}, 
-      #{serialization,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleted,jdbcType=BIT}, #{exception,jdbcType=LONGVARCHAR}, #{requestHeader,jdbcType=LONGVARCHAR}, 
-      #{requestParameter,jdbcType=LONGVARCHAR}, #{responseContent,jdbcType=LONGVARCHAR}, 
-      #{responseCookie,jdbcType=LONGVARCHAR}, #{responseHeader,jdbcType=LONGVARCHAR}, 
-      #{decryptResponseContent,jdbcType=LONGVARCHAR})
+      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
+      #{exception,jdbcType=LONGVARCHAR}, #{requestHeader,jdbcType=LONGVARCHAR}, #{requestParameter,jdbcType=LONGVARCHAR}, 
+      #{responseContent,jdbcType=LONGVARCHAR}, #{responseCookie,jdbcType=LONGVARCHAR}, 
+      #{responseHeader,jdbcType=LONGVARCHAR}, #{decryptResponseContent,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallBankcardAuthCallWithBLOBs">
     <!--
@@ -340,9 +339,6 @@
       </if>
       <if test="responseType != null">
         response_type,
-      </if>
-      <if test="serialization != null">
-        serialization,
       </if>
       <if test="addTime != null">
         add_time,
@@ -411,9 +407,6 @@
       </if>
       <if test="responseType != null">
         #{responseType,jdbcType=VARCHAR},
-      </if>
-      <if test="serialization != null">
-        #{serialization,jdbcType=VARCHAR},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -503,9 +496,6 @@
       <if test="record.responseType != null">
         response_type = #{record.responseType,jdbcType=VARCHAR},
       </if>
-      <if test="record.serialization != null">
-        serialization = #{record.serialization,jdbcType=VARCHAR},
-      </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
       </if>
@@ -560,7 +550,6 @@
       response_length = #{record.responseLength,jdbcType=BIGINT},
       response_status = #{record.responseStatus,jdbcType=INTEGER},
       response_type = #{record.responseType,jdbcType=VARCHAR},
-      serialization = #{record.serialization,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT},
@@ -594,7 +583,6 @@
       response_length = #{record.responseLength,jdbcType=BIGINT},
       response_status = #{record.responseStatus,jdbcType=INTEGER},
       response_type = #{record.responseType,jdbcType=VARCHAR},
-      serialization = #{record.serialization,jdbcType=VARCHAR},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=BIT}
@@ -644,9 +632,6 @@
       </if>
       <if test="responseType != null">
         response_type = #{responseType,jdbcType=VARCHAR},
-      </if>
-      <if test="serialization != null">
-        serialization = #{serialization,jdbcType=VARCHAR},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
@@ -699,7 +684,6 @@
       response_length = #{responseLength,jdbcType=BIGINT},
       response_status = #{responseStatus,jdbcType=INTEGER},
       response_type = #{responseType,jdbcType=VARCHAR},
-      serialization = #{serialization,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
@@ -730,7 +714,6 @@
       response_length = #{responseLength,jdbcType=BIGINT},
       response_status = #{responseStatus,jdbcType=INTEGER},
       response_type = #{responseType,jdbcType=VARCHAR},
-      serialization = #{serialization,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
@@ -780,7 +763,7 @@
     -->
     select
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -788,7 +771,7 @@
       <otherwise>
         id, ip, memo, `operator`, request_charset, request_date, request_method, request_url, 
           response_charset, response_date, response_length, response_status, response_type, 
-          serialization, add_time, update_time, deleted, `exception`, request_header, request_parameter, 
+          add_time, update_time, deleted, `exception`, request_header, request_parameter, 
           response_content, response_cookie, response_header, decrypt_response_content
       </otherwise>
     </choose>

@@ -291,7 +291,7 @@ public class AdminGoodsController {
             return ResponseUtil.fail(GOODS_NAME_EXIST, "商品名已经存在");
         }
 
-        // 开启事务管理
+        // 开启事务管理 //fujue
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = txManager.getTransaction(def);
