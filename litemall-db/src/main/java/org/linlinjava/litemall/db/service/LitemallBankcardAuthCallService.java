@@ -1,7 +1,6 @@
 package org.linlinjava.litemall.db.service;
 
 import org.linlinjava.litemall.db.dao.LitemallBankcardAuthCallMapper;
-import org.linlinjava.litemall.db.domain.LitemallBankcardAuthCall;
 import org.linlinjava.litemall.db.domain.LitemallBankcardAuthCallWithBLOBs;
 import org.springframework.stereotype.Service;
 

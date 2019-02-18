@@ -8,15 +8,15 @@ import org.apache.http.Consts;
 import org.linlinjava.litemall.core.backcardAuth.BankcardAuthService;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.util.thirdParty.JDYXUtil;
+import org.linlinjava.litemall.db.domain.LitemallBankcard;
 import org.linlinjava.litemall.db.domain.LitemallBankcardAuthCallWithBLOBs;
 import org.linlinjava.litemall.db.service.LitemallBankcardAuthCallService;
+import org.linlinjava.litemall.db.service.LitemallBankcardService;
+import org.linlinjava.litemall.wx.annotation.LoginUser;
 import org.linlinjava.litemall.wx.util.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -37,14 +37,23 @@ public class WxBankcardAuthController {
     @Autowired
     private BankcardAuthService bankcardAuthService;
     @Autowired
+    private LitemallBankcardService litemallBankcardService;
+    @Autowired
     private LitemallBankcardAuthCallService litemallBankcardAuthCallService;
 
-    @GetMapping("validate")
-    public Object list(@RequestParam String name,
-                       @RequestParam String idCardNo,
-                       @RequestParam String mobile,
-                       @RequestParam String bankCardNo,
+    @GetMapping("bind")
+    public Object list(@LoginUser Integer userId,
+                       @RequestBody LitemallBankcard bankcard ,
                        HttpServletRequest request) {
+
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+
+        String name =  bankcard.getUserName();
+        String idCardNo =  bankcard.getNumber();
+        String mobile =  bankcard.getMobile();
+        String bankCardNo =  bankcard.getNumber();
         Map<String, String> postRespMap = null;
 
         if (StringUtils.isEmpty(name) || StringUtils.isEmpty(idCardNo) || StringUtils.isEmpty(mobile) || StringUtils.isEmpty(bankCardNo)) {
@@ -89,6 +98,7 @@ public class WxBankcardAuthController {
         litemallBankcardAuthCallService.add(call);
 
         // 保存绑定关系
+        litemallBankcardService.add(bankcard);
         return ResponseUtil.ok("绑定成功");
     }
 
