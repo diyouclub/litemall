@@ -67,3 +67,7 @@ COMMENT = '友情链接';
 ALTER TABLE `litemall`.`litemall_friendship_link`
 ADD COLUMN `friend_type` VARCHAR(3) NULL COMMENT '1、合作伙伴2、友情链接' AFTER `pic_url`;
 
+
+ALTER TABLE `litemall`.`litemall_friendship_link`
+ADD COLUMN `sort_order` INT(11) NULL COMMENT '排序' AFTER `friend_type`;
+
