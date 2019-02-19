@@ -42,10 +42,14 @@
         </commentGenerator>
 
         <!--数据库连接信息-->
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+                        <!--connectionURL="jdbc:mysql://39.108.123.243:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"-->
+                        <!--userId="litemall"-->
+                        <!--password="yJha9SJx4ehMMpgM"/>  -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://39.108.123.243:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"
-                        userId="litemall"
-                        password="yJha9SJx4ehMMpgM"/>
+                        connectionURL="jdbc:mysql://192.168.2.13:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"
+                        userId="wxcy"
+                        password="wxcy"/>
 
         <javaTypeResolver>
             <property name="useJSR310Types" value="true"/>
@@ -141,6 +145,11 @@
             <columnOverride column="goods" javaType="java.lang.Integer[]"
                             typeHandler="org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
+        <table tableName="litemall_news">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="goods" javaType="java.lang.Integer[]"
+                            typeHandler="org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler"/>
+        </table>
         <table tableName="litemall_user">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
@@ -190,6 +199,14 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="litemall_bankcard_auth_call">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <!--码表树-->
+        <table tableName="litemall_code_tree">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <!--友情链接 合作伙伴-->
+        <table tableName="litemall_friendship_link">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
