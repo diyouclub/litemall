@@ -42,14 +42,14 @@
         </commentGenerator>
 
         <!--数据库连接信息-->
-        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
-                        <!--connectionURL="jdbc:mysql://39.108.123.243:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"-->
-                        <!--userId="litemall"-->
-                        <!--password="yJha9SJx4ehMMpgM"/>  -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.2.13:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"
-                        userId="wxcy"
-                        password="wxcy"/>
+        connectionURL="jdbc:mysql://39.108.123.243:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"
+        userId="litemall"
+        password="yJha9SJx4ehMMpgM"/>
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+                        <!--connectionURL="jdbc:mysql://192.168.2.13:3306/litemall?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"-->
+                        <!--userId="wxcy"-->
+                        <!--password="wxcy"/>-->
 
         <javaTypeResolver>
             <property name="useJSR310Types" value="true"/>
@@ -179,7 +179,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <!--<table tableName="litemall_commission_result">-->
-            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
         <!--</table>-->
         <table tableName="litemall_account">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -210,7 +210,13 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
-
+        <!--顺丰快递相关表-->
+        <table tableName="litemall_express_order">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="litemall_express_order_cargo">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
 
     </context>
