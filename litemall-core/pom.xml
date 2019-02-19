@@ -91,6 +91,19 @@
             <version>2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.sf</groupId>
+            <artifactId>csim</artifactId>
+            <version>1.6</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/SF-CSIM-EXPRESS-SDK-V1.6.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+
     </dependencies>
 
 </project>

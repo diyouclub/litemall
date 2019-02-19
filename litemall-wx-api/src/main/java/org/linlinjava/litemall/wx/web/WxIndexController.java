@@ -2,6 +2,7 @@ package org.linlinjava.litemall.wx.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.core.express.SfExpressService;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.db.domain.LitemallAccount;
 import org.linlinjava.litemall.db.domain.LitemallAccountDetail;
@@ -37,6 +38,9 @@ public class WxIndexController {
     private LitemallAccountDetailService litemallAccountDetailService;
     @Autowired
     private LitemallOrderService orderService;
+
+    @Autowired
+    SfExpressService sfExpressService;
     /**
      * 测试数据
      *
@@ -75,6 +79,19 @@ public class WxIndexController {
         // pyramidService.calcSell(new BigDecimal("168.00"),14);
        // pyramidService.calcAgency((byte) 2,new BigDecimal("300"),64);
         //pyramidService.calcAgency((byte) 3,new BigDecimal("6800"),28);
+
+        try {
+            String respXml  = sfExpressService.execOrderSearch( "800669400640887922");
+           // String respXml  = "<?xml version='1.0' encoding='UTF-8'?><Response service=\"OrderSearchService\"><Head>ERR</Head><ERROR code=\"6150\">找不到该订单</ERROR></Response>";
+
+            if (respXml != null) {
+                System.out.println("--------------------------------------");
+                System.out.println("返回报文: "+ respXml);
+                System.out.println("--------------------------------------");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ResponseUtil.ok("hello world, this is wx service");
     }
 
