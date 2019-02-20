@@ -2,12 +2,15 @@ package org.linlinjava.litemall.core.express;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.sf.csim.express.test.TestCallExpressService;
 import org.linlinjava.litemall.core.express.config.SfExpressProperties;
-import org.linlinjava.litemall.core.express.dao.ExpressInfo;
-import com.sf.csim.express.service.CallExpressServiceTools;
-import org.linlinjava.litemall.core.express.dao.SfExpressOrderSearch;
+import org.linlinjava.litemall.core.express.dao.SfExpressOrderSearchInfo;
+import org.linlinjava.litemall.core.express.dao.SfExpressOrderServiceInfo;
 import org.linlinjava.litemall.core.express.dao.SfExpressResponse;
+import org.linlinjava.litemall.db.domain.LitemallExpressOrder;
+import org.linlinjava.litemall.db.domain.LitemallExpressOrderCargo;
+import org.linlinjava.litemall.db.service.LitemallExpressOrderCargoService;
+import org.linlinjava.litemall.db.service.LitemallExpressOrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,6 +20,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SfExpressService {
+    @Autowired
+    LitemallExpressOrderService expressOrderService;
+    @Autowired
+    LitemallExpressOrderCargoService expressOrderCargoService;
     //请求url
     private String ReqURL = "http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
 
@@ -32,6 +39,7 @@ public class SfExpressService {
     public void setProperties(SfExpressProperties properties) {
         this.properties = properties;
     }
+
 
 
     /**
@@ -59,9 +67,9 @@ public class SfExpressService {
             ObjectMapper omBody = new XmlMapper();
             if (ExecSuccess.equals(sfExpressResponse.getHead())) {
                 //执行成功
-                SfExpressOrderSearch sfExpressOrderSearch = omBody.readValue(sfExpressResponse.getBody(),SfExpressOrderSearch.class);
+                SfExpressOrderSearchInfo orderSearchInfo = omBody.readValue(sfExpressResponse.getBody(), SfExpressOrderSearchInfo.class);
 
-                return sfExpressOrderSearch.getOrderid();
+                return orderSearchInfo.getOrderid();
             }else  {
                 //执行出现错误
                 return sfExpressResponse.getERROR();
@@ -98,9 +106,9 @@ public class SfExpressService {
             ObjectMapper omBody = new XmlMapper();
             if (ExecSuccess.equals(sfExpressResponse.getHead())) {
                 //执行成功
-                SfExpressOrderSearch sfExpressOrderSearch = omBody.readValue(sfExpressResponse.getBody(),SfExpressOrderSearch.class);
+                SfExpressOrderServiceInfo orderServiceInfo = omBody.readValue(sfExpressResponse.getBody(), SfExpressOrderServiceInfo.class);
 
-                return sfExpressOrderSearch.getOrderid();
+                return orderServiceInfo.getOrderid();
             }else  {
                 //执行出现错误
                 return sfExpressResponse.getERROR();
@@ -125,12 +133,47 @@ public class SfExpressService {
 
                 break;
             case "OrderServer":
-                requestXml.append("<Order");
+                requestXml.append("<Order ");
+                LitemallExpressOrder litemallExpressOrder = expressOrderService.findByOrderId(orderid);
+                requestXml.append(" orderid=").append(litemallExpressOrder.getOrderid());
+                requestXml.append(" j_company=").append(litemallExpressOrder.getjCompany());
+                requestXml.append(" j_contact=").append(litemallExpressOrder.getjContact());
+                requestXml.append(" j_tel=").append(litemallExpressOrder.getjTel());
+                requestXml.append(" j_mobile=").append(litemallExpressOrder.getjMobile());
+                requestXml.append(" j_province=").append(litemallExpressOrder.getjProvince());
+                requestXml.append(" j_city=").append(litemallExpressOrder.getjCity());
+                requestXml.append(" j_county=").append(litemallExpressOrder.getjCounty());
+                requestXml.append(" j_address=").append(litemallExpressOrder.getjAddress());
+                requestXml.append(" d_contact=").append(litemallExpressOrder.getdContact());
+                requestXml.append(" d_mobile=").append(litemallExpressOrder.getdMobile());
+                requestXml.append(" d_province=").append(litemallExpressOrder.getdProvince());
+                requestXml.append(" d_city=").append(litemallExpressOrder.getdCity());
+                requestXml.append(" d_county=").append(litemallExpressOrder.getdCounty());
+                requestXml.append(" d_address=").append(litemallExpressOrder.getdAddress());
+                requestXml.append(" express_type=").append(litemallExpressOrder.getExpressType());
+                requestXml.append(" pay_method=").append(litemallExpressOrder.getPayMethod());
+                requestXml.append(" custid=").append(litemallExpressOrder.getCustid());
+                requestXml.append(" parcel_quantity=").append(litemallExpressOrder.getParcelQuantity());
+                requestXml.append(" is_docall=").append(litemallExpressOrder.getIsDocall());
+                requestXml.append(" sendstarttime=").append(litemallExpressOrder.getSendstarttime());
+                requestXml.append(" order_source=").append(litemallExpressOrder.getOrderSource());
+                requestXml.append(" remark=").append(litemallExpressOrder.getRemark());
+                requestXml.append(">");
 
+                //cargo begin
+                LitemallExpressOrderCargo expressOrderCargo = expressOrderCargoService.findByExpressOrderId(litemallExpressOrder.getId());
 
-
+                requestXml.append("<Cargo ");
+                requestXml.append(" name=").append(expressOrderCargo.getName());
+                requestXml.append(" count=").append(expressOrderCargo.getCount());
+                requestXml.append(" unit=").append(expressOrderCargo.getUnit());
+                requestXml.append(" weight=").append(expressOrderCargo.getWeight());
+                requestXml.append(" amount=").append(expressOrderCargo.getAmount());
+                requestXml.append(" currency=").append(expressOrderCargo.getCurrency());
+                requestXml.append(" source_area=").append(expressOrderCargo.getSourceArea());
 
                 requestXml.append("/>");
+                requestXml.append("/Order>");
                 break;
 
         }

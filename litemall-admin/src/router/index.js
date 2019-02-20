@@ -283,6 +283,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/sys/os'),
         name: 'os',
         meta: { title: '对象存储', noCache: true }
+      },
+      {
+        path: 'friendLink',
+        component: () => import('@/views/sys/friendLink'),
+        name: 'friendLink',
+        meta: { title: '友情链接', noCache: true }
       }
     ]
   },

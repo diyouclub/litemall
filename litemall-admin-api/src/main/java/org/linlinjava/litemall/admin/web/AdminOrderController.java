@@ -7,6 +7,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.admin.annotation.LoginAdmin;
+import org.linlinjava.litemall.core.express.SfExpressService;
 import org.linlinjava.litemall.core.notify.NotifyService;
 import org.linlinjava.litemall.core.notify.NotifyType;
 import org.linlinjava.litemall.core.util.CharUtil;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,10 @@ public class AdminOrderController {
     private WxPayService wxPayService;
     @Autowired
     private NotifyService notifyService;
+    @Autowired
+    private LitemallExpressOrderService expressOrderService;
+    @Autowired
+    private SfExpressService expressService;
 
     @GetMapping("/list")
     public Object list(@LoginAdmin Integer adminId,
@@ -252,6 +258,99 @@ public class AdminOrderController {
 
         return ResponseUtil.ok();
     }
+
+    /**
+     * 顺丰发货
+     * 1. 检测当前订单是否能够发货
+     * 2. 生成顺丰快递单，并调用顺丰api发起下订单。
+     * 3. 更改订单状态为 发货中。
+     *
+     * @param adminId 管理员ID
+     * @param body    订单信息，{ orderId：xxx, shipSn: xxx, shipChannel: xxx }
+     * @return 订单操作结果
+     * 成功则 { errno: 0, errmsg: '成功' }
+     * 失败则 { errno: XXX, errmsg: XXX }
+     */
+    @PostMapping("express")
+    public Object express(@LoginAdmin Integer adminId, @RequestBody String body) {
+        if (adminId == null) {
+            return ResponseUtil.unlogin();
+        }
+        Integer orderId = JacksonUtil.parseInteger(body, "orderId");
+//        String shipSn = JacksonUtil.parseString(body, "shipSn");
+//        String shipChannel = JacksonUtil.parseString(body, "shipChannel");
+        if (orderId == null ) {
+            return ResponseUtil.badArgument();
+        }
+
+        LitemallOrder order = orderService.findById(orderId);
+        if (order == null) {
+            return ResponseUtil.badArgument();
+        }
+
+        // 如果订单不是已付款状态，则不能发货
+        if (!order.getOrderStatus().equals(OrderUtil.STATUS_PAY)) {
+            return ResponseUtil.fail(ORDER_CONFIRM_NOT_ALLOWED, "订单不能确认收货");
+        }
+
+//        order.setOrderStatus(OrderUtil.STATUS_SHIP);
+//        order.setShipSn(shipSn);
+//        order.setShipChannel(shipChannel);
+//        order.setShipTime(LocalDateTime.now());
+//        if (orderService.updateWithOptimisticLocker(order) == 0) {
+//            return ResponseUtil.updatedDateExpired();
+//        }
+        //add by fujue 20190220
+        //发货生成顺丰订单 并调用顺丰接口
+        LitemallExpressOrder expressOrder = new LitemallExpressOrder();
+        expressOrder.setOrderid(order.getOrderSn()); // 注意
+
+        //寄件方信息
+        //expressOrder.setjProvince(or);
+        //expressOrderService.add
+
+        //收件方信息
+        expressOrder.setdContact(order.getConsignee());
+        expressOrder.setdMobile(order.getMobile());
+//        expressOrder.setdProvince();
+//        expressOrder.setdCity();
+//        expressOrder.setdCounty();
+        expressOrder.setdAddress(order.getAddress());
+
+        //默认1 快件产品编码
+        expressOrder.setExpressType("1");
+        //默认1 编码付款方式：1:寄方付 ;2:收方付 ;3:第三方付
+        expressOrder.setPayMethod(1);
+        expressOrder.setCustid(expressService.getProperties().getCustid());
+        //包裹数，一个包裹对应一个运单号，如果是大于1个包裹，则返回则按照子母件的方式返回母运单号和子运单号。
+        expressOrder.setParcelQuantity(1);
+        //是否要求通过手持终端通知顺丰收派员收件：1：要求; 其它为不要求
+        expressOrder.setIsDocall(1);
+        //要求上门取件开始时间，格式：YYYY-MM-DD HH24:MM:SS，示例：2012-7-30 09:30:00
+        //expressOrder.setSendstarttime();
+        expressOrder.setOrderSource("wxmall");
+        expressOrder.setRemark("");
+
+        //订单货物
+        List<LitemallOrderGoods> orderGoods = orderGoodsService.queryByOid(orderId);
+        for (LitemallOrderGoods goods : orderGoods) {
+            LitemallExpressOrderCargo cargo = new LitemallExpressOrderCargo();
+            cargo.setName(goods.getGoodsName());
+            cargo.setCount(1);
+        }
+
+
+
+
+
+        //TODO 发送邮件和短信通知，这里采用异步发送
+        // 发货会发送通知短信给用户:          *
+        // "您的订单已经发货，快递公司 {1}，快递单 {2} ，请注意查收"
+        //notifyService.notifySmsTemplate(order.getMobile(), NotifyType.SHIP, new String[]{shipChannel, shipSn});
+
+        return ResponseUtil.ok();
+    }
+
 
 
     /**

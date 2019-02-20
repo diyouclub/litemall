@@ -87,10 +87,10 @@ litemall:
   #顺丰-丰桥API接口
   sfexpress:
     enable: false
-    clientCode: "SPYKJ"
-    checkWord: "2aquhvzkddTu6JwQXEo7WReCrZRxpmqk"
-    custid: "7551234567"
-    reqUrl: "http://bsp-oisp.sf-express.com/bsp-oisp/sfexpressService"
+    clientCode: SPYKJ
+    checkWord: 2aquhvzkddTu6JwQXEo7WReCrZRxpmqk
+    custid: 7551234567
+    reqUrl: http://bsp-oisp.sf-express.com/bsp-oisp/sfexpressService
 
   # 对象存储配置
   storage:
