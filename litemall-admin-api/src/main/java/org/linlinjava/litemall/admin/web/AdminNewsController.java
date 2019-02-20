@@ -29,15 +29,13 @@ public class AdminNewsController {
     private LitemallNewsService newsService;
 
     @GetMapping("/list")
-    public Object list(@LoginAdmin Integer adminId,
+    public Object list(
                        String title, String subtitle,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        if (adminId == null) {
-            return ResponseUtil.unlogin();
-        }
+
 
         List<LitemallNews> newsList = newsService.querySelective(title, subtitle, page, limit, sort, order);
         int total = newsService.countSelective(title, subtitle, page, limit, sort, order);

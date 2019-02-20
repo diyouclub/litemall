@@ -15,7 +15,7 @@ import java.util.List;
 public class LitemallNewsService {
     @Resource
     private LitemallNewsMapper newsMapper;
-    private LitemallNews.Column[] columns = new LitemallNews.Column[]{LitemallNews.Column.id, LitemallNews.Column.title, LitemallNews.Column.subtitle, LitemallNews.Column.price, LitemallNews.Column.picUrl, LitemallNews.Column.readCount};
+    private LitemallNews.Column[] columns = new LitemallNews.Column[]{LitemallNews.Column.id, LitemallNews.Column.title, LitemallNews.Column.subtitle, LitemallNews.Column.price, LitemallNews.Column.picUrl, LitemallNews.Column.readCount,LitemallNews.Column.newsType};
 
     public List<LitemallNews> queryList(int offset, int limit) {
         return queryList(offset, limit, "add_time", "desc");

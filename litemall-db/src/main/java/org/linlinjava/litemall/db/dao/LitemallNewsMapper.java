@@ -189,4 +189,6 @@ public interface LitemallNewsMapper {
      * @project https://github.com/itfsw/mybatis-generator-plugin
      */
     int logicalDeleteByPrimaryKey(Integer id);
+
+
 }

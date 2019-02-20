@@ -699,7 +699,7 @@ public class LitemallNewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeEqualTo(String value) {
+        public Criteria andNewsTypeEqualTo(Integer value) {
             addCriterion("news_type =", value, "newsType");
             return (Criteria) this;
         }
@@ -716,7 +716,7 @@ public class LitemallNewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeNotEqualTo(String value) {
+        public Criteria andNewsTypeNotEqualTo(Integer value) {
             addCriterion("news_type <>", value, "newsType");
             return (Criteria) this;
         }
@@ -733,7 +733,7 @@ public class LitemallNewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeGreaterThan(String value) {
+        public Criteria andNewsTypeGreaterThan(Integer value) {
             addCriterion("news_type >", value, "newsType");
             return (Criteria) this;
         }
@@ -750,7 +750,7 @@ public class LitemallNewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeGreaterThanOrEqualTo(String value) {
+        public Criteria andNewsTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("news_type >=", value, "newsType");
             return (Criteria) this;
         }
@@ -767,7 +767,7 @@ public class LitemallNewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeLessThan(String value) {
+        public Criteria andNewsTypeLessThan(Integer value) {
             addCriterion("news_type <", value, "newsType");
             return (Criteria) this;
         }
@@ -784,7 +784,7 @@ public class LitemallNewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeLessThanOrEqualTo(String value) {
+        public Criteria andNewsTypeLessThanOrEqualTo(Integer value) {
             addCriterion("news_type <=", value, "newsType");
             return (Criteria) this;
         }
@@ -801,32 +801,22 @@ public class LitemallNewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeLike(String value) {
-            addCriterion("news_type like", value, "newsType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNewsTypeNotLike(String value) {
-            addCriterion("news_type not like", value, "newsType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNewsTypeIn(List<String> values) {
+        public Criteria andNewsTypeIn(List<Integer> values) {
             addCriterion("news_type in", values, "newsType");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeNotIn(List<String> values) {
+        public Criteria andNewsTypeNotIn(List<Integer> values) {
             addCriterion("news_type not in", values, "newsType");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeBetween(String value1, String value2) {
+        public Criteria andNewsTypeBetween(Integer value1, Integer value2) {
             addCriterion("news_type between", value1, value2, "newsType");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeNotBetween(String value1, String value2) {
+        public Criteria andNewsTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("news_type not between", value1, value2, "newsType");
             return (Criteria) this;
         }

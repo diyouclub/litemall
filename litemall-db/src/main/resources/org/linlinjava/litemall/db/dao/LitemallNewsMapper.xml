@@ -9,7 +9,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="subtitle" jdbcType="VARCHAR" property="subtitle" />
-    <result column="news_type" jdbcType="VARCHAR" property="newsType" />
+    <result column="news_type" jdbcType="INTEGER" property="newsType" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="read_count" jdbcType="VARCHAR" property="readCount" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
@@ -19,6 +19,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
+
+
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.linlinjava.litemall.db.domain.LitemallNews">
     <!--
       WARNING - @mbg.generated
@@ -302,7 +304,7 @@
       sort_order, goods, 
       add_time, update_time, deleted, 
       content)
-    values (#{title,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR}, #{newsType,jdbcType=VARCHAR}, 
+    values (#{title,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR}, #{newsType,jdbcType=INTEGER}, 
       #{price,jdbcType=DECIMAL}, #{readCount,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER}, #{goods,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler}, 
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
@@ -363,7 +365,7 @@
         #{subtitle,jdbcType=VARCHAR},
       </if>
       <if test="newsType != null">
-        #{newsType,jdbcType=VARCHAR},
+        #{newsType,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -421,7 +423,7 @@
         subtitle = #{record.subtitle,jdbcType=VARCHAR},
       </if>
       <if test="record.newsType != null">
-        news_type = #{record.newsType,jdbcType=VARCHAR},
+        news_type = #{record.newsType,jdbcType=INTEGER},
       </if>
       <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
@@ -464,7 +466,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       subtitle = #{record.subtitle,jdbcType=VARCHAR},
-      news_type = #{record.newsType,jdbcType=VARCHAR},
+      news_type = #{record.newsType,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       read_count = #{record.readCount,jdbcType=VARCHAR},
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
@@ -487,7 +489,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       subtitle = #{record.subtitle,jdbcType=VARCHAR},
-      news_type = #{record.newsType,jdbcType=VARCHAR},
+      news_type = #{record.newsType,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       read_count = #{record.readCount,jdbcType=VARCHAR},
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
@@ -514,7 +516,7 @@
         subtitle = #{subtitle,jdbcType=VARCHAR},
       </if>
       <if test="newsType != null">
-        news_type = #{newsType,jdbcType=VARCHAR},
+        news_type = #{newsType,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -554,7 +556,7 @@
     update litemall_news
     set title = #{title,jdbcType=VARCHAR},
       subtitle = #{subtitle,jdbcType=VARCHAR},
-      news_type = #{newsType,jdbcType=VARCHAR},
+      news_type = #{newsType,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       read_count = #{readCount,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
@@ -574,7 +576,7 @@
     update litemall_news
     set title = #{title,jdbcType=VARCHAR},
       subtitle = #{subtitle,jdbcType=VARCHAR},
-      news_type = #{newsType,jdbcType=VARCHAR},
+      news_type = #{newsType,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       read_count = #{readCount,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
@@ -668,4 +670,6 @@
     update litemall_news set deleted = 1
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 </mapper>
