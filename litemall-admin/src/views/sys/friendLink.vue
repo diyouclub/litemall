@@ -3,8 +3,7 @@
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.title" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯标题"/>
-      <el-input v-model="listQuery.subtitle" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯子标题"/>
+      <el-input v-model="listQuery.link_name" clearable class="filter-item" style="width: 200px;" placeholder="请输入链接标题"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
@@ -12,29 +11,16 @@
 
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column align="center" label="资讯标题" prop="title"/>
+      <el-table-column align="center" label="链接名称" prop="linkName"/>
 
-      <el-table-column align="center" label="资讯子标题" min-width="200" prop="subtitle"/>
-      <el-table-column align="center" label="资讯子标题" prop="newsType"/>
+      <el-table-column align="center" label="链接地址" min-width="200" prop="linkUrl"/>
+      <el-table-column :formatter="formatValue" align="center" label="链接类型" prop="friendType"/>
       <el-table-column align="center" property="picUrl" label="图片">
         <template slot-scope="scope">
           <img :src="scope.row.picUrl" width="80">
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="资讯详情" prop="content">
-        <template slot-scope="scope">
-          <el-dialog :visible.sync="contentDialogVisible" title="资讯详情">
-            <div v-html="contentDetail"/>
-          </el-dialog>
-          <el-button type="primary" size="mini" @click="showContent(scope.row.content)">查看</el-button>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="底价" prop="price"/>
-
-      <el-table-column align="center" label="阅读数量" prop="readCount"/>
-
+      <el-table-column align="center" label="排序" prop="sortOrder"/>
       <el-table-column align="center" label="操作" min-width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -52,31 +38,26 @@
     <!-- 添加或修改对话框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="资讯标题" prop="title">
-          <el-input v-model="dataForm.title"/>
+        <el-form-item label="名称" prop="linkName">
+          <el-input v-model="dataForm.linkName"/>
         </el-form-item>
-        <el-form-item label="资讯子标题" prop="subtitle">
-          <el-input v-model="dataForm.subtitle"/>
+        <el-form-item label="链接地址" prop="linkUrl">
+          <el-input v-model="dataForm.linkUrl"/>
         </el-form-item>
-        <el-form-item label="资讯类型" prop="newsType">
-          <el-select v-model="dataForm.newsType">
-            <el-option v-for="(item,index) in sele" :key="index" :label="item.codeName" :value="item.id"/>
+        <el-form-item label="链接类型" prop="friendType">
+          <el-select v-model="dataForm.friendType">
+            <el-option label="合作伙伴" value="1"/>
+            <el-option label="友情链接" value="2"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="资讯图片" prop="picUrl">
+        <el-form-item label="链接图片" prop="picUrl">
           <el-upload :headers="headers" :action="uploadPath" :show-file-list="false" :on-success="uploadPicUrl" class="avatar-uploader" list-type="picture-card" accept=".jpg,.jpeg,.png,.gif">
             <img v-if="dataForm.picUrl" :src="dataForm.picUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
-        <el-form-item style="width: 700px;" label="资讯内容">
-          <editor :init="editorInit" v-model="dataForm.content"/>
-        </el-form-item>
-        <el-form-item label="商品低价" prop="price">
-          <el-input v-model="dataForm.price"/>
-        </el-form-item>
-        <el-form-item label="阅读量" prop="readCount">
-          <el-input v-model="dataForm.readCount"/>
+        <el-form-item label="排序" prop="sortOrder">
+          <el-input v-model="dataForm.sortOrder"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -119,7 +100,7 @@
 </style>
 
 <script>
-import { listNews, createNews, updateNews, deleteNews, seleNews } from '@/api/news'
+import { createLink, listLink, updateLink, deleteLink } from '@/api/friendLink'
 import { createStorage, uploadPath } from '@/api/storage'
 import BackToTop from '@/components/BackToTop'
 import Editor from '@tinymce/tinymce-vue'
@@ -132,28 +113,23 @@ export default {
   data() {
     return {
       uploadPath,
-      list: undefined,
-      sele: [],
+      list: [],
       total: 0,
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 20,
-        title: undefined,
-        subtitle: undefined,
+        link_name: undefined,
         sort: 'add_time',
         order: 'desc'
       },
       dataForm: {
         id: undefined,
-        titile: undefined,
-        subtitle: undefined,
-        picUrl: undefined,
-        content: '',
-        price: undefined,
-        readCount: undefined,
-        goods: [],
-        newsType: ''
+        linkName: '',
+        linkUrl: '',
+        picUrl: '',
+        friendType: '',
+        sortOrder: ''
       },
       contentDetail: '',
       contentDialogVisible: false,
@@ -164,17 +140,17 @@ export default {
         create: '创建'
       },
       rules: {
-        title: [
-          { required: true, message: '资讯标题不能为空', trigger: 'blur' }
+        linkName: [
+          { required: true, message: '名称不能为空', trigger: 'blur' }
         ],
-        subtitle: [
-          { required: true, message: '资讯子标题不能为空', trigger: 'blur' }
+        linkUrl: [
+          { required: true, message: '链接地址不能为空', trigger: 'blur' }
         ],
-        content: [
-          { required: true, message: '资讯内容不能为空', trigger: 'blur' }
+        sortOrder: [
+          { required: true, message: '排序不能为空', trigger: 'blur' }
         ],
-        newsType: [
-          { required: true, message: '请选择资讯类型', trigger: 'change' }
+        friendType: [
+          { required: true, message: '请选择链接类型', trigger: 'change' }
         ]
       },
       downloadLoading: false,
@@ -211,24 +187,14 @@ export default {
   },
   created() {
     this.getList()
-    this.getSele()
   },
   methods: {
-    getSele() {
-      seleNews()
-        .then(response => {
-          this.sele = response.data.data
-        })
-        .catch(() => {
-        })
-    },
     getList() {
       this.listLoading = true
-      listNews(this.listQuery)
+      listLink(this.listQuery)
         .then(response => {
           this.list = response.data.data.items
           console.log(this.list)
-
           this.total = response.data.data.total
           this.listLoading = false
         })
@@ -245,13 +211,11 @@ export default {
     resetForm() {
       this.dataForm = {
         id: undefined,
-        titile: undefined,
-        subtitle: undefined,
-        picUrl: undefined,
-        content: '',
-        price: undefined,
-        readCount: undefined,
-        goods: []
+        linkName: '',
+        linkUrl: '',
+        picUrl: '',
+        friendType: '',
+        sortOrder: ''
       }
     },
     handleCreate() {
@@ -263,20 +227,18 @@ export default {
       })
     },
     uploadPicUrl: function(response) {
-      console.log(response)
-
       this.dataForm.picUrl = response.data.url
     },
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          createNews(this.dataForm)
+          createLink(this.dataForm)
             .then(response => {
               this.list.unshift(response.data.data)
               this.dialogFormVisible = false
               this.$notify.success({
                 title: '成功',
-                message: '创建资讯成功'
+                message: '创建成功'
               })
             })
             .catch(response => {
@@ -288,9 +250,9 @@ export default {
         }
       })
     },
-    showContent(content) {
-      this.contentDetail = content
-      this.contentDialogVisible = true
+    formatValue(row, column, cellValue, index) {
+      const obj = { '1': '合作伙伴', '2': '友情链接' }
+      return obj[cellValue]
     },
     handleUpdate(row) {
       this.dataForm = Object.assign({}, row)
@@ -303,7 +265,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          updateNews(this.dataForm)
+          updateLink(this.dataForm)
             .then(() => {
               for (const v of this.list) {
                 if (v.id === this.dataForm.id) {
@@ -315,7 +277,7 @@ export default {
               this.dialogFormVisible = false
               this.$notify.success({
                 title: '成功',
-                message: '更新资讯成功'
+                message: '更新链接成功'
               })
             })
             .catch(response => {
@@ -328,11 +290,11 @@ export default {
       })
     },
     handleDelete(row) {
-      deleteNews(row)
+      deleteLink(row)
         .then(response => {
           this.$notify.success({
             title: '成功',
-            message: '删除资讯成功'
+            message: '删除链接成功'
           })
           const index = this.list.indexOf(row)
           this.list.splice(index, 1)
@@ -348,14 +310,14 @@ export default {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
-          '资讯ID',
-          '资讯标题',
-          '资讯子标题',
-          '资讯内容',
-          '资讯图片',
+          '链接ID',
+          '链接标题',
+          '链接子标题',
+          '链接内容',
+          '链接图片',
           '商品低价',
           '阅读量',
-          '资讯商品'
+          '链接商品'
         ]
         const filterVal = [
           'id',
@@ -367,7 +329,7 @@ export default {
           'readCount',
           'goods'
         ]
-        excel.export_json_to_excel2(tHeader, this.list, filterVal, '资讯信息')
+        excel.export_json_to_excel2(tHeader, this.list, filterVal, '链接信息')
         this.downloadLoading = false
       })
     }
