@@ -1,49 +1,87 @@
 <template>
   <div class="app-container">
-
-    <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.title" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯标题"/>
-      <el-input v-model="listQuery.subtitle" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯子标题"/>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
-      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
+      <el-button class="filter-item" type="primary" @click="showCreateTabDialog">添加分类</el-button>
+      <el-tabs type="border-card">
+        <el-tab-pane v-for="(item,index) in tabs" :key="index" :label="item">
+          <!-- 查询和其他操作 -->
+          <div class="filter-container">
+            <el-input v-model="listQuery.info_title" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯标题"/>
+            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
+            <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
+            <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
+          </div>
+
+          <!-- 查询结果 -->
+          <el-table v-loading="listLoading" :data="list" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+            <el-table-column align="center" label="资讯标题" prop="title"/>
+
+            <el-table-column align="center" label="资讯子标题" min-width="200" prop="subtitle"/>
+            <el-table-column align="center" label="资讯子标题" prop="newsType"/>
+            <el-table-column align="center" property="picUrl" label="图片">
+              <template slot-scope="scope">
+                <img :src="scope.row.picUrl" width="80">
+              </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="资讯详情" prop="content">
+              <template slot-scope="scope">
+                <el-button type="primary" size="mini" @click="showContent(scope.row.content)">查看</el-button>
+              </template>
+            </el-table-column>
+
+            <el-table-column align="center" label="底价" prop="price"/>
+
+            <el-table-column align="center" label="阅读数量" prop="readCount"/>
+
+            <el-table-column align="center" label="操作" min-width="200" class-name="small-padding fixed-width">
+              <template slot-scope="scope">
+                <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+        </el-tab-pane>
+      </el-tabs>
     </div>
 
-    <!-- 查询结果 -->
-    <el-table v-loading="listLoading" :data="list" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column align="center" label="资讯标题" prop="title"/>
-
-      <el-table-column align="center" label="资讯子标题" min-width="200" prop="subtitle"/>
-      <el-table-column align="center" label="资讯子标题" prop="newsType"/>
-      <el-table-column align="center" property="picUrl" label="图片">
-        <template slot-scope="scope">
-          <img :src="scope.row.picUrl" width="80">
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="资讯详情" prop="content">
-        <template slot-scope="scope">
-          <el-dialog :visible.sync="contentDialogVisible" title="资讯详情">
-            <div v-html="contentDetail"/>
-          </el-dialog>
-          <el-button type="primary" size="mini" @click="showContent(scope.row.content)">查看</el-button>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="底价" prop="price"/>
-
-      <el-table-column align="center" label="阅读数量" prop="readCount"/>
-
-      <el-table-column align="center" label="操作" min-width="200" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    <!-- 添加资讯分类对话框 -->
+    <el-dialog :visible.sync="dialogFormVisible2" title="新增资讯分类">
+      <el-form ref="typeForm" :rules="typeRules" :model="typeForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="分类类型" prop="clsType">
+          <el-input v-model="typeForm.clsType"/>
+        </el-form-item>
+        <el-form-item label="分类名" prop="clsName">
+          <el-input v-model="typeForm.clsName"/>
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-select v-model="typeForm.type">
+            <el-option v-for="(item,index) in sele" :key="index" :label="item.codeName" :value="item.id"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="分类图标" prop="clsIcon">
+          <el-upload :headers="headers" :action="uploadPath" :show-file-list="false" :on-success="uploadPicUrl" class="avatar-uploader" list-type="picture-card" accept=".jpg,.jpeg,.png,.gif">
+            <img v-if="typeForm.clsIcon" :src="typeForm.clsIcon" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="父类Id" prop="parentId">
+          <el-input v-model="typeForm.parentId"/>
+        </el-form-item>
+        <el-form-item label="展示条数" prop="indexLimit">
+          <el-input v-model.number="typeForm.indexLimit" type="number"/>
+        </el-form-item>
+        <el-form-item label="是否显示" prop="showIndex">
+          <el-switch v-model="typeForm.showIndex" active-text="是" inactive-text="否"	/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible2 = false">取消</el-button>
+        <el-button type="primary" @click="createTab">确定</el-button>
+      </div>
+    </el-dialog>
 
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
@@ -85,7 +123,9 @@
         <el-button v-else type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>
-
+    <el-dialog :visible.sync="contentDialogVisible" title="资讯详情">
+      <div v-html="contentDetail"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -119,7 +159,7 @@
 </style>
 
 <script>
-import { listNews, createNews, updateNews, deleteNews, seleNews } from '@/api/news'
+import { listNews, createNews, updateNews, deleteNews, seleNews, createNewsType, getNewsType } from '@/api/news'
 import { createStorage, uploadPath } from '@/api/storage'
 import BackToTop from '@/components/BackToTop'
 import Editor from '@tinymce/tinymce-vue'
@@ -134,13 +174,13 @@ export default {
       uploadPath,
       list: undefined,
       sele: [],
+      tabs: ['黄金头条', '每日内参', '分析师专栏', '操盘必读'],
       total: 0,
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 20,
-        title: undefined,
-        subtitle: undefined,
+        info_title: undefined,
         sort: 'add_time',
         order: 'desc'
       },
@@ -155,9 +195,36 @@ export default {
         goods: [],
         newsType: ''
       },
+      typeForm: {
+        clsType: '',
+        type: 1,
+        clsName: '',
+        clsIcon: 'https://avatar-static.segmentfault.com/852/246/852246081-5b15227f8c800_big64',
+        parentId: '',
+        showIndex: true,
+        indexLimit: ''
+      },
+      typeRules: {
+        clsType: [
+          { required: true, message: '分类类型不能为空', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '请选择资讯类型', trigger: 'change' }
+        ],
+        clsName: [
+          { required: true, message: '分类名不能为空', trigger: 'blur' }
+        ],
+        parentId: [
+          { required: true, message: '父类Id不能为空', trigger: 'blur' }
+        ],
+        indexLimit: [
+          { required: true, message: '首页展示条数不能为空', trigger: 'blur' }
+        ]
+      },
       contentDetail: '',
       contentDialogVisible: false,
       dialogFormVisible: false,
+      dialogFormVisible2: false,
       dialogStatus: '',
       textMap: {
         update: '编辑',
@@ -214,6 +281,38 @@ export default {
     this.getSele()
   },
   methods: {
+    getTab() {
+      getNewsType()
+        .then(response => {
+        })
+        .catch(() => {
+        })
+    },
+    showCreateTabDialog() {
+      this.dialogFormVisible2 = true
+    },
+    createTab() {
+      this.$refs['typeForm'].validate(valid => {
+        if (valid) {
+          createNewsType(this.typeForm)
+            .then(response => {
+              console.log(response)
+              // this.list.unshift(response.data.data)
+              // this.dialogFormVisible = false
+              this.$notify.success({
+                title: '成功',
+                message: '创建资讯分类成功'
+              })
+            })
+            .catch(response => {
+              this.$notify.error({
+                title: '失败',
+                message: response.data.errmsg
+              })
+            })
+        }
+      })
+    },
     getSele() {
       seleNews()
         .then(response => {
@@ -263,8 +362,6 @@ export default {
       })
     },
     uploadPicUrl: function(response) {
-      console.log(response)
-
       this.dataForm.picUrl = response.data.url
     },
     createData() {

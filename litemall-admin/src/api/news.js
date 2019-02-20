@@ -48,3 +48,18 @@ export function deleteNews(data) {
     data
   })
 }
+
+export function createNewsType(data) { // 添加资讯分类
+  return request({
+    url: '/infoClass/create',
+    method: 'post',
+    data
+  })
+}
+export function getNewsType(data) { // 获取资讯分类
+  return request({
+    url: '/admin/infoClass/list',
+    method: 'get',
+    data
+  })
+}
