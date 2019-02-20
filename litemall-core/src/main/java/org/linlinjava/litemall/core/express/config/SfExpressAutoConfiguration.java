@@ -1,6 +1,5 @@
 package org.linlinjava.litemall.core.express.config;
 
-import org.linlinjava.litemall.core.express.ExpressService;
 import org.linlinjava.litemall.core.express.SfExpressService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
