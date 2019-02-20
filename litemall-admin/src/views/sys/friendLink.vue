@@ -194,7 +194,6 @@ export default {
       listLink(this.listQuery)
         .then(response => {
           this.list = response.data.data.items
-          console.log(this.list)
           this.total = response.data.data.total
           this.listLoading = false
         })
@@ -311,23 +310,19 @@ export default {
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
           '链接ID',
-          '链接标题',
-          '链接子标题',
-          '链接内容',
+          '链接名称',
+          '链接地址',
           '链接图片',
-          '商品低价',
-          '阅读量',
-          '链接商品'
+          '链接类型',
+          '排序'
         ]
         const filterVal = [
           'id',
-          'title',
-          'subtitle',
-          'content',
+          'linkName',
+          'linkUrl',
           'picUrl',
-          'price',
-          'readCount',
-          'goods'
+          'friendType',
+          'sortOrder'
         ]
         excel.export_json_to_excel2(tHeader, this.list, filterVal, '链接信息')
         this.downloadLoading = false
