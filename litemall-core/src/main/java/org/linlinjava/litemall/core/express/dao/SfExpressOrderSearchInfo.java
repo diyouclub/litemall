@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
  * @date Date : 2019年02月19日 10:15
  */
 @JacksonXmlRootElement()
-public class SfExpressOrderSearch {
+public class SfExpressOrderSearchInfo {
     @JacksonXmlProperty()
     private String orderid;
     @JacksonXmlProperty()

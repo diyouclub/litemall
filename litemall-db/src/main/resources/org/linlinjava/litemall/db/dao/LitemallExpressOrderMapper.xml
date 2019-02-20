@@ -33,11 +33,7 @@
     <result column="d_address" jdbcType="VARCHAR" property="dAddress" />
     <result column="d_post_code" jdbcType="VARCHAR" property="dPostCode" />
     <result column="custid" jdbcType="VARCHAR" property="custid" />
-    <result column="pay_method
-
-pay_method" jdbcType="INTEGER" property="payMethod
-
-payMethod" />
+    <result column="pay_method" jdbcType="INTEGER" property="payMethod" />
     <result column="express_type" jdbcType="VARCHAR" property="expressType" />
     <result column="parcel_quantity" jdbcType="INTEGER" property="parcelQuantity" />
     <result column="cargo_length" jdbcType="DECIMAL" property="cargoLength" />
@@ -59,9 +55,7 @@ payMethod" />
     <result column="payment_tool" jdbcType="VARCHAR" property="paymentTool" />
     <result column="payment_number" jdbcType="VARCHAR" property="paymentNumber" />
     <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
-    <result column="in_process_waybill_no
-in_process_waybill_no" jdbcType="VARCHAR" property="inProcessWaybillNo
-inProcessWaybillNo" />
+    <result column="in_process_waybill_no" jdbcType="VARCHAR" property="inProcessWaybillNo" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="specifications" jdbcType="VARCHAR" property="specifications" />
     <result column="temp_range" jdbcType="DECIMAL" property="tempRange" />
@@ -155,15 +149,12 @@ inProcessWaybillNo" />
     id, orderid, mailno, is_gen_bill_no, j_company, j_contact, j_tel, j_mobile, j_shippercode, 
     j_country, j_province, j_city, j_county, j_address, j_post_code, d_company, d_contact, 
     d_tel, d_mobile, d_deliverycode, d_country, d_province, d_city, d_county, d_address, 
-    d_post_code, custid, pay_method
-
-pay_method, express_type, parcel_quantity, cargo_length, 
-    cargo_width, cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
+    d_post_code, custid, pay_method, express_type, parcel_quantity, cargo_length, cargo_width, 
+    cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
     customs_batchs, sendstarttime, is_docall, need_return_tracking_no, return_tracking, 
     d_tax_no, tax_pay_type, tax_set_accounts, original_number, payment_tool, payment_number, 
-    goods_code, in_process_waybill_no
-in_process_waybill_no, brand, specifications, temp_range, 
-    order_name, order_cert_type, order_cert_no, order_source, `template`, remark, oneself_pickup_flg, 
+    goods_code, in_process_waybill_no, brand, specifications, temp_range, order_name, 
+    order_cert_type, order_cert_no, order_source, `template`, remark, oneself_pickup_flg, 
     dispatch_sys, filter_field, total_net_weight, routelabelForReturn, routelabelService, 
     add_time, update_time, deleted
   </sql>
@@ -196,7 +187,7 @@ in_process_waybill_no, brand, specifications, temp_range,
       distinct
     </if>
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -205,17 +196,14 @@ in_process_waybill_no, brand, specifications, temp_range,
         id, orderid, mailno, is_gen_bill_no, j_company, j_contact, j_tel, j_mobile, j_shippercode, 
           j_country, j_province, j_city, j_county, j_address, j_post_code, d_company, d_contact, 
           d_tel, d_mobile, d_deliverycode, d_country, d_province, d_city, d_county, d_address, 
-          d_post_code, custid, pay_method
-
-pay_method, express_type, parcel_quantity, cargo_length, 
-          cargo_width, cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
+          d_post_code, custid, pay_method, express_type, parcel_quantity, cargo_length, cargo_width, 
+          cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
           customs_batchs, sendstarttime, is_docall, need_return_tracking_no, return_tracking, 
           d_tax_no, tax_pay_type, tax_set_accounts, original_number, payment_tool, payment_number, 
-          goods_code, in_process_waybill_no
-in_process_waybill_no, brand, specifications, 
-          temp_range, order_name, order_cert_type, order_cert_no, order_source, `template`, 
-          remark, oneself_pickup_flg, dispatch_sys, filter_field, total_net_weight, routelabelForReturn, 
-          routelabelService, add_time, update_time, deleted
+          goods_code, in_process_waybill_no, brand, specifications, temp_range, order_name, 
+          order_cert_type, order_cert_no, order_source, `template`, remark, oneself_pickup_flg, 
+          dispatch_sys, filter_field, total_net_weight, routelabelForReturn, routelabelService, 
+          add_time, update_time, deleted
       </otherwise>
     </choose>
     from litemall_express_order
@@ -268,7 +256,7 @@ in_process_waybill_no, brand, specifications,
     -->
     select
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -277,17 +265,14 @@ in_process_waybill_no, brand, specifications,
         id, orderid, mailno, is_gen_bill_no, j_company, j_contact, j_tel, j_mobile, j_shippercode, 
           j_country, j_province, j_city, j_county, j_address, j_post_code, d_company, d_contact, 
           d_tel, d_mobile, d_deliverycode, d_country, d_province, d_city, d_county, d_address, 
-          d_post_code, custid, pay_method
-
-pay_method, express_type, parcel_quantity, cargo_length, 
-          cargo_width, cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
+          d_post_code, custid, pay_method, express_type, parcel_quantity, cargo_length, cargo_width, 
+          cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
           customs_batchs, sendstarttime, is_docall, need_return_tracking_no, return_tracking, 
           d_tax_no, tax_pay_type, tax_set_accounts, original_number, payment_tool, payment_number, 
-          goods_code, in_process_waybill_no
-in_process_waybill_no, brand, specifications, 
-          temp_range, order_name, order_cert_type, order_cert_no, order_source, `template`, 
-          remark, oneself_pickup_flg, dispatch_sys, filter_field, total_net_weight, routelabelForReturn, 
-          routelabelService, add_time, update_time, deleted
+          goods_code, in_process_waybill_no, brand, specifications, temp_range, order_name, 
+          order_cert_type, order_cert_no, order_source, `template`, remark, oneself_pickup_flg, 
+          dispatch_sys, filter_field, total_net_weight, routelabelForReturn, routelabelService, 
+          add_time, update_time, deleted
       </otherwise>
     </choose>
     from litemall_express_order
@@ -327,9 +312,7 @@ in_process_waybill_no, brand, specifications,
       d_contact, d_tel, d_mobile, 
       d_deliverycode, d_country, d_province, 
       d_city, d_county, d_address, 
-      d_post_code, custid, pay_method
-
-pay_method, 
+      d_post_code, custid, pay_method, 
       express_type, parcel_quantity, cargo_length, 
       cargo_width, cargo_height, volume, 
       cargo_total_weight, declared_value, declared_value_currency, 
@@ -337,15 +320,13 @@ pay_method,
       need_return_tracking_no, return_tracking, d_tax_no, 
       tax_pay_type, tax_set_accounts, original_number, 
       payment_tool, payment_number, goods_code, 
-      in_process_waybill_no
-in_process_waybill_no, brand, 
-      specifications, temp_range, order_name, 
-      order_cert_type, order_cert_no, order_source, 
-      `template`, remark, oneself_pickup_flg, 
-      dispatch_sys, filter_field, total_net_weight, 
-      routelabelForReturn, routelabelService, 
-      add_time, update_time, deleted
-      )
+      in_process_waybill_no, brand, specifications, 
+      temp_range, order_name, order_cert_type, 
+      order_cert_no, order_source, `template`, 
+      remark, oneself_pickup_flg, dispatch_sys, 
+      filter_field, total_net_weight, routelabelForReturn, 
+      routelabelService, add_time, update_time, 
+      deleted)
     values (#{orderid,jdbcType=VARCHAR}, #{mailno,jdbcType=VARCHAR}, #{isGenBillNo,jdbcType=INTEGER}, 
       #{jCompany,jdbcType=VARCHAR}, #{jContact,jdbcType=VARCHAR}, #{jTel,jdbcType=VARCHAR}, 
       #{jMobile,jdbcType=VARCHAR}, #{jShippercode,jdbcType=VARCHAR}, #{jCountry,jdbcType=VARCHAR}, 
@@ -354,9 +335,7 @@ in_process_waybill_no, brand,
       #{dContact,jdbcType=VARCHAR}, #{dTel,jdbcType=VARCHAR}, #{dMobile,jdbcType=VARCHAR}, 
       #{dDeliverycode,jdbcType=VARCHAR}, #{dCountry,jdbcType=VARCHAR}, #{dProvince,jdbcType=VARCHAR}, 
       #{dCity,jdbcType=VARCHAR}, #{dCounty,jdbcType=VARCHAR}, #{dAddress,jdbcType=VARCHAR}, 
-      #{dPostCode,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, #{payMethod
-
-payMethod,jdbcType=INTEGER}, 
+      #{dPostCode,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, #{payMethod,jdbcType=INTEGER}, 
       #{expressType,jdbcType=VARCHAR}, #{parcelQuantity,jdbcType=INTEGER}, #{cargoLength,jdbcType=DECIMAL}, 
       #{cargoWidth,jdbcType=DECIMAL}, #{cargoHeight,jdbcType=DECIMAL}, #{volume,jdbcType=DECIMAL}, 
       #{cargoTotalWeight,jdbcType=DECIMAL}, #{declaredValue,jdbcType=DECIMAL}, #{declaredValueCurrency,jdbcType=VARCHAR}, 
@@ -364,15 +343,13 @@ payMethod,jdbcType=INTEGER},
       #{needReturnTrackingNo,jdbcType=VARCHAR}, #{returnTracking,jdbcType=VARCHAR}, #{dTaxNo,jdbcType=VARCHAR}, 
       #{taxPayType,jdbcType=VARCHAR}, #{taxSetAccounts,jdbcType=VARCHAR}, #{originalNumber,jdbcType=VARCHAR}, 
       #{paymentTool,jdbcType=VARCHAR}, #{paymentNumber,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
-      #{inProcessWaybillNo
-inProcessWaybillNo,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
-      #{specifications,jdbcType=VARCHAR}, #{tempRange,jdbcType=DECIMAL}, #{orderName,jdbcType=VARCHAR}, 
-      #{orderCertType,jdbcType=VARCHAR}, #{orderCertNo,jdbcType=VARCHAR}, #{orderSource,jdbcType=VARCHAR}, 
-      #{template,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{oneselfPickupFlg,jdbcType=INTEGER}, 
-      #{dispatchSys,jdbcType=VARCHAR}, #{filterField,jdbcType=VARCHAR}, #{totalNetWeight,jdbcType=DECIMAL}, 
-      #{routelabelforreturn,jdbcType=INTEGER}, #{routelabelservice,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
-      )
+      #{inProcessWaybillNo,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, 
+      #{tempRange,jdbcType=DECIMAL}, #{orderName,jdbcType=VARCHAR}, #{orderCertType,jdbcType=VARCHAR}, 
+      #{orderCertNo,jdbcType=VARCHAR}, #{orderSource,jdbcType=VARCHAR}, #{template,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{oneselfPickupFlg,jdbcType=INTEGER}, #{dispatchSys,jdbcType=VARCHAR}, 
+      #{filterField,jdbcType=VARCHAR}, #{totalNetWeight,jdbcType=DECIMAL}, #{routelabelforreturn,jdbcType=INTEGER}, 
+      #{routelabelservice,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallExpressOrder">
     <!--
@@ -462,12 +439,8 @@ inProcessWaybillNo,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
       <if test="custid != null">
         custid,
       </if>
-      <if test="payMethod
-
-payMethod != null">
-        pay_method
-
-pay_method,
+      <if test="payMethod != null">
+        pay_method,
       </if>
       <if test="expressType != null">
         express_type,
@@ -532,10 +505,8 @@ pay_method,
       <if test="goodsCode != null">
         goods_code,
       </if>
-      <if test="inProcessWaybillNo
-inProcessWaybillNo != null">
-        in_process_waybill_no
-in_process_waybill_no,
+      <if test="inProcessWaybillNo != null">
+        in_process_waybill_no,
       </if>
       <if test="brand != null">
         brand,
@@ -671,12 +642,8 @@ in_process_waybill_no,
       <if test="custid != null">
         #{custid,jdbcType=VARCHAR},
       </if>
-      <if test="payMethod
-
-payMethod != null">
-        #{payMethod
-
-payMethod,jdbcType=INTEGER},
+      <if test="payMethod != null">
+        #{payMethod,jdbcType=INTEGER},
       </if>
       <if test="expressType != null">
         #{expressType,jdbcType=VARCHAR},
@@ -741,10 +708,8 @@ payMethod,jdbcType=INTEGER},
       <if test="goodsCode != null">
         #{goodsCode,jdbcType=VARCHAR},
       </if>
-      <if test="inProcessWaybillNo
-inProcessWaybillNo != null">
-        #{inProcessWaybillNo
-inProcessWaybillNo,jdbcType=VARCHAR},
+      <if test="inProcessWaybillNo != null">
+        #{inProcessWaybillNo,jdbcType=VARCHAR},
       </if>
       <if test="brand != null">
         #{brand,jdbcType=VARCHAR},
@@ -900,14 +865,8 @@ inProcessWaybillNo,jdbcType=VARCHAR},
       <if test="record.custid != null">
         custid = #{record.custid,jdbcType=VARCHAR},
       </if>
-      <if test="record.payMethod
-
-payMethod != null">
-        pay_method
-
-pay_method = #{record.payMethod
-
-payMethod,jdbcType=INTEGER},
+      <if test="record.payMethod != null">
+        pay_method = #{record.payMethod,jdbcType=INTEGER},
       </if>
       <if test="record.expressType != null">
         express_type = #{record.expressType,jdbcType=VARCHAR},
@@ -972,11 +931,8 @@ payMethod,jdbcType=INTEGER},
       <if test="record.goodsCode != null">
         goods_code = #{record.goodsCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.inProcessWaybillNo
-inProcessWaybillNo != null">
-        in_process_waybill_no
-in_process_waybill_no = #{record.inProcessWaybillNo
-inProcessWaybillNo,jdbcType=VARCHAR},
+      <if test="record.inProcessWaybillNo != null">
+        in_process_waybill_no = #{record.inProcessWaybillNo,jdbcType=VARCHAR},
       </if>
       <if test="record.brand != null">
         brand = #{record.brand,jdbcType=VARCHAR},
@@ -1070,11 +1026,7 @@ inProcessWaybillNo,jdbcType=VARCHAR},
       d_address = #{record.dAddress,jdbcType=VARCHAR},
       d_post_code = #{record.dPostCode,jdbcType=VARCHAR},
       custid = #{record.custid,jdbcType=VARCHAR},
-      pay_method
-
-pay_method = #{record.payMethod
-
-payMethod,jdbcType=INTEGER},
+      pay_method = #{record.payMethod,jdbcType=INTEGER},
       express_type = #{record.expressType,jdbcType=VARCHAR},
       parcel_quantity = #{record.parcelQuantity,jdbcType=INTEGER},
       cargo_length = #{record.cargoLength,jdbcType=DECIMAL},
@@ -1096,9 +1048,7 @@ payMethod,jdbcType=INTEGER},
       payment_tool = #{record.paymentTool,jdbcType=VARCHAR},
       payment_number = #{record.paymentNumber,jdbcType=VARCHAR},
       goods_code = #{record.goodsCode,jdbcType=VARCHAR},
-      in_process_waybill_no
-in_process_waybill_no = #{record.inProcessWaybillNo
-inProcessWaybillNo,jdbcType=VARCHAR},
+      in_process_waybill_no = #{record.inProcessWaybillNo,jdbcType=VARCHAR},
       brand = #{record.brand,jdbcType=VARCHAR},
       specifications = #{record.specifications,jdbcType=VARCHAR},
       temp_range = #{record.tempRange,jdbcType=DECIMAL},
@@ -1206,14 +1156,8 @@ inProcessWaybillNo,jdbcType=VARCHAR},
       <if test="custid != null">
         custid = #{custid,jdbcType=VARCHAR},
       </if>
-      <if test="payMethod
-
-payMethod != null">
-        pay_method
-
-pay_method = #{payMethod
-
-payMethod,jdbcType=INTEGER},
+      <if test="payMethod != null">
+        pay_method = #{payMethod,jdbcType=INTEGER},
       </if>
       <if test="expressType != null">
         express_type = #{expressType,jdbcType=VARCHAR},
@@ -1278,11 +1222,8 @@ payMethod,jdbcType=INTEGER},
       <if test="goodsCode != null">
         goods_code = #{goodsCode,jdbcType=VARCHAR},
       </if>
-      <if test="inProcessWaybillNo
-inProcessWaybillNo != null">
-        in_process_waybill_no
-in_process_waybill_no = #{inProcessWaybillNo
-inProcessWaybillNo,jdbcType=VARCHAR},
+      <if test="inProcessWaybillNo != null">
+        in_process_waybill_no = #{inProcessWaybillNo,jdbcType=VARCHAR},
       </if>
       <if test="brand != null">
         brand = #{brand,jdbcType=VARCHAR},
@@ -1373,11 +1314,7 @@ inProcessWaybillNo,jdbcType=VARCHAR},
       d_address = #{dAddress,jdbcType=VARCHAR},
       d_post_code = #{dPostCode,jdbcType=VARCHAR},
       custid = #{custid,jdbcType=VARCHAR},
-      pay_method
-
-pay_method = #{payMethod
-
-payMethod,jdbcType=INTEGER},
+      pay_method = #{payMethod,jdbcType=INTEGER},
       express_type = #{expressType,jdbcType=VARCHAR},
       parcel_quantity = #{parcelQuantity,jdbcType=INTEGER},
       cargo_length = #{cargoLength,jdbcType=DECIMAL},
@@ -1399,9 +1336,7 @@ payMethod,jdbcType=INTEGER},
       payment_tool = #{paymentTool,jdbcType=VARCHAR},
       payment_number = #{paymentNumber,jdbcType=VARCHAR},
       goods_code = #{goodsCode,jdbcType=VARCHAR},
-      in_process_waybill_no
-in_process_waybill_no = #{inProcessWaybillNo
-inProcessWaybillNo,jdbcType=VARCHAR},
+      in_process_waybill_no = #{inProcessWaybillNo,jdbcType=VARCHAR},
       brand = #{brand,jdbcType=VARCHAR},
       specifications = #{specifications,jdbcType=VARCHAR},
       temp_range = #{tempRange,jdbcType=DECIMAL},
@@ -1447,7 +1382,7 @@ inProcessWaybillNo,jdbcType=VARCHAR},
     -->
     select
     <choose>
-      <when test="selective != null and selective.length > 0">
+      <when test="selective != null and selective.length &gt; 0">
         <foreach collection="selective" item="column" separator=",">
           ${column.escapedColumnName}
         </foreach>
@@ -1456,17 +1391,14 @@ inProcessWaybillNo,jdbcType=VARCHAR},
         id, orderid, mailno, is_gen_bill_no, j_company, j_contact, j_tel, j_mobile, j_shippercode, 
           j_country, j_province, j_city, j_county, j_address, j_post_code, d_company, d_contact, 
           d_tel, d_mobile, d_deliverycode, d_country, d_province, d_city, d_county, d_address, 
-          d_post_code, custid, pay_method
-
-pay_method, express_type, parcel_quantity, cargo_length, 
-          cargo_width, cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
+          d_post_code, custid, pay_method, express_type, parcel_quantity, cargo_length, cargo_width, 
+          cargo_height, volume, cargo_total_weight, declared_value, declared_value_currency, 
           customs_batchs, sendstarttime, is_docall, need_return_tracking_no, return_tracking, 
           d_tax_no, tax_pay_type, tax_set_accounts, original_number, payment_tool, payment_number, 
-          goods_code, in_process_waybill_no
-in_process_waybill_no, brand, specifications, 
-          temp_range, order_name, order_cert_type, order_cert_no, order_source, `template`, 
-          remark, oneself_pickup_flg, dispatch_sys, filter_field, total_net_weight, routelabelForReturn, 
-          routelabelService, add_time, update_time, deleted
+          goods_code, in_process_waybill_no, brand, specifications, temp_range, order_name, 
+          order_cert_type, order_cert_no, order_source, `template`, remark, oneself_pickup_flg, 
+          dispatch_sys, filter_field, total_net_weight, routelabelForReturn, routelabelService, 
+          add_time, update_time, deleted
       </otherwise>
     </choose>
     from litemall_express_order

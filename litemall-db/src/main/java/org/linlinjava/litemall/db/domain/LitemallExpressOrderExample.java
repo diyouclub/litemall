@@ -4053,32 +4053,18 @@ public class LitemallExpressOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodIsNull() {
-            addCriterion("pay_method
-
-pay_method is null");
+        public Criteria andPayMethodIsNull() {
+            addCriterion("pay_method is null");
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodIsNotNull() {
-            addCriterion("pay_method
-
-pay_method is not null");
+        public Criteria andPayMethodIsNotNull() {
+            addCriterion("pay_method is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodEqualTo(Integer value) {
-            addCriterion("pay_method
-
-pay_method =", value, "payMethod
-
-payMethod");
+        public Criteria andPayMethodEqualTo(Integer value) {
+            addCriterion("pay_method =", value, "payMethod");
             return (Criteria) this;
         }
 
@@ -4089,23 +4075,13 @@ payMethod");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andPayMethod
-
-payMethodEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("pay_method
-
-pay_method = ").append(column.getEscapedColumnName()).toString());
+        public Criteria andPayMethodEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("pay_method = ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodNotEqualTo(Integer value) {
-            addCriterion("pay_method
-
-pay_method <>", value, "payMethod
-
-payMethod");
+        public Criteria andPayMethodNotEqualTo(Integer value) {
+            addCriterion("pay_method <>", value, "payMethod");
             return (Criteria) this;
         }
 
@@ -4116,23 +4092,13 @@ payMethod");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andPayMethod
-
-payMethodNotEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("pay_method
-
-pay_method <> ").append(column.getEscapedColumnName()).toString());
+        public Criteria andPayMethodNotEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("pay_method <> ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodGreaterThan(Integer value) {
-            addCriterion("pay_method
-
-pay_method >", value, "payMethod
-
-payMethod");
+        public Criteria andPayMethodGreaterThan(Integer value) {
+            addCriterion("pay_method >", value, "payMethod");
             return (Criteria) this;
         }
 
@@ -4143,23 +4109,13 @@ payMethod");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andPayMethod
-
-payMethodGreaterThanColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("pay_method
-
-pay_method > ").append(column.getEscapedColumnName()).toString());
+        public Criteria andPayMethodGreaterThanColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("pay_method > ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pay_method
-
-pay_method >=", value, "payMethod
-
-payMethod");
+        public Criteria andPayMethodGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_method >=", value, "payMethod");
             return (Criteria) this;
         }
 
@@ -4170,23 +4126,13 @@ payMethod");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andPayMethod
-
-payMethodGreaterThanOrEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("pay_method
-
-pay_method >= ").append(column.getEscapedColumnName()).toString());
+        public Criteria andPayMethodGreaterThanOrEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("pay_method >= ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodLessThan(Integer value) {
-            addCriterion("pay_method
-
-pay_method <", value, "payMethod
-
-payMethod");
+        public Criteria andPayMethodLessThan(Integer value) {
+            addCriterion("pay_method <", value, "payMethod");
             return (Criteria) this;
         }
 
@@ -4197,23 +4143,13 @@ payMethod");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andPayMethod
-
-payMethodLessThanColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("pay_method
-
-pay_method < ").append(column.getEscapedColumnName()).toString());
+        public Criteria andPayMethodLessThanColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("pay_method < ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodLessThanOrEqualTo(Integer value) {
-            addCriterion("pay_method
-
-pay_method <=", value, "payMethod
-
-payMethod");
+        public Criteria andPayMethodLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_method <=", value, "payMethod");
             return (Criteria) this;
         }
 
@@ -4224,56 +4160,28 @@ payMethod");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andPayMethod
-
-payMethodLessThanOrEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("pay_method
-
-pay_method <= ").append(column.getEscapedColumnName()).toString());
+        public Criteria andPayMethodLessThanOrEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("pay_method <= ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodIn(List<Integer> values) {
-            addCriterion("pay_method
-
-pay_method in", values, "payMethod
-
-payMethod");
+        public Criteria andPayMethodIn(List<Integer> values) {
+            addCriterion("pay_method in", values, "payMethod");
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodNotIn(List<Integer> values) {
-            addCriterion("pay_method
-
-pay_method not in", values, "payMethod
-
-payMethod");
+        public Criteria andPayMethodNotIn(List<Integer> values) {
+            addCriterion("pay_method not in", values, "payMethod");
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodBetween(Integer value1, Integer value2) {
-            addCriterion("pay_method
-
-pay_method between", value1, value2, "payMethod
-
-payMethod");
+        public Criteria andPayMethodBetween(Integer value1, Integer value2) {
+            addCriterion("pay_method between", value1, value2, "payMethod");
             return (Criteria) this;
         }
 
-        public Criteria andPayMethod
-
-payMethodNotBetween(Integer value1, Integer value2) {
-            addCriterion("pay_method
-
-pay_method not between", value1, value2, "payMethod
-
-payMethod");
+        public Criteria andPayMethodNotBetween(Integer value1, Integer value2) {
+            addCriterion("pay_method not between", value1, value2, "payMethod");
             return (Criteria) this;
         }
 
@@ -7169,25 +7077,18 @@ payMethod");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoIsNull() {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no is null");
+        public Criteria andInProcessWaybillNoIsNull() {
+            addCriterion("in_process_waybill_no is null");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoIsNotNull() {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no is not null");
+        public Criteria andInProcessWaybillNoIsNotNull() {
+            addCriterion("in_process_waybill_no is not null");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoEqualTo(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no =", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoEqualTo(String value) {
+            addCriterion("in_process_waybill_no =", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
@@ -7198,18 +7099,13 @@ inProcessWaybillNo");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("in_process_waybill_no
-in_process_waybill_no = ").append(column.getEscapedColumnName()).toString());
+        public Criteria andInProcessWaybillNoEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("in_process_waybill_no = ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoNotEqualTo(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no <>", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoNotEqualTo(String value) {
+            addCriterion("in_process_waybill_no <>", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
@@ -7220,18 +7116,13 @@ inProcessWaybillNo");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoNotEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("in_process_waybill_no
-in_process_waybill_no <> ").append(column.getEscapedColumnName()).toString());
+        public Criteria andInProcessWaybillNoNotEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("in_process_waybill_no <> ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoGreaterThan(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no >", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoGreaterThan(String value) {
+            addCriterion("in_process_waybill_no >", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
@@ -7242,18 +7133,13 @@ inProcessWaybillNo");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoGreaterThanColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("in_process_waybill_no
-in_process_waybill_no > ").append(column.getEscapedColumnName()).toString());
+        public Criteria andInProcessWaybillNoGreaterThanColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("in_process_waybill_no > ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoGreaterThanOrEqualTo(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no >=", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoGreaterThanOrEqualTo(String value) {
+            addCriterion("in_process_waybill_no >=", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
@@ -7264,18 +7150,13 @@ inProcessWaybillNo");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoGreaterThanOrEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("in_process_waybill_no
-in_process_waybill_no >= ").append(column.getEscapedColumnName()).toString());
+        public Criteria andInProcessWaybillNoGreaterThanOrEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("in_process_waybill_no >= ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoLessThan(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no <", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoLessThan(String value) {
+            addCriterion("in_process_waybill_no <", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
@@ -7286,18 +7167,13 @@ inProcessWaybillNo");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoLessThanColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("in_process_waybill_no
-in_process_waybill_no < ").append(column.getEscapedColumnName()).toString());
+        public Criteria andInProcessWaybillNoLessThanColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("in_process_waybill_no < ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoLessThanOrEqualTo(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no <=", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoLessThanOrEqualTo(String value) {
+            addCriterion("in_process_waybill_no <=", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
@@ -7308,58 +7184,38 @@ inProcessWaybillNo");
          * @mbg.generated
          * @project https://github.com/itfsw/mybatis-generator-plugin
          */
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoLessThanOrEqualToColumn(LitemallExpressOrder.Column column) {
-            addCriterion(new StringBuilder("in_process_waybill_no
-in_process_waybill_no <= ").append(column.getEscapedColumnName()).toString());
+        public Criteria andInProcessWaybillNoLessThanOrEqualToColumn(LitemallExpressOrder.Column column) {
+            addCriterion(new StringBuilder("in_process_waybill_no <= ").append(column.getEscapedColumnName()).toString());
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoLike(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no like", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoLike(String value) {
+            addCriterion("in_process_waybill_no like", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoNotLike(String value) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no not like", value, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoNotLike(String value) {
+            addCriterion("in_process_waybill_no not like", value, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoIn(List<String> values) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no in", values, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoIn(List<String> values) {
+            addCriterion("in_process_waybill_no in", values, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoNotIn(List<String> values) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no not in", values, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoNotIn(List<String> values) {
+            addCriterion("in_process_waybill_no not in", values, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoBetween(String value1, String value2) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no between", value1, value2, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoBetween(String value1, String value2) {
+            addCriterion("in_process_waybill_no between", value1, value2, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
-        public Criteria andInProcessWaybillNo
-inProcessWaybillNoNotBetween(String value1, String value2) {
-            addCriterion("in_process_waybill_no
-in_process_waybill_no not between", value1, value2, "inProcessWaybillNo
-inProcessWaybillNo");
+        public Criteria andInProcessWaybillNoNotBetween(String value1, String value2) {
+            addCriterion("in_process_waybill_no not between", value1, value2, "inProcessWaybillNo");
             return (Criteria) this;
         }
 
