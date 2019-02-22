@@ -58,7 +58,7 @@ export function createNewsType(data) { // 添加资讯分类
 }
 export function getNewsType(data) { // 获取资讯分类
   return request({
-    url: '/admin/infoClass/list',
+    url: '/infoClass/list',
     method: 'get',
     data
   })

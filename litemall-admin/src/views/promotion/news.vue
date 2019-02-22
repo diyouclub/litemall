@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button class="filter-item" type="primary" @click="showCreateTabDialog">添加分类</el-button>
-      <el-tabs type="border-card">
-        <el-tab-pane v-for="(item,index) in tabs" :key="index" :label="item">
+      <el-tabs v-model="dataForm.clsId" type="border-card">
+        <el-tab-pane v-for="(item,index) in tabs" :key="index" :name="item.id+''" :label="item.clsName">
           <!-- 查询和其他操作 -->
           <div class="filter-container">
             <el-input v-model="listQuery.info_title" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯标题"/>
@@ -16,11 +16,11 @@
           <el-table v-loading="listLoading" :data="list" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
             <el-table-column align="center" label="资讯标题" prop="title"/>
 
-            <el-table-column align="center" label="资讯子标题" min-width="200" prop="subtitle"/>
+            <el-table-column align="center" label="资讯子标题" min-width="200" prop="infoShortTitle"/>
             <el-table-column align="center" label="资讯子标题" prop="newsType"/>
-            <el-table-column align="center" property="picUrl" label="图片">
+            <el-table-column align="center" property="infoMainImg" label="图片">
               <template slot-scope="scope">
-                <img :src="scope.row.picUrl" width="80">
+                <img :src="scope.row.infoMainImg" width="80">
               </template>
             </el-table-column>
 
@@ -50,16 +50,8 @@
     <!-- 添加资讯分类对话框 -->
     <el-dialog :visible.sync="dialogFormVisible2" title="新增资讯分类">
       <el-form ref="typeForm" :rules="typeRules" :model="typeForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="分类类型" prop="clsType">
-          <el-input v-model="typeForm.clsType"/>
-        </el-form-item>
         <el-form-item label="分类名" prop="clsName">
           <el-input v-model="typeForm.clsName"/>
-        </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-select v-model="typeForm.type">
-            <el-option v-for="(item,index) in sele" :key="index" :label="item.codeName" :value="item.id"/>
-          </el-select>
         </el-form-item>
         <el-form-item label="分类图标" prop="clsIcon">
           <el-upload :headers="headers" :action="uploadPath" :show-file-list="false" :on-success="uploadPicUrl" class="avatar-uploader" list-type="picture-card" accept=".jpg,.jpeg,.png,.gif">
@@ -67,14 +59,11 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
-        <el-form-item label="父类Id" prop="parentId">
-          <el-input v-model="typeForm.parentId"/>
-        </el-form-item>
         <el-form-item label="展示条数" prop="indexLimit">
           <el-input v-model.number="typeForm.indexLimit" type="number"/>
         </el-form-item>
         <el-form-item label="是否显示" prop="showIndex">
-          <el-switch v-model="typeForm.showIndex" active-text="是" inactive-text="否"	/>
+          <el-switch v-model="typeForm.showIndex" :active-value="0" :inactive-value="1" active-text="是" inactive-text="否"	/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -90,31 +79,51 @@
     <!-- 添加或修改对话框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="资讯标题" prop="title">
-          <el-input v-model="dataForm.title"/>
+        <el-form-item label="资讯标题" prop="infoTitle">
+          <el-input v-model="dataForm.infoTitle"/>
         </el-form-item>
-        <el-form-item label="资讯子标题" prop="subtitle">
-          <el-input v-model="dataForm.subtitle"/>
+        <el-form-item label="资讯子标题" prop="infoShortTitle">
+          <el-input v-model="dataForm.infoShortTitle"/>
         </el-form-item>
-        <el-form-item label="资讯类型" prop="newsType">
+        <el-form-item label="描述" prop="infoDescription">
+          <el-input v-model="dataForm.infoDescription"/>
+        </el-form-item>
+        <el-form-item label="作者" prop="author">
+          <el-input v-model="dataForm.author"/>
+        </el-form-item>
+
+        <!-- <el-form-item label="资讯类型" prop="newsType">
           <el-select v-model="dataForm.newsType">
             <el-option v-for="(item,index) in sele" :key="index" :label="item.codeName" :value="item.id"/>
           </el-select>
-        </el-form-item>
-        <el-form-item label="资讯图片" prop="picUrl">
+        </el-form-item> -->
+        <el-form-item label="资讯图片" prop="infoMainImg">
           <el-upload :headers="headers" :action="uploadPath" :show-file-list="false" :on-success="uploadPicUrl" class="avatar-uploader" list-type="picture-card" accept=".jpg,.jpeg,.png,.gif">
-            <img v-if="dataForm.picUrl" :src="dataForm.picUrl" class="avatar">
+            <img v-if="dataForm.infoMainImg" :src="dataForm.infoMainImg" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
         <el-form-item style="width: 700px;" label="资讯内容">
           <editor :init="editorInit" v-model="dataForm.content"/>
         </el-form-item>
-        <el-form-item label="商品低价" prop="price">
-          <el-input v-model="dataForm.price"/>
+        <el-form-item label="是否显示" prop="showIndex">
+          <el-switch v-model="dataForm.showIndex" :active-value="0" :inactive-value="1" active-text="是" inactive-text="否"	/>
         </el-form-item>
-        <el-form-item label="阅读量" prop="readCount">
-          <el-input v-model="dataForm.readCount"/>
+        <el-form-item label="公布范围" prop="scope">
+          <el-radio-group v-model="dataForm.scope">
+            <el-radio label="0">所有用户</el-radio>
+            <el-radio label="1">指定用户</el-radio>
+          </el-radio-group>
+          <el-input v-if="dataForm.scope==='1'" v-model="dataForm.assignPhone" placeholder="指定用户的手机号"/>
+        </el-form-item>
+        <el-form-item label="置顶排序" prop="topRank">
+          <el-input v-model="dataForm.topRank"/>
+        </el-form-item>
+        <el-form-item label="标签" prop="name">
+          <el-input v-model="dataForm.name"/>
+        </el-form-item>
+        <el-form-item label="开启文章推荐" prop="openRelated">
+          <el-switch v-model="dataForm.openRelated" :active-value="1" :inactive-value="0" active-text="开" inactive-text="关"	/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -159,7 +168,7 @@
 </style>
 
 <script>
-import { listNews, createNews, updateNews, deleteNews, seleNews, createNewsType, getNewsType } from '@/api/news'
+import { listNews, createNews, updateNews, deleteNews, createNewsType, getNewsType } from '@/api/news'
 import { createStorage, uploadPath } from '@/api/storage'
 import BackToTop from '@/components/BackToTop'
 import Editor from '@tinymce/tinymce-vue'
@@ -170,11 +179,20 @@ export default {
   name: 'News',
   components: { BackToTop, Editor, Pagination },
   data() {
+    // var validateScope = (rule, value, callback) => {
+    //   if (value === '1') {
+    //     callback(new Error('请输入密码'))
+    //   } else {
+    //     if (this.ruleForm2.checkPass !== '') {
+    //       this.$refs.ruleForm2.validateField('checkPass')
+    //     }
+    //     callback()
+    //   }
+    // }
     return {
       uploadPath,
       list: undefined,
-      sele: [],
-      tabs: ['黄金头条', '每日内参', '分析师专栏', '操盘必读'],
+      tabs: [],
       total: 0,
       listLoading: true,
       listQuery: {
@@ -185,37 +203,47 @@ export default {
         order: 'desc'
       },
       dataForm: {
-        id: undefined,
-        titile: undefined,
-        subtitle: undefined,
-        picUrl: undefined,
+        // id: undefined,
+        clsId: '',
+        infoTitle: undefined,
+        infoShortTitle: undefined,
+        infoDescription: '',
+        author: '',
+        infoMainImg: undefined,
         content: '',
-        price: undefined,
-        readCount: undefined,
-        goods: [],
-        newsType: ''
+        showIndex: '',
+        scope: '0',
+        assignPhone: '',
+        topRank: '',
+        name: '',
+        openRelated: 0
+      },
+      rules: {
+        infoTitle: [
+          { required: true, message: '资讯标题不能为空', trigger: 'blur' }
+        ],
+        infoShortTitle: [
+          { required: true, message: '资讯子标题不能为空', trigger: 'blur' }
+        ],
+        infoDescription: [
+          { required: true, message: '描述不能为空', trigger: 'blur' }
+        ],
+        author: [
+          { required: true, message: '作者不能为空', trigger: 'blur' }
+        ],
+        topRank: [
+          { required: true, message: '置顶排序不能为空', trigger: 'blur' }
+        ]
       },
       typeForm: {
-        clsType: '',
-        type: 1,
         clsName: '',
         clsIcon: 'https://avatar-static.segmentfault.com/852/246/852246081-5b15227f8c800_big64',
-        parentId: '',
-        showIndex: true,
+        showIndex: 0,
         indexLimit: ''
       },
       typeRules: {
-        clsType: [
-          { required: true, message: '分类类型不能为空', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请选择资讯类型', trigger: 'change' }
-        ],
         clsName: [
           { required: true, message: '分类名不能为空', trigger: 'blur' }
-        ],
-        parentId: [
-          { required: true, message: '父类Id不能为空', trigger: 'blur' }
         ],
         indexLimit: [
           { required: true, message: '首页展示条数不能为空', trigger: 'blur' }
@@ -229,20 +257,6 @@ export default {
       textMap: {
         update: '编辑',
         create: '创建'
-      },
-      rules: {
-        title: [
-          { required: true, message: '资讯标题不能为空', trigger: 'blur' }
-        ],
-        subtitle: [
-          { required: true, message: '资讯子标题不能为空', trigger: 'blur' }
-        ],
-        content: [
-          { required: true, message: '资讯内容不能为空', trigger: 'blur' }
-        ],
-        newsType: [
-          { required: true, message: '请选择资讯类型', trigger: 'change' }
-        ]
       },
       downloadLoading: false,
       editorInit: {
@@ -278,12 +292,15 @@ export default {
   },
   created() {
     this.getList()
-    this.getSele()
+    this.getTab()
   },
   methods: {
     getTab() {
       getNewsType()
         .then(response => {
+          const data = response.data.data
+          console.log(data)
+          this.tabs = data.items
         })
         .catch(() => {
         })
@@ -298,7 +315,7 @@ export default {
             .then(response => {
               console.log(response)
               // this.list.unshift(response.data.data)
-              // this.dialogFormVisible = false
+              this.dialogFormVisible2 = false
               this.$notify.success({
                 title: '成功',
                 message: '创建资讯分类成功'
@@ -312,14 +329,6 @@ export default {
             })
         }
       })
-    },
-    getSele() {
-      seleNews()
-        .then(response => {
-          this.sele = response.data.data
-        })
-        .catch(() => {
-        })
     },
     getList() {
       this.listLoading = true
@@ -341,36 +350,56 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    resetForm() {
-      this.dataForm = {
-        id: undefined,
-        titile: undefined,
-        subtitle: undefined,
-        picUrl: undefined,
-        content: '',
-        price: undefined,
-        readCount: undefined,
-        goods: []
-      }
-    },
+    // resetForm() {
+    //   this.dataForm = {
+    //     infoTitle: undefined,
+    //     infoShortTitle: undefined,
+    //     infoDescription:'',
+    //     author:'',
+    //     infoMainImg: undefined,
+    //     content:'',
+    //     showIndex:0,
+    //     scope:'0',
+    //     assignPhone:'',
+    //     topRank:'',
+    //     tags:'',
+    //     openRelated:''
+    //   }
+    // },
     handleCreate() {
-      this.resetForm()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
+        this.$refs['dataForm'].resetFields()
+        // this.$refs['dataForm'].clearValidate()
       })
     },
     uploadPicUrl: function(response) {
-      this.dataForm.picUrl = response.data.url
+      this.dataForm.infoMainImg = response.data.url
     },
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          createNews(this.dataForm)
+          const { name, content, author, ...tabInfo } = this.dataForm
+          const obj = {
+            tabInfo,
+            content: {
+              author,
+              content
+            },
+            tagName: {
+              name
+            }
+          }
+          console.log(name)
+          console.log(content)
+          console.log(author)
+          console.log(tabInfo)
+          createNews(obj)
             .then(response => {
-              this.list.unshift(response.data.data)
-              this.dialogFormVisible = false
+              console.log(response)
+              // this.list.unshift(response.data.data)
+              // this.dialogFormVisible = false
               this.$notify.success({
                 title: '成功',
                 message: '创建资讯成功'
@@ -457,9 +486,9 @@ export default {
         const filterVal = [
           'id',
           'title',
-          'subtitle',
+          'infoTitle',
           'content',
-          'picUrl',
+          'infoMainImg',
           'price',
           'readCount',
           'goods'
