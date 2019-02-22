@@ -27,7 +27,7 @@ public class LitemallExpressOrderService {
         return expressOrderMapper.selectOneByExample(expressOrderExample);
     }
 
-    public LitemallExpressOrder findById(Integer id) {
-        return expressOrderMapper.selectByPrimaryKey(id);
-    }
+//    public LitemallExpressOrder findById(Integer id) {
+//        return expressOrderMapper.selectByPrimaryKey(id);
+//    }
 }

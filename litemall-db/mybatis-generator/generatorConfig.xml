@@ -218,6 +218,15 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <!--资讯表-->
+        <table tableName="litemall_tab_info">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <!--资讯分类表-->
+        <table tableName="litemall_tab_info_class">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
     </context>
 </generatorConfiguration>
