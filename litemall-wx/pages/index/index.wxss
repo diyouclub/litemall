@@ -46,6 +46,7 @@
 .bottom-box {
   margin: 0 21rpx;
   background-color: #fff;
+  border-radius: 5px;
 }
 .icon-link {
   display: flex;

@@ -12,12 +12,16 @@ page {
 }
 
 .profile-info {
-  background-color: #ab956d;
-  color: #f4f4f4;
+  background-image: linear-gradient(132deg, 
+		#ff212e 0%, 
+		#f0151b 50%, 
+		#e00808 100%), 
+	linear-gradient(
+		#444444, 
+		#444444);
   display: flex;
   align-items: center;
   padding: 30rpx;
-  font-size: 28rpx;
 }
 
 .profile-info .avatar {
@@ -41,12 +45,24 @@ page {
   margin-bottom: 10rpx;
 }
 .vip-area {
+  width: 238rpx;
+	height: 48rpx;
+	background-image: linear-gradient(132deg, 
+		#ffd200 0%, 
+		#ff8e00 100%), 
+	linear-gradient(
+		#ffffff, 
+		#ffffff);
+	background-blend-mode: normal, 
+		normal;
+	border-radius: 8rpx;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .vip-area .vip-tit {
-  color: #fff;
-  font-size: 28rpx;
+  color: #e00808;
+  font-size: 23rpx;
 }
 .vip-area image {
   width: 48rpx;
@@ -54,16 +70,8 @@ page {
   margin-left: 30rpx;
 }
 .vip-area .vip-discript {
-  color: #b3b3b3;
-  font-size: 28rpx;
-}
-.profile-info .level {
-  display: block;
-  height: 30rpx;
-  line-height: 30rpx;
-  margin-bottom: 10rpx;
-  color: #7f7f7f;
-  font-size: 30rpx;
+  color: #e00808;
+  font-size: 23rpx;
 }
 .up-user .up-t{
   color: #fff;
@@ -82,41 +90,41 @@ page {
 
 .user_area {
   /* border: 1px solid black; */
-  width: 100%;
-  height: 226rpx;
   /* margin: 0 auto; */
-  margin-top: -8rpx;
+  margin: 40rpx 21rpx 21rpx 21rpx;
   background: #fff;
+  border-radius: 8rpx;
   /* border-top: 1px solid #f4f4f4; */
 }
 
 .user_row {
   /* border: 1px solid black; */
   height: 86rpx;
-  line-height: 86rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #fafafa;
 }
 
 .user_row_left {
-  /* border: 1px solid #757575; */
-  float: left;
-  height: 86rpx;
-  font-weight: 550;
-  line-height: 86rpx;
-  margin-left: 35rpx;
-  font-size: 26rpx;
-  letter-spacing: 1rpx;
+  margin-left: 29rpx;
+}
+.user_row_left text{
+  font-size: 32rpx;
+	color: #333333;
 }
 
 .user_row_right {
-  /* border: 1px solid #757575; */
-  float: right;
-  height: 40rpx;
-  width: 40rpx;
-  font-weight: 550;
-  line-height: 86rpx;
-  margin-top: 28rpx;
   margin-right: 30rpx;
+}
+.user_row_right text{
+  font-size: 23rpx;
+  color: #666666;
+}
+.user_row_right image{
+  width: 10rpx;
+  height: 20rpx;
+  margin-left: 21rpx;
 }
 
 .user_column {
@@ -153,14 +161,8 @@ page {
 
 .user_column_item_text {
   /* border: 1px solid black; */
-  font-size: 24rpx;
-  color: #555;
-}
-
-.separate {
-  background: #e0e3da;
-  width: 100%;
-  height: 6rpx;
+  font-size: 23rpx;
+  color: #666666;
 }
 
 .user_column_item_phone {

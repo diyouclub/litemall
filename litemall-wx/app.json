@@ -51,25 +51,25 @@
   "tabBar": {
     "backgroundColor": "#fafafa",
     "borderStyle": "white",
-    "selectedColor": "#AB956D",
-    "color": "#666",
+    "selectedColor": "rgb(227,10,12)",
+    "color": "rgb(68,68,68)",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "static/images/home.png",
-        "selectedIconPath": "static/images/home@selected.png",
+        "iconPath": "static/newimages/lz_87.png",
+        "selectedIconPath": "static/newimages/lz_81.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/cart/cart",
-        "iconPath": "static/images/cart.png",
-        "selectedIconPath": "static/images/cart@selected.png",
+        "iconPath": "static/newimages/lz_90.png",
+        "selectedIconPath": "static/newimages/lz_84.png",
         "text": "购物车"
       },
       {
         "pagePath": "pages/ucenter/index/index",
-        "iconPath": "static/images/my.png",
-        "selectedIconPath": "static/images/my@selected.png",
+        "iconPath": "static/newimages/lz_96.png",
+        "selectedIconPath": "static/newimages/lz_93.png",
         "text": "个人"
       }
     ]
