@@ -52,42 +52,43 @@
       </view>
     </view>
   </view>
-
-  <view class='user_row'>
-    <view class='user_row_left'>设置</view>
-  </view>
-  <view class='user_column'>
-    <view class='user_column_item' bindtap='goAddress'>
-      <image class='user_column_item_image' src='/static/images/address.png'></image>
-      <view class='user_column_item_text'>地址管理</view>
-    </view>
-    <view class='user_column_item' bindtap='goInvite'>
-       <image class='user_column_item_image' src='/static/images/group.png'></image>
-      <view class='user_column_item_text'>邀请有礼</view>
-    </view>
-    <view class='user_column_item'  bindtap='goVip'>
-        <image class='user_column_item_image' src='/static/images/vip.png'></image>
-        <view class='user_column_item_text'>升级会员</view>
-    </view>
-    <view class='user_column_item'>
-      <button class='user_column_item_phone'  open-type="getPhoneNumber" bindgetphonenumber="bindPhoneNumber"></button>
-      <image class='user_column_item_image' src='/static/images/mobile.png'></image>
-      <!-- <image class='user_column_item_image' src='/static/images/bind.png'></image> -->
-      <view class='user_column_item_text'>绑定手机</view>
-    </view>
-    <view class='user_column_item' bindtap='goBind'>
-        <image class='user_column_item_image' src='/static/images/bind.png'></image>
-        <view class='user_column_item_text'>绑定后台</view>
-    </view>
-        <view class='user_column_item'  >
-        <button class='user_column_item_phone' open-type="contact" bindcontact="handleContact"></button>
-        <image class='user_column_item_image' src='/static/images/lianxi.png'></image>
-          <view class='user_column_item_text'>联系客服</view>
-    </view>
-        <view class='user_column_item'  bindtap='connactSd'>
-        <image class='user_column_item_image' src='/static/images/lianxidianyuan.png'></image>
-        <view class='user_column_item_text'>联系省代</view>
-    </view>
+  <view class='user_area'>
+        <view class='user_row'>
+          <view class='user_row_left'> <text>设置</text> </view>
+        </view>
+        <view class='user_column'>
+          <view class='user_column_item' bindtap='goAddress'>
+            <image class='user_column_item_image' src='/static/newimages/lz_53.png'></image>
+            <view class='user_column_item_text'>地址管理</view>
+          </view>
+          <view class='user_column_item' bindtap='goInvite'>
+            <image class='user_column_item_image' src='/static/newimages/lz_55.png'></image>
+            <view class='user_column_item_text'>邀请有礼</view>
+          </view>
+          <view class='user_column_item'  bindtap='goVip'>
+              <image class='user_column_item_image' src='/static/newimages/lz_57.png'></image>
+              <view class='user_column_item_text'>升级会员</view>
+          </view>
+          <view class='user_column_item'>
+            <button class='user_column_item_phone'  open-type="getPhoneNumber" bindgetphonenumber="bindPhoneNumber"></button>
+            <image class='user_column_item_image' src='/static/newimages/lz_59.png'></image>
+            <!-- <image class='user_column_item_image' src='/static/images/bind.png'></image> -->
+            <view class='user_column_item_text'>绑定手机</view>
+          </view>
+          <view class='user_column_item' bindtap='goBind'>
+              <image class='user_column_item_image' src='/static/newimages/lz_68.png'></image>
+              <view class='user_column_item_text'>绑定后台</view>
+          </view>
+              <view class='user_column_item'  >
+              <button class='user_column_item_phone' open-type="contact" bindcontact="handleContact"></button>
+              <image class='user_column_item_image' src='/static/newimages/lz_70.png'></image>
+                <view class='user_column_item_text'>联系客服</view>
+          </view>
+              <view class='user_column_item'  bindtap='connactSd'>
+              <image class='user_column_item_image' src='/static/newimages/lz_73.png'></image>
+              <view class='user_column_item_text'>联系省代</view>
+          </view>
+        </view>
   </view>
   <view class="logout" wx:if="{{hasLogin}}" bindtap="exitLogin">退出登录</view>
 </view>
