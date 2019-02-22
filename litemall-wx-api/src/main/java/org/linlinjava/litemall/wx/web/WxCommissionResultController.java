@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 用户收货地址服务
+ * 微信提现申请页面
  */
 @RestController
-@RequestMapping("/wx/address")
+@RequestMapping("/wx/commissionResult")
 @Validated
 public class WxCommissionResultController {
     private final Log logger = LogFactory.getLog(WxCommissionResultController.class);
