@@ -23,5 +23,28 @@
       </view>
   </view>
   <view class='content-wrapper' wx:if='{{currentTab === 1}}'>222221111111111111</view>
-
+  <view class='select'>
+      <picker
+      class='date-box'
+        mode="date"
+        value="{{dateStart}}"
+        start="2015-09-01"
+        end="{{dateStart}}"
+        bindchange="bindStartChange"
+      >
+        <text>{{dateStart}}</text>
+      </picker>
+      <view class='data-middle'><text class='text-normal'>至</text></view>
+      <picker
+        class='date-box'
+        mode="date"
+        value="{{dateEnd}}"
+        start="{{dateStart}}"
+        end="{{now}}"
+        bindchange="bindEndChange"
+      >
+        <text>{{dateEnd}}</text>
+      </picker>
+      <view class='search-btn'><text>确定</text></view>
+  </view>
 </view>

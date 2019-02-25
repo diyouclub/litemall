@@ -1,11 +1,15 @@
 // pages/ucenter/withdrawalsRecord/withdrawalsRecord.js
+var util= require('../../../utils/util.js')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    currentTab: 0
+    currentTab: 0,
+    dateStart: util.formatDate(new Date()),
+    dateEnd: util.formatDate(new Date()),
+    now:util.formatDate(new Date())
   },
 
   /**
@@ -22,6 +26,17 @@ Page({
     } else if (tab === 'tabright') {
       this.setData({ currentTab: 1 })
     }
+  },
+  bindStartChange(e) {
+    console.log(e);
+    this.setData({
+      dateStart: e.detail.value
+    })
+  },
+  bindEndChange(e) {
+    this.setData({
+      dateEnd: e.detail.value
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
