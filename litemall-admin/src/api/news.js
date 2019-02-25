@@ -19,7 +19,7 @@ export function listNews(query) {
 
 export function createNews(data) {
   return request({
-    url: '/news/create',
+    url: '/tabInfo/create',
     method: 'post',
     data
   })

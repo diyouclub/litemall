@@ -391,10 +391,12 @@ export default {
               name
             }
           }
+          console.log(this.dataForm)
           console.log(name)
           console.log(content)
           console.log(author)
           console.log(tabInfo)
+          console.log(obj)
           createNews(obj)
             .then(response => {
               console.log(response)

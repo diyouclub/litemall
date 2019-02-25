@@ -79,14 +79,18 @@
               <image class='user_column_item_image' src='/static/newimages/lz_68.png'></image>
               <view class='user_column_item_text'>绑定后台</view>
           </view>
-              <view class='user_column_item'  >
+          <view class='user_column_item'  >
               <button class='user_column_item_phone' open-type="contact" bindcontact="handleContact"></button>
               <image class='user_column_item_image' src='/static/newimages/lz_70.png'></image>
                 <view class='user_column_item_text'>联系客服</view>
           </view>
-              <view class='user_column_item'  bindtap='connactSd'>
+          <view class='user_column_item'  bindtap='connactSd'>
               <image class='user_column_item_image' src='/static/newimages/lz_73.png'></image>
               <view class='user_column_item_text'>联系省代</view>
+          </view>
+          <view class='user_column_item'  bindtap='toWithdrawal'>
+              <image class='user_column_item_image' src='/static/newimages/lz_75.png'></image>
+              <view class='user_column_item_text'>提现申请</view>
           </view>
         </view>
   </view>

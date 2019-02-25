@@ -1,0 +1,115 @@
+/* pages/ucenter/withdrawal/withdrawal.wxss */
+page {
+  height: 100%;
+  width: 100%;
+  background: #f4f4f4;
+}
+.header{
+  width: 100%;
+  height: 243rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  margin: 20rpx 0;
+}
+.header .money{
+  font-size: 82rpx;
+  color: #333333;
+}
+.header .label{
+  font-size: 27rpx;
+  color: #666666;
+}
+.bank-info{
+  width: 100%;
+  height: 202rpx;
+  margin: 20rpx 0;
+}
+.bank-info .input-box{
+  background-color: #fff;
+  height: 50%;
+  padding: 0 34rpx;
+  border-bottom: solid 1px #f4f4f4;
+}
+.bank-info .input-box input{
+  height: 100%;
+}
+.withdrawal{
+  width: 100%;
+  height: 220rpx;
+  padding: 0 34rpx;
+  background-color: #fff;
+}
+.withdrawal-top{
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+}
+.withdrawal-top text{
+  font-size: 32rpx;
+  color: #333333;
+}
+.withdrawal-bottom{
+  height: 120rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.withdrawal-bottom text{
+  font-size: 72rpx;
+  color: #333333;
+}
+.arrival{
+  width: 100%;
+  height: 202rpx;
+  margin: 20rpx 0;
+}
+.arrival .arrival-item{
+  height: 50%;
+  padding: 0 34rpx;
+  background-color: #fff;
+  border-bottom: solid 1px #f4f4f4;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+}
+.arrival-lef text{
+  font-size: 32rpx;
+  color: #333333;
+}
+.arrival-rig-red{
+  font-size: 32rpx;
+  color: #ff212f;
+}
+.arrival-label{
+  font-size: 32rpx;
+  color: #333333;
+}
+.btn-area{
+  margin-top: 42rpx;
+  display: flex;
+  justify-content: center;
+}
+.btn{
+  width: 510rpx;
+	height: 100rpx;
+	background-color: #ff212f;
+	border-radius: 50rpx;
+  line-height: 100rpx;
+  text-align: center;
+}
+.btn text{
+  font-size: 36rpx;
+  color: #ffffff;
+}
+.to-list{
+  margin-top: 20rpx;
+  text-align: center;
+}
+.to-list text{
+  font-size: 28rpx;
+  color: #666;
+}

@@ -1,0 +1,79 @@
+/* pages/ucenter/withdrawalsRecord/withdrawalsRecord.wxss */
+page {
+  height: 100%;
+  width: 100%;
+  background: #f4f4f4;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.tab-wrapper{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100rpx;
+  background: #fff;
+  border-top: solid 1px #f4f4f4;
+}
+
+.tab-left, .tab-right{
+  flex: 1;
+  font-size: 32rpx;
+  color: #000;
+  line-height: 100rpx;
+  text-align: center;
+}
+
+.tab-active{
+  border-bottom: 2px solid #f91c26;
+  color: #f91c26;
+}
+
+.content-wrapper{
+  width: 100%;
+  flex: 1;
+}
+.month{
+  width: 100%;
+  height: 50rpx;
+  margin-top: 20rpx;
+  padding: 0 35rpx;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center
+}
+.month text{
+  font-size: 32rpx;
+  color: #999999;
+}
+.content-item{
+  width: 100%;
+  background: #fff;
+  padding: 20rpx 35rpx;
+}
+.item-cell{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 19rpx
+}
+.text-mini{
+  line-height: 32rpx;
+  color: #333333;
+}
+.text-mini9{
+  line-height: 32rpx;
+  color: #999999;
+}
+.text-normal{
+  font-size: 32rpx;
+  color: #333333;
+}
