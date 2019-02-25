@@ -1,0 +1,50 @@
+<!--pages/ucenter/withdrawalsRecord/withdrawalsRecord.wxml-->
+
+<view class='container'>
+
+  <view class='tab-wrapper'>
+    <view id='tableft' class='tab-left {{currentTab === 0 ? "tab-active":""}}' bindtap='switchTab'>待审核</view>
+    <view id='tabright' class='tab-right {{currentTab === 1 ? "tab-active" : ""}}' bindtap='switchTab'>已审核</view>
+  </view>
+  <view class='content-wrapper' wx:if='{{currentTab === 0}}'>
+      <view class='month'>
+        <text>2月</text>
+      </view>
+      <view class='content-item'>
+        <view class='item-cell'><text class='text-normal'>6214432566667674532（招商银行）</text></view>
+        <view class='item-cell'>
+          <text class='text-mini'>手续费：9.00元</text>
+          <text class='text-normal'>-891.00</text>
+        </view>
+        <view class='item-cell'>
+          <text class='text-mini9'>02.10 10：22</text>
+          <text class='text-mini'>已转账</text>
+        </view>
+      </view>
+  </view>
+  <view class='content-wrapper' wx:if='{{currentTab === 1}}'>222221111111111111</view>
+  <view class='select'>
+      <picker
+      class='date-box'
+        mode="date"
+        value="{{dateStart}}"
+        start="2015-09-01"
+        end="{{dateStart}}"
+        bindchange="bindStartChange"
+      >
+        <text>{{dateStart}}</text>
+      </picker>
+      <view class='data-middle'><text class='text-normal'>至</text></view>
+      <picker
+        class='date-box'
+        mode="date"
+        value="{{dateEnd}}"
+        start="{{dateStart}}"
+        end="{{now}}"
+        bindchange="bindEndChange"
+      >
+        <text>{{dateEnd}}</text>
+      </picker>
+      <view class='search-btn'><text>确定</text></view>
+  </view>
+</view>

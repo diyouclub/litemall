@@ -258,6 +258,17 @@ Page({
       }
     })
   },
+  toWithdrawal: function() {
+    if (this.data.hasLogin) {
+      wx.navigateTo({
+        url: "/pages/ucenter/withdrawal/withdrawal"
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/login/login"
+      });
+    };
+  },
   goAfterSale: function() {
     wx.showToast({
       title: '目前不支持',

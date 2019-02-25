@@ -38,7 +38,9 @@
     "pages/groupon/grouponList/grouponList",
     "pages/coupon/coupon",
     "pages/ucenter/invitation/invitation",
-    "pages/ucenter/bind/bind"
+    "pages/ucenter/bind/bind",
+    "pages/ucenter/withdrawal/withdrawal",
+    "pages/ucenter/withdrawalsRecord/withdrawalsRecord"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FFFFFF",
