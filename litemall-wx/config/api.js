@@ -6,7 +6,7 @@
 // 云平台部署时使用
 // var WxApiRoot = 'http://122.152.206.172:8080/wx/';
 // 云平台上线时使用
-var WxApiRoot = 'https://www.ql305.cn/wx/'; //https://www.ql305.cn/wx/
+var WxApiRoot = 'http://192.168.2.237:8082/wx/'; //https://www.ql305.cn/wx/
 
 module.exports = {
   IndexUrl: WxApiRoot + 'home/index', //首页数据接口
@@ -101,4 +101,5 @@ module.exports = {
   CommissionList: WxApiRoot + 'user/commissionList', //list
   userMobile: WxApiRoot + '/user/info', //用户手机号码
   bindMobile: WxApiRoot + '/auth/reset', //绑定设置密码
+  getUserIncome: WxApiRoot + '/commissionResult/account', //获取当前账号账户信息 参数
 };

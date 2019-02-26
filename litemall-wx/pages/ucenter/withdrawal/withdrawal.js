@@ -1,4 +1,7 @@
 // pages/ucenter/withdrawal/withdrawal.js
+var util = require('../../../utils/util.js');
+var api = require('../../../config/api.js');
+
 Page({
 
   /**
@@ -7,7 +10,13 @@ Page({
   data: {
     bankCode: '',
     bankName: '',
-    money:''
+    money:'',
+    accountId:'',
+    brokerage:'',
+    finally_money:'',
+    balance:'0.00',
+    sxf:2,
+    sjdz:0
   },
 
   /**
@@ -21,7 +30,20 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.getUserIncome();
+  },
+  getUserIncome() {
+    let that = this;
+    util.request(api.getUserIncome).then(function (res) {
+      if (res.errno === 0) {
+        let data = res.data
+        console.log(res.data);
+        that.setData({
+          accountId: data.id,
+          balance: data.balance
+        });
+      }
+    });
   },
   bindKeyInput1(e) {
     this.setData({
@@ -35,7 +57,8 @@ Page({
   },
   bindKeyInput3(e) {
     this.setData({
-      money: e.detail.value
+      money: e.detail.value,
+      sjdz: e.detail.value-2
     })
   },
   goList() {
