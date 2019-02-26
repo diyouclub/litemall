@@ -96,10 +96,13 @@ page {
 .btn{
   width: 510rpx;
 	height: 100rpx;
-	background-color: #ff212f;
+	background-color: #d1d1d1;
 	border-radius: 50rpx;
   line-height: 100rpx;
   text-align: center;
+}
+.btn-active{
+  background-color: #ff212f;
 }
 .btn text{
   font-size: 36rpx;

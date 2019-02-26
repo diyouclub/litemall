@@ -39,6 +39,7 @@ page {
 .content-wrapper{
   width: 100%;
   flex: 1;
+  overflow-y: auto;
 }
 .month{
   width: 100%;

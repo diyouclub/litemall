@@ -32,7 +32,9 @@
 </view>
 
 <view class='btn-area'>
-  <view class='btn'><text>确认提现</text></view>
+  <view class='btn {{bankCode && bankName && money?"btn-active":""}}' bindtap="withdrawTap">
+    <text>确认提现</text>
+  </view>
 </view>
 <view class='to-list' bindtap='goList'>
     <text>提现记录</text>

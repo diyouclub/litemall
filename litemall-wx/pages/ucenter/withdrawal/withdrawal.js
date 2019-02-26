@@ -12,11 +12,9 @@ Page({
     bankName: '',
     money:'',
     accountId:'',
-    brokerage:'',
-    finally_money:'',
     balance:'0.00',
     sxf:2,
-    sjdz:0
+    sjdz:0,
   },
 
   /**
@@ -31,6 +29,61 @@ Page({
    */
   onReady: function () {
     this.getUserIncome();
+  },
+  withdrawTap() {
+    var pattern = /^([1-9]{1})(\d{14}|\d{18})$/;
+    if (!this.data.bankCode || !this.data.bankName || !this.data.money){
+      return
+    }
+    if (!pattern.test(this.data.bankCode)) {
+      wx.showToast({
+        title: '请输入正确的银行卡号',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if (this.data.money<100){
+      wx.showToast({
+        title: '提现金额必须大于100元',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if (this.data.money>this.data.balance){
+      wx.showToast({
+        title: '提现金额必须小于可提现金额',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    let params = {
+      accountId: this.data.accountId,
+      money:this.data.money,
+      bank_card: this.data.bankCode,
+      band_name: this.data.bankName,
+      brokerage: this.data.sxf,
+      finally_money: this.data.sjdz,
+    };
+    let that = this;
+    util.request(api.getIncomeApply, params, 'POST').then(function (res) {
+      if (res.errno === 0) {
+        wx.showToast({
+          title: '提现申请成功！',
+          icon: 'success',
+          duration: 2000
+        });
+        that.onReady();
+      }else{
+        wx.showToast({
+          title: res.errmsg,
+          duration: 2000
+        })
+      }
+    });
+    
   },
   getUserIncome() {
     let that = this;

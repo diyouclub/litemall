@@ -3,26 +3,49 @@
 <view class='container'>
 
   <view class='tab-wrapper'>
-    <view id='tableft' class='tab-left {{currentTab === 0 ? "tab-active":""}}' bindtap='switchTab'>待审核</view>
-    <view id='tabright' class='tab-right {{currentTab === 1 ? "tab-active" : ""}}' bindtap='switchTab'>已审核</view>
+    <view id='tableft' class='tab-left {{currentTab === "0" ? "tab-active":""}}' bindtap='switchTab'>待审核</view>
+    <view id='tabright' class='tab-right {{currentTab === "1" ? "tab-active" : ""}}' bindtap='switchTab'>已审核</view>
   </view>
-  <view class='content-wrapper' wx:if='{{currentTab === 0}}'>
-      <view class='month'>
+  <view class='content-wrapper'>
+      <!-- <view class='month'>
         <text>2月</text>
-      </view>
-      <view class='content-item'>
-        <view class='item-cell'><text class='text-normal'>6214432566667674532（招商银行）</text></view>
+      </view> -->
+      <view class='content-item' 
+            wx:for="{{list}}" 
+            wx:for-index="idx" 
+            wx:key="idx"
+            wx:for-item="item" 
+            wx:if="{{item.auditFlag==='0' && currentTab==='0'}}">
+        <view class='item-cell'><text class='text-normal'>{{item.bankCard}}（{{item.bandName}}）</text></view>
         <view class='item-cell'>
-          <text class='text-mini'>手续费：9.00元</text>
-          <text class='text-normal'>-891.00</text>
+          <text class='text-mini'>手续费：{{item.brokerage}}.00元</text>
+          <text class='text-normal'>-{{item.money}}</text>
         </view>
         <view class='item-cell'>
-          <text class='text-mini9'>02.10 10：22</text>
-          <text class='text-mini'>已转账</text>
+          <text class='text-mini9'>{{item.addTime}}</text>
+          <text class='text-mini'>待审核</text>
+        </view>
+      </view>
+
+      <view class='content-item' 
+            wx:for="{{list}}" 
+            wx:for-index="idx" 
+            wx:key="idx"
+            wx:for-item="item" 
+            wx:if="{{item.auditFlag!=='0' && currentTab==='1'}}">
+        <view class='item-cell'><text class='text-normal'>{{item.bankCard}}（{{item.bandName}}）</text></view>
+        <view class='item-cell'>
+          <text class='text-mini'>手续费：{{item.brokerage}}.00元</text>
+          <text class='text-normal'>-{{item.money}}</text>
+        </view>
+        <view class='item-cell'>
+          <text class='text-mini9'>{{item.addTime}}</text>
+          <text class='text-mini' wx:if="{{item.auditFlag==='1'}}">审核通过</text>
+          <text class='text-mini' wx:if="{{item.auditFlag==='2'}}">审核不通过</text>
         </view>
       </view>
   </view>
-  <view class='content-wrapper' wx:if='{{currentTab === 1}}'>222221111111111111</view>
+  <!-- <view class='content-wrapper' wx:if='{{currentTab === 1}}'>222221111111111111</view> -->
   <view class='select'>
       <picker
       class='date-box'
@@ -45,6 +68,6 @@
       >
         <text>{{dateEnd}}</text>
       </picker>
-      <view class='search-btn'><text>确定</text></view>
+      <view class='search-btn' bindtap='getList'><text>确定</text></view>
   </view>
 </view>

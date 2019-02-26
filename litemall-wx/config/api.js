@@ -101,5 +101,7 @@ module.exports = {
   CommissionList: WxApiRoot + 'user/commissionList', //list
   userMobile: WxApiRoot + '/user/info', //用户手机号码
   bindMobile: WxApiRoot + '/auth/reset', //绑定设置密码
-  getUserIncome: WxApiRoot + '/commissionResult/account', //获取当前账号账户信息 参数
+  getUserIncome: WxApiRoot + '/commissionResult/account', //获取当前账号账户信息
+  getIncomeApply: WxApiRoot + '/commissionResult/apply', // 提现申请
+  getIncomeList: WxApiRoot + '/commissionResult/list', // 获取提现申请列表
 };

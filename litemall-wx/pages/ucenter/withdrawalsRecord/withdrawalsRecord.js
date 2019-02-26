@@ -1,15 +1,18 @@
 // pages/ucenter/withdrawalsRecord/withdrawalsRecord.js
-var util= require('../../../utils/util.js')
+var util= require('../../../utils/util.js');
+var api = require('../../../config/api.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    currentTab: 0,
+    currentTab: "0",
     dateStart: util.formatDate(new Date()),
     dateEnd: util.formatDate(new Date()),
-    now:util.formatDate(new Date())
+    now:util.formatDate(new Date()),
+    list:[]
   },
 
   /**
@@ -19,16 +22,14 @@ Page({
 
   },
   switchTab(e) {
-    console.log(e)
     let tab = e.currentTarget.id
     if (tab === 'tableft') {
-      this.setData({ currentTab: 0 })
+      this.setData({ currentTab: "0" })
     } else if (tab === 'tabright') {
-      this.setData({ currentTab: 1 })
+      this.setData({ currentTab: "1" })
     }
   },
   bindStartChange(e) {
-    console.log(e);
     this.setData({
       dateStart: e.detail.value
     })
@@ -42,9 +43,25 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.getList()
   },
-
+  getList() {
+    let that = this;
+    let params = {
+      startTime: this.data.dateStart+' 00:00:00',
+      endTime: this.data.dateEnd + ' 23:59:59',
+      page:1,
+      limit:10
+    };
+    util.request(api.getIncomeList, params,'GET').then(function (res) {
+      if (res.errno === 0) {
+        let data = res.data
+        that.setData({
+          list: data.litemallMoneyApplies,
+        });
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面显示
    */
