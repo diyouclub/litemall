@@ -2,8 +2,14 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button class="filter-item" type="primary" @click="showCreateTabDialog">添加分类</el-button>
-      <el-tabs v-model="dataForm.clsId" type="border-card">
-        <el-tab-pane v-for="(item,index) in tabs" :key="index" :name="item.id+''" :label="item.clsName">
+      <el-tabs v-model="dataForm.clsId" type="border-card" @tab-click="tabClick">
+        <el-tab-pane
+          v-for="(item,index) in tabs"
+          :key="index"
+          :name="item.id+''"
+          :label="item.clsName"
+
+        >
           <!-- 查询和其他操作 -->
           <div class="filter-container">
             <el-input v-model="listQuery.info_title" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯标题"/>
@@ -14,10 +20,11 @@
 
           <!-- 查询结果 -->
           <el-table v-loading="listLoading" :data="list" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-            <el-table-column align="center" label="资讯标题" prop="title"/>
+            <el-table-column align="center" label="资讯标题" prop="infoTitle"/>
 
-            <el-table-column align="center" label="资讯子标题" min-width="200" prop="infoShortTitle"/>
-            <el-table-column align="center" label="资讯子标题" prop="newsType"/>
+            <el-table-column align="center" label="资讯短标题" min-width="200" prop="infoShortTitle"/>
+            <el-table-column align="center" label="描述" prop="infoDescription"/>
+
             <el-table-column align="center" property="infoMainImg" label="图片">
               <template slot-scope="scope">
                 <img :src="scope.row.infoMainImg" width="80">
@@ -30,9 +37,9 @@
               </template>
             </el-table-column>
 
-            <el-table-column align="center" label="底价" prop="price"/>
+            <el-table-column :formatter="showIndexFormatter" align="center" label="是否显示" prop="showIndex"/>
 
-            <el-table-column align="center" label="阅读数量" prop="readCount"/>
+            <el-table-column align="center" label="置顶排序" prop="topRank"/>
 
             <el-table-column align="center" label="操作" min-width="200" class-name="small-padding fixed-width">
               <template slot-scope="scope">
@@ -43,6 +50,20 @@
           </el-table>
 
           <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+        </el-tab-pane>
+        <el-tab-pane label="栏目设置" name="lmsz">
+          <el-table :data="lmList" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+            <el-table-column type="index" width="50" />
+
+            <el-table-column align="center" property="clsIcon" label="图标">
+              <template slot-scope="scope">
+                <img :src="scope.row.clsIcon" width="50" height="50">
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="栏目标题" prop="clsName"/>
+            <el-table-column :formatter="showIndexFormatter" align="center" label="首页展示	" prop="showIndex"/>
+            <el-table-column align="center" label="首页展示条目数量	" prop="indexLimit"/>
+          </el-table>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -119,8 +140,16 @@
         <el-form-item label="置顶排序" prop="topRank">
           <el-input v-model="dataForm.topRank"/>
         </el-form-item>
-        <el-form-item label="标签" prop="name">
-          <el-input v-model="dataForm.name"/>
+        <el-form-item label="标签" prop="name" @keyup.enter.native="setTag">
+          <el-input v-model="dataForm.name" clearable/>
+          <el-tag
+            v-for="(item,index) in tagArr"
+            :key="index"
+            size="mini"
+            closable
+            @close="closeTag(index)">
+            {{ item }}
+          </el-tag>
         </el-form-item>
         <el-form-item label="开启文章推荐" prop="openRelated">
           <el-switch v-model="dataForm.openRelated" :active-value="1" :inactive-value="0" active-text="开" inactive-text="关"	/>
@@ -168,7 +197,7 @@
 </style>
 
 <script>
-import { listNews, createNews, updateNews, deleteNews, createNewsType, getNewsType } from '@/api/news'
+import { listNews, createNews, updateNews, deleteNews, createNewsType, getNewsType, newsTypeList } from '@/api/news'
 import { createStorage, uploadPath } from '@/api/storage'
 import BackToTop from '@/components/BackToTop'
 import Editor from '@tinymce/tinymce-vue'
@@ -193,18 +222,26 @@ export default {
       uploadPath,
       list: undefined,
       tabs: [],
+      lmList: [],
+      tagArr: [],
       total: 0,
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 20,
         info_title: undefined,
-        sort: 'add_time',
+        sort: '',
+        order: 'desc'
+      },
+      listQuery1: {
+        page: 1,
+        limit: 20,
+        sort: '',
         order: 'desc'
       },
       dataForm: {
         // id: undefined,
-        clsId: '',
+        clsId: 'lmsz',
         infoTitle: undefined,
         infoShortTitle: undefined,
         infoDescription: '',
@@ -291,16 +328,43 @@ export default {
     }
   },
   created() {
-    this.getList()
     this.getTab()
+    this.getNewsTypeList()
   },
   methods: {
+    tabClick(tab, event) {
+      if (tab.name === 'lmsz') {
+        return
+      }
+      this.getList()
+    },
+    showIndexFormatter(row, column, cellValue, index) {
+      const str = cellValue === 0 ? '是' : '否'
+      return str
+    },
+    setTag() {
+      if (this.dataForm.name.replace(/\s/g, '')) {
+        this.tagArr.push(this.dataForm.name.trim())
+      }
+    },
+    closeTag(index) {
+      this.tagArr.splice(index, 1)
+    },
     getTab() {
       getNewsType()
         .then(response => {
           const data = response.data.data
           console.log(data)
           this.tabs = data.items
+        })
+        .catch(() => {
+        })
+    },
+    getNewsTypeList() {
+      newsTypeList(this.listQuery1)
+        .then(response => {
+          const data = response.data.data
+          this.lmList = data.items
         })
         .catch(() => {
         })
@@ -313,7 +377,6 @@ export default {
         if (valid) {
           createNewsType(this.typeForm)
             .then(response => {
-              console.log(response)
               // this.list.unshift(response.data.data)
               this.dialogFormVisible2 = false
               this.$notify.success({
@@ -331,12 +394,13 @@ export default {
       })
     },
     getList() {
+      const params = Object.assign(this.listQuery, { cls_id: ~~this.dataForm.clsId })
+      console.log(~~this.dataForm.clsId)
       this.listLoading = true
-      listNews(this.listQuery)
+      listNews(params)
         .then(response => {
+          console.log(response.data.data)
           this.list = response.data.data.items
-          console.log(this.list)
-
           this.total = response.data.data.total
           this.listLoading = false
         })
@@ -380,7 +444,8 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          const { name, content, author, ...tabInfo } = this.dataForm
+          const { content, author, ...tabInfo } = this.dataForm
+          const tagStr = this.tagArr.join(',')
           const obj = {
             tabInfo,
             content: {
@@ -388,7 +453,7 @@ export default {
               content
             },
             tagName: {
-              name
+              name: tagStr
             }
           }
           console.log(this.dataForm)
@@ -421,7 +486,14 @@ export default {
       this.contentDialogVisible = true
     },
     handleUpdate(row) {
-      this.dataForm = Object.assign({}, row)
+      // this.dataForm = Object.assign({}, row)
+      console.log(row)
+      console.log(this.dataForm)
+      // for(let key in this.dataForm){
+      //   if(key !== 'clsId'){
+      //     this.dataForm[key]=row[key]
+      //   }
+      // }
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

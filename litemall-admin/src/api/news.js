@@ -1,17 +1,15 @@
 import request from '@/utils/request'
 
-export function seleNews(query) {
+export function newsTypeList(query) { // 资讯分类列表
   return request({
-    url: '/codeTree/getCodeTree',
+    url: '/infoClass/list',
     method: 'get',
-    params: {
-      code_type: 'news_type'
-    }
+    params: query
   })
 }
 export function listNews(query) {
   return request({
-    url: '/news/list',
+    url: '/tabInfo/list',
     method: 'get',
     params: query
   })
@@ -21,14 +19,6 @@ export function createNews(data) {
   return request({
     url: '/tabInfo/create',
     method: 'post',
-    data
-  })
-}
-
-export function readNews(data) {
-  return request({
-    url: '/news/read',
-    method: 'get',
     data
   })
 }
