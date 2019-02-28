@@ -78,7 +78,7 @@ public class LitemallTabInfoService {
         }
 
         PageHelper.startPage(page, limit);
-        return tabInfoMapper.selectByExample(example);
+        return tabInfoMapper.selectByMyself(example);
     }
 
     public int countSelective(String info_title, Integer page, Integer size, String sort, String order,Integer cls_id) {
