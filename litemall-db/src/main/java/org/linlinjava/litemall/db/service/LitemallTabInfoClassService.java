@@ -37,11 +37,11 @@ public class LitemallTabInfoClassService {
 //        return (int) newsMapper.countByExample(example);
 //    }
 
-//    public LitemallNews findById(Integer id) {
-//        LitemallNewsExample example = new LitemallNewsExample();
-//        example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-//        return newsMapper.selectOneByExampleWithBLOBs(example);
-//    }
+    public LitemallTabInfoClass findById(Integer id) {
+        LitemallTabInfoClassExample example = new LitemallTabInfoClassExample();
+        example.or().andIdEqualTo(id).andDeletedEqualTo(false);
+        return tabInfoClassMapper.selectOneByExample(example);
+    }
 
 //    public List<LitemallNews> queryRelatedList(Integer id, int offset, int limit) {
 //        LitemallNewsExample example = new LitemallNewsExample();
@@ -94,16 +94,16 @@ public class LitemallTabInfoClassService {
         return (int) tabInfoClassMapper.countByExample(example);
     }
 
-//    public int updateById(LitemallNews news) {
-//        news.setUpdateTime(LocalDateTime.now());
-//        LitemallNewsExample example = new LitemallNewsExample();
-//        example.or().andIdEqualTo(news.getId());
-//        return newsMapper.updateByExampleSelective(news, example);
-//    }
+    public int updateById(LitemallTabInfoClass tabInfoClass) {
+        tabInfoClass.setUpdateTime(LocalDateTime.now());
+        LitemallTabInfoClassExample example = new LitemallTabInfoClassExample();
+        example.or().andIdEqualTo(tabInfoClass.getId());
+        return tabInfoClassMapper.updateByExampleSelective(tabInfoClass, example);
+    }
 
-//    public void deleteById(Integer id) {
-//        newsMapper.logicalDeleteByPrimaryKey(id);
-//    }
+    public void deleteById(Integer id) {
+        tabInfoClassMapper.logicalDeleteByPrimaryKey(id);
+    }
 
     public void add(LitemallTabInfoClass tabInfoClass) {
         tabInfoClass.setCreateTime(LocalDateTime.now());

@@ -30,17 +30,17 @@ public class LitemallTabInfoService {
 //        return newsMapper.selectByExampleSelective(example, columns);
 //    }
 
-//    public int queryTotal() {
+    //    public int queryTotal() {
 //        LitemallNewsExample example = new LitemallNewsExample();
 //        example.or().andDeletedEqualTo(false);
 //        return (int) newsMapper.countByExample(example);
 //    }
 //
-//    public LitemallNews findById(Integer id) {
-//        LitemallNewsExample example = new LitemallNewsExample();
-//        example.or().andIdEqualTo(id).andDeletedEqualTo(false);
-//        return newsMapper.selectOneByExampleWithBLOBs(example);
-//    }
+    public LitemallTabInfo findById(Integer id) {
+        LitemallTabInfoExample example = new LitemallTabInfoExample();
+        example.or().andClsIdEqualTo(id).andDeletedEqualTo(false);
+        return tabInfoMapper.selectOneByExample(example);
+    }
 //
 //    public List<LitemallNews> queryRelatedList(Integer id, int offset, int limit) {
 //        LitemallNewsExample example = new LitemallNewsExample();
@@ -62,16 +62,17 @@ public class LitemallTabInfoService {
 //        return queryList(offset, limit, "add_time", "desc");
 //    }
 
-    public List<LitemallTabInfo> querySelective(String info_title, Integer page, Integer limit, String sort, String order) {
+    public List<LitemallTabInfo> querySelective(String info_title, Integer page, Integer limit, String sort, String order,Integer cls_id) {
         LitemallTabInfoExample example = new LitemallTabInfoExample();
         LitemallTabInfoExample.Criteria criteria = example.createCriteria();
 
         if (!StringUtils.isEmpty(info_title)) {
             criteria.andInfoTitleLike("%" + info_title + "%");
         }
-
         criteria.andDeletedEqualTo(false);
-
+        if(cls_id!=null){
+            criteria.andClsIdEqualTo(cls_id);
+        }
         if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
             example.setOrderByClause(sort + " " + order);
         }
@@ -80,35 +81,36 @@ public class LitemallTabInfoService {
         return tabInfoMapper.selectByExample(example);
     }
 
-    public int countSelective(String info_title, Integer page, Integer size, String sort, String order) {
+    public int countSelective(String info_title, Integer page, Integer size, String sort, String order,Integer cls_id) {
         LitemallTabInfoExample example = new LitemallTabInfoExample();
         LitemallTabInfoExample.Criteria criteria = example.createCriteria();
-
         if (!StringUtils.isEmpty(info_title)) {
             criteria.andInfoTitleLike("%" + info_title + "%");
         }
-
+        if(cls_id!=null){
+            criteria.andClsIdEqualTo(cls_id);
+        }
         criteria.andDeletedEqualTo(false);
-
         return (int) tabInfoMapper.countByExample(example);
     }
-//
-//    public int updateById(LitemallNews news) {
-//        news.setUpdateTime(LocalDateTime.now());
-//        LitemallNewsExample example = new LitemallNewsExample();
-//        example.or().andIdEqualTo(news.getId());
-//        return newsMapper.updateByExampleSelective(news, example);
-//    }
-//
-//    public void deleteById(Integer id) {
-//        newsMapper.logicalDeleteByPrimaryKey(id);
-//    }
-//
-    public void add(LitemallTabInfo tabInfo) {
+
+    public int updateById(LitemallTabInfo tabInfo) {
+        tabInfo.setUpdateTime(LocalDateTime.now());
+        LitemallTabInfoExample example = new LitemallTabInfoExample();
+        example.or().andInfoIdEqualTo(tabInfo.getInfoId());
+        return tabInfoMapper.updateByExampleSelective(tabInfo, example);
+    }
+
+    public void deleteById(Integer id) {
+        tabInfoMapper.logicalDeleteByPrimaryKey(id);
+    }
+
+    public Integer add(LitemallTabInfo tabInfo) {
         tabInfo.setCreateTime(LocalDateTime.now());
         tabInfo.setUpdateTime(LocalDateTime.now());
         tabInfoMapper.insertSelective(tabInfo);
+        Integer info=tabInfo.getInfoId();
+        return info;
     }
-
 
 }
