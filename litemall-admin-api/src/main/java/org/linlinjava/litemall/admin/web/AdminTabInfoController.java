@@ -4,6 +4,7 @@ package org.linlinjava.litemall.admin.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.admin.annotation.LoginAdmin;
+import org.linlinjava.litemall.admin.dto.TabInfoDTO;
 import org.linlinjava.litemall.admin.util.MultiRequestBody;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
@@ -21,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,11 +52,46 @@ public class AdminTabInfoController {
             @Order @RequestParam(defaultValue = "desc") String order) {
 
         List<LitemallTabInfo> tabInfos = tabInfoService.querySelective(info_title, page, limit, sort, order, cls_id);
+        List<TabInfoDTO> tabInfoDTOS = new ArrayList<>();
+        if (tabInfos != null) {
+            for (LitemallTabInfo xx : tabInfos) {
+                TabInfoDTO tabInfoDTO = new TabInfoDTO();
+
+                if(xx.getScope()==1){//指定用户手机
+                    tabInfoDTO.setAssignPhone(xx.getAssignPhone());
+                }
+
+                tabInfoDTO.setInfoId(xx.getInfoId());
+                tabInfoDTO.setInfoShortTitle(xx.getInfoShortTitle());
+                tabInfoDTO.setInfoTitle(xx.getInfoTitle());
+                tabInfoDTO.setInfoDescription(xx.getInfoDescription());
+                tabInfoDTO.setInfoMainImg(xx.getInfoMainImg());
+                tabInfoDTO.setClsId(xx.getClsId());
+                tabInfoDTO.setShowIndex(xx.getShowIndex());
+                tabInfoDTO.setScope(xx.getScope());
+                tabInfoDTO.setTopRank(xx.getTopRank());
+                tabInfoDTO.setOpenRelated(xx.getOpenRelated());
+
+                LitemallTabInfoContent tabInfoContent = tabInfoContentService.findContent(xx.getInfoId());
+                if (tabInfoContent != null) {
+                    tabInfoDTO.setContentId(tabInfoContent.getId());
+                    tabInfoDTO.setAuthor(tabInfoContent.getAuthor());
+                    tabInfoDTO.setContent(tabInfoContent.getContent());
+                }
+
+                LitemallTabInfoTag tabInfoTag = tabInfoTagService.findTagName(xx.getInfoId());
+                if (tabInfoTag != null) {
+                    tabInfoDTO.setName(tabInfoTag.getName());
+                }
+                tabInfoDTOS.add(tabInfoDTO);
+            }
+        }
+
         int total = tabInfoService.countSelective(info_title, page, limit, sort, order, cls_id);
         Map<String, Object> data = new HashMap<>();
         data.put("total", total);
-        data.put("items", tabInfos);
-
+        data.put("items", tabInfoDTOS);
+//        data.put("tabInfoDTO", tabInfoDTOS);
         return ResponseUtil.ok(data);
     }
 
@@ -146,16 +183,20 @@ public class AdminTabInfoController {
                      * 保存标签表
                      * */
                     String name = array[i];
-//                    if (StringUtils){}
                     LitemallTabInfoTag litemallTabInfoTag = tabInfoTagService.findByName(name);
                     if (litemallTabInfoTag != null) {//该标签存在
-                        /**
-                         * 保存标签关联表
-                         * */
-                        LitemallTabInfoTagRelated tabInfoTagRelated = new LitemallTabInfoTagRelated();
-                        tabInfoTagRelated.setInfoId(info_id);//这是资讯表的id
-                        tabInfoTagRelated.setTagId(litemallTabInfoTag.getId());//这是标签表的id
-                        tabInfoTagRelatedService.add(tabInfoTagRelated);
+
+                        LitemallTabInfoTagRelated litemallTabInfoTagRelated = tabInfoTagRelatedService.findTagExist(tabInfo.getInfoId(), litemallTabInfoTag.getId());
+                        if (litemallTabInfoTagRelated == null) {//不能重复关联相同的标签
+                            /**
+                             * 保存标签关联表
+                             * */
+                            LitemallTabInfoTagRelated tabInfoTagRelated = new LitemallTabInfoTagRelated();
+                            tabInfoTagRelated.setInfoId(info_id);//这是资讯表的id
+                            tabInfoTagRelated.setTagId(litemallTabInfoTag.getId());//这是标签表的id
+                            tabInfoTagRelatedService.add(tabInfoTagRelated);
+                        }
+
                     } else {//保存标签和标签关联表
                         int tag_id = tabInfoTagService.add(tabInfoTag, name);//标签表id
                         /**
@@ -250,13 +291,18 @@ public class AdminTabInfoController {
 //                    if (StringUtils){}
                     LitemallTabInfoTag litemallTabInfoTag = tabInfoTagService.findByName(name);
                     if (litemallTabInfoTag != null) {//该标签存在
-                        /**
-                         * 保存标签关联表
-                         * */
-                        LitemallTabInfoTagRelated tabInfoTagRelated = new LitemallTabInfoTagRelated();
-                        tabInfoTagRelated.setInfoId(tabInfo.getInfoId());//这是资讯表的id
-                        tabInfoTagRelated.setTagId(litemallTabInfoTag.getId());//这是标签表的id
-                        tabInfoTagRelatedService.add(tabInfoTagRelated);
+
+                        LitemallTabInfoTagRelated litemallTabInfoTagRelated = tabInfoTagRelatedService.findTagExist(tabInfo.getInfoId(), litemallTabInfoTag.getId());
+                        if (litemallTabInfoTagRelated == null) {//不能重复关联相同的标签
+                            /**
+                             * 保存标签关联表
+                             * */
+                            LitemallTabInfoTagRelated tabInfoTagRelated = new LitemallTabInfoTagRelated();
+                            tabInfoTagRelated.setInfoId(tabInfo.getInfoId());//这是资讯表的id
+                            tabInfoTagRelated.setTagId(litemallTabInfoTag.getId());//这是标签表的id
+                            tabInfoTagRelatedService.add(tabInfoTagRelated);
+                        }
+
                     } else {//保存标签和标签关联表
                         int tag_id = tabInfoTagService.add(tabInfoTag, name);//标签表id
                         /**
