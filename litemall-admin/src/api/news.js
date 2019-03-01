@@ -25,7 +25,7 @@ export function createNews(data) {
 
 export function updateNews(data) {
   return request({
-    url: '/news/update',
+    url: '/tabInfo/update',
     method: 'post',
     data
   })

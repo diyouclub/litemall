@@ -9,7 +9,22 @@
           :name="item.id+''"
           :label="item.clsName"
 
-        >
+        />
+        <el-tab-pane label="栏目设置" name="lmsz">
+          <el-table :data="lmList" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+            <el-table-column type="index" width="50" />
+
+            <el-table-column align="center" property="clsIcon" label="图标">
+              <template slot-scope="scope">
+                <img :src="scope.row.clsIcon" width="50" height="50">
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="栏目标题" prop="clsName"/>
+            <el-table-column :formatter="showIndexFormatter" align="center" label="首页展示	" prop="showIndex"/>
+            <el-table-column align="center" label="首页展示条目数量	" prop="indexLimit"/>
+          </el-table>
+        </el-tab-pane>
+        <div v-if="dataForm.clsId !=='lmsz'">
           <!-- 查询和其他操作 -->
           <div class="filter-container">
             <el-input v-model="listQuery.info_title" clearable class="filter-item" style="width: 200px;" placeholder="请输入资讯标题"/>
@@ -50,21 +65,7 @@
           </el-table>
 
           <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-        </el-tab-pane>
-        <el-tab-pane label="栏目设置" name="lmsz">
-          <el-table :data="lmList" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-            <el-table-column type="index" width="50" />
-
-            <el-table-column align="center" property="clsIcon" label="图标">
-              <template slot-scope="scope">
-                <img :src="scope.row.clsIcon" width="50" height="50">
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="栏目标题" prop="clsName"/>
-            <el-table-column :formatter="showIndexFormatter" align="center" label="首页展示	" prop="showIndex"/>
-            <el-table-column align="center" label="首页展示条目数量	" prop="indexLimit"/>
-          </el-table>
-        </el-tab-pane>
+        </div>
       </el-tabs>
     </div>
 
@@ -103,7 +104,7 @@
         <el-form-item label="资讯标题" prop="infoTitle">
           <el-input v-model="dataForm.infoTitle"/>
         </el-form-item>
-        <el-form-item label="资讯子标题" prop="infoShortTitle">
+        <el-form-item label="资讯短标题" prop="infoShortTitle">
           <el-input v-model="dataForm.infoShortTitle"/>
         </el-form-item>
         <el-form-item label="描述" prop="infoDescription">
@@ -132,10 +133,10 @@
         </el-form-item>
         <el-form-item label="公布范围" prop="scope">
           <el-radio-group v-model="dataForm.scope">
-            <el-radio label="0">所有用户</el-radio>
-            <el-radio label="1">指定用户</el-radio>
+            <el-radio :label="0">所有用户</el-radio>
+            <el-radio :label="1">指定用户</el-radio>
           </el-radio-group>
-          <el-input v-if="dataForm.scope==='1'" v-model="dataForm.assignPhone" placeholder="指定用户的手机号"/>
+          <el-input v-if="dataForm.scope===1" v-model="dataForm.assignPhone" placeholder="指定用户的手机号"/>
         </el-form-item>
         <el-form-item label="置顶排序" prop="topRank">
           <el-input v-model="dataForm.topRank"/>
@@ -239,6 +240,8 @@ export default {
         sort: '',
         order: 'desc'
       },
+      infoId: '',
+      contentId: '',
       dataForm: {
         // id: undefined,
         clsId: 'lmsz',
@@ -249,7 +252,7 @@ export default {
         infoMainImg: undefined,
         content: '',
         showIndex: '',
-        scope: '0',
+        scope: 0,
         assignPhone: '',
         topRank: '',
         name: '',
@@ -354,7 +357,6 @@ export default {
       getNewsType()
         .then(response => {
           const data = response.data.data
-          console.log(data)
           this.tabs = data.items
         })
         .catch(() => {
@@ -395,7 +397,6 @@ export default {
     },
     getList() {
       const params = Object.assign(this.listQuery, { cls_id: ~~this.dataForm.clsId })
-      console.log(~~this.dataForm.clsId)
       this.listLoading = true
       listNews(params)
         .then(response => {
@@ -431,10 +432,15 @@ export default {
     //   }
     // },
     handleCreate() {
+      console.log(111111)
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
+      this.infoId = ''
+      this.contentId = ''
+      this.tagArr = []
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
+        console.log(this.dataForm)
         // this.$refs['dataForm'].clearValidate()
       })
     },
@@ -456,12 +462,6 @@ export default {
               name: tagStr
             }
           }
-          console.log(this.dataForm)
-          console.log(name)
-          console.log(content)
-          console.log(author)
-          console.log(tabInfo)
-          console.log(obj)
           createNews(obj)
             .then(response => {
               console.log(response)
@@ -489,11 +489,17 @@ export default {
       // this.dataForm = Object.assign({}, row)
       console.log(row)
       console.log(this.dataForm)
-      // for(let key in this.dataForm){
-      //   if(key !== 'clsId'){
-      //     this.dataForm[key]=row[key]
-      //   }
-      // }
+      for (const key in this.dataForm) {
+        if (key !== 'clsId') {
+          if (key === 'name') {
+            this.tagArr = row.name.split(',') || []
+          } else {
+            this.dataForm[key] = row[key]
+          }
+        }
+      }
+      this.infoId = row.infoId
+      this.contentId = row.contentId
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -503,16 +509,33 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          updateNews(this.dataForm)
-            .then(() => {
-              for (const v of this.list) {
-                if (v.id === this.dataForm.id) {
-                  const index = this.list.indexOf(v)
-                  this.list.splice(index, 1, this.dataForm)
-                  break
-                }
-              }
-              this.dialogFormVisible = false
+          const { content, author, ...mtabInfo } = this.dataForm
+          const contentId = this.contentId
+          const infoId = this.infoId
+          const tabInfo = Object.assign(mtabInfo, { infoId })
+          const tagStr = this.tagArr.join(',')
+          const obj = {
+            tabInfo,
+            content: {
+              author,
+              content,
+              id: contentId
+            },
+            tagName: {
+              name: tagStr
+            }
+          }
+          updateNews(obj)
+            .then((res) => {
+              console.log(res)
+              // for (const v of this.list) {
+              //   if (v.id === this.dataForm.id) {
+              //     const index = this.list.indexOf(v)
+              //     this.list.splice(index, 1, this.dataForm)
+              //     break
+              //   }
+              // }
+              // this.dialogFormVisible = false
               this.$notify.success({
                 title: '成功',
                 message: '更新资讯成功'
@@ -550,7 +573,7 @@ export default {
         const tHeader = [
           '资讯ID',
           '资讯标题',
-          '资讯子标题',
+          '资讯短标题',
           '资讯内容',
           '资讯图片',
           '商品低价',
