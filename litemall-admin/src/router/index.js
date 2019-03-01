@@ -242,6 +242,12 @@ export const asyncRouterMap = [
         meta: { title: '资讯管理', noCache: true }
       },
       {
+        path: 'notice',
+        component: () => import('@/views/promotion/notice'),
+        name: 'notice',
+        meta: { title: '公告', noCache: true }
+      },
+      {
         path: 'groupon-rule',
         component: () => import('@/views/promotion/grouponRule'),
         name: 'grouponRule',
