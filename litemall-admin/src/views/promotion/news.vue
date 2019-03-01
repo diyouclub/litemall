@@ -11,7 +11,7 @@
 
         />
         <el-tab-pane label="栏目设置" name="lmsz">
-          <el-table :data="lmList" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+          <el-table v-loading="newsTypeLoading" :data="lmList" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
             <el-table-column type="index" width="50" />
 
             <el-table-column align="center" property="clsIcon" label="图标">
@@ -22,6 +22,12 @@
             <el-table-column align="center" label="栏目标题" prop="clsName"/>
             <el-table-column :formatter="showIndexFormatter" align="center" label="首页展示	" prop="showIndex"/>
             <el-table-column align="center" label="首页展示条目数量	" prop="indexLimit"/>
+            <el-table-column align="center" label="操作" min-width="200" class-name="small-padding fixed-width">
+              <template slot-scope="scope">
+                <el-button type="primary" size="mini" @click="newsTypeUpdate(scope.row)">编辑</el-button>
+                <el-button type="danger" size="mini" @click="newsTypeDelete(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-tab-pane>
         <div v-if="dataForm.clsId !=='lmsz'">
@@ -35,30 +41,22 @@
 
           <!-- 查询结果 -->
           <el-table v-loading="listLoading" :data="list" size="small" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-            <el-table-column align="center" label="资讯标题" prop="infoTitle"/>
+            <el-table-column align="center" label="资讯标题" min-width="200" prop="infoTitle"/>
 
-            <el-table-column align="center" label="资讯短标题" min-width="200" prop="infoShortTitle"/>
-            <el-table-column align="center" label="描述" prop="infoDescription"/>
+            <el-table-column align="center" label="资讯短标题" show-overflow-tooltip prop="infoShortTitle"/>
+            <el-table-column align="center" show-overflow-tooltip label="描述" prop="infoDescription"/>
 
             <el-table-column align="center" property="infoMainImg" label="图片">
               <template slot-scope="scope">
                 <img :src="scope.row.infoMainImg" width="80">
               </template>
             </el-table-column>
-
-            <el-table-column align="center" label="资讯详情" prop="content">
-              <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="showContent(scope.row.content)">查看</el-button>
-              </template>
-            </el-table-column>
-
             <el-table-column :formatter="showIndexFormatter" align="center" label="是否显示" prop="showIndex"/>
-
             <el-table-column align="center" label="置顶排序" prop="topRank"/>
-
             <el-table-column align="center" label="操作" min-width="200" class-name="small-padding fixed-width">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                <el-button type="primary" size="mini" @click="handleUpdate(scope.row,'scan')">查看</el-button>
+                <el-button type="primary" size="mini" @click="handleUpdate(scope.row,'update')">编辑</el-button>
                 <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
@@ -70,13 +68,13 @@
     </div>
 
     <!-- 添加资讯分类对话框 -->
-    <el-dialog :visible.sync="dialogFormVisible2" title="新增资讯分类">
+    <el-dialog :visible.sync="dialogFormVisible2" :title="textMap[dialog2Status]+'资讯分类'">
       <el-form ref="typeForm" :rules="typeRules" :model="typeForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item label="分类名" prop="clsName">
           <el-input v-model="typeForm.clsName"/>
         </el-form-item>
         <el-form-item label="分类图标" prop="clsIcon">
-          <el-upload :headers="headers" :action="uploadPath" :show-file-list="false" :on-success="uploadPicUrl" class="avatar-uploader" list-type="picture-card" accept=".jpg,.jpeg,.png,.gif">
+          <el-upload :headers="headers" :action="uploadPath" :show-file-list="false" :on-success="uploadClsIcon" class="avatar-uploader" list-type="picture-card" accept=".jpg,.jpeg,.png,.gif">
             <img v-if="typeForm.clsIcon" :src="typeForm.clsIcon" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
@@ -90,7 +88,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible2 = false">取消</el-button>
-        <el-button type="primary" @click="createTab">确定</el-button>
+        <el-button v-if="dialog2Status == 'create'" type="primary" @click="createTab">确定</el-button>
+        <el-button v-if="dialog2Status == 'update'" type="primary" @click="updateTab">确定</el-button>
       </div>
     </el-dialog>
 
@@ -100,7 +99,7 @@
 
     <!-- 添加或修改对话框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
+      <el-form ref="dataForm" :rules="rules" :disabled="dialogStatus==='scan'" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item label="资讯标题" prop="infoTitle">
           <el-input v-model="dataForm.infoTitle"/>
         </el-form-item>
@@ -126,7 +125,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item style="width: 700px;" label="资讯内容">
-          <editor :init="editorInit" v-model="dataForm.content"/>
+          <editor :init="editorInit" :disabled="dialogStatus==='scan'" v-model="dataForm.content"/>
         </el-form-item>
         <el-form-item label="是否显示" prop="showIndex">
           <el-switch v-model="dataForm.showIndex" :active-value="0" :inactive-value="1" active-text="是" inactive-text="否"	/>
@@ -159,11 +158,8 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">确定</el-button>
-        <el-button v-else type="primary" @click="updateData">确定</el-button>
+        <el-button v-if="dialogStatus=='update'" type="primary" @click="updateData">确定</el-button>
       </div>
-    </el-dialog>
-    <el-dialog :visible.sync="contentDialogVisible" title="资讯详情">
-      <div v-html="contentDetail"/>
     </el-dialog>
   </div>
 </template>
@@ -198,7 +194,7 @@
 </style>
 
 <script>
-import { listNews, createNews, updateNews, deleteNews, createNewsType, getNewsType, newsTypeList } from '@/api/news'
+import { listNews, createNews, updateNews, deleteNews, createNewsType, updateNewsType, deleteNewsType, getNewsType, newsTypeList } from '@/api/news'
 import { createStorage, uploadPath } from '@/api/storage'
 import BackToTop from '@/components/BackToTop'
 import Editor from '@tinymce/tinymce-vue'
@@ -227,6 +223,7 @@ export default {
       tagArr: [],
       total: 0,
       listLoading: true,
+      newsTypeLoading: true,
       listQuery: {
         page: 1,
         limit: 20,
@@ -277,7 +274,7 @@ export default {
       },
       typeForm: {
         clsName: '',
-        clsIcon: 'https://avatar-static.segmentfault.com/852/246/852246081-5b15227f8c800_big64',
+        clsIcon: '',
         showIndex: 0,
         indexLimit: ''
       },
@@ -289,14 +286,14 @@ export default {
           { required: true, message: '首页展示条数不能为空', trigger: 'blur' }
         ]
       },
-      contentDetail: '',
-      contentDialogVisible: false,
       dialogFormVisible: false,
       dialogFormVisible2: false,
+      dialog2Status: '',
       dialogStatus: '',
       textMap: {
         update: '编辑',
-        create: '创建'
+        create: '创建',
+        scan: '查看'
       },
       downloadLoading: false,
       editorInit: {
@@ -363,23 +360,85 @@ export default {
         })
     },
     getNewsTypeList() {
+      this.newsTypeLoading = true
       newsTypeList(this.listQuery1)
         .then(response => {
           const data = response.data.data
           this.lmList = data.items
+          this.newsTypeLoading = false
         })
         .catch(() => {
         })
     },
     showCreateTabDialog() {
       this.dialogFormVisible2 = true
+      this.dialog2Status = 'create'
+      this.typeForm = {
+        clsName: '',
+        clsIcon: '',
+        showIndex: 0,
+        indexLimit: ''
+      }
+    },
+    newsTypeUpdate(row) {
+      this.dialogFormVisible2 = true
+      this.dialog2Status = 'update'
+      this.typeForm = Object.assign(row, {})
+    },
+    newsTypeDelete(row) {
+      this.$confirm('此操作将删除该资讯分类, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteNewsType({ id: row.id })
+          .then(response => {
+            this.getTab()
+            this.getNewsTypeList()
+            this.$notify.success({
+              title: '成功',
+              message: '删除资讯分类成功'
+            })
+          })
+          .catch(response => {
+            this.$notify.error({
+              title: '失败',
+              message: response.data.errmsg
+            })
+          })
+      }).catch(() => {
+
+      })
+    },
+    updateTab() {
+      this.$refs['typeForm'].validate(valid => {
+        if (valid) {
+          updateNewsType(this.typeForm)
+            .then(response => {
+              this.getTab()
+              this.getNewsTypeList()
+              this.dialogFormVisible2 = false
+              this.$notify.success({
+                title: '成功',
+                message: '修改资讯分类成功'
+              })
+            })
+            .catch(response => {
+              this.$notify.error({
+                title: '失败',
+                message: response.data.errmsg
+              })
+            })
+        }
+      })
     },
     createTab() {
       this.$refs['typeForm'].validate(valid => {
         if (valid) {
           createNewsType(this.typeForm)
             .then(response => {
-              // this.list.unshift(response.data.data)
+              this.getTab()
+              this.getNewsTypeList()
               this.dialogFormVisible2 = false
               this.$notify.success({
                 title: '成功',
@@ -400,7 +459,6 @@ export default {
       this.listLoading = true
       listNews(params)
         .then(response => {
-          console.log(response.data.data)
           this.list = response.data.data.items
           this.total = response.data.data.total
           this.listLoading = false
@@ -415,37 +473,39 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    // resetForm() {
-    //   this.dataForm = {
-    //     infoTitle: undefined,
-    //     infoShortTitle: undefined,
-    //     infoDescription:'',
-    //     author:'',
-    //     infoMainImg: undefined,
-    //     content:'',
-    //     showIndex:0,
-    //     scope:'0',
-    //     assignPhone:'',
-    //     topRank:'',
-    //     tags:'',
-    //     openRelated:''
-    //   }
-    // },
+    resetForm() {
+      this.dataForm = {
+        clsId: this.dataForm.clsId,
+        infoTitle: undefined,
+        infoShortTitle: undefined,
+        infoDescription: '',
+        author: '',
+        infoMainImg: undefined,
+        content: '',
+        showIndex: '',
+        scope: 0,
+        assignPhone: '',
+        topRank: '',
+        name: '',
+        openRelated: 0
+      }
+    },
     handleCreate() {
-      console.log(111111)
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.infoId = ''
       this.contentId = ''
       this.tagArr = []
+      this.resetForm()
       this.$nextTick(() => {
-        this.$refs['dataForm'].resetFields()
-        console.log(this.dataForm)
-        // this.$refs['dataForm'].clearValidate()
+        this.$refs['dataForm'].clearValidate()
       })
     },
     uploadPicUrl: function(response) {
       this.dataForm.infoMainImg = response.data.url
+    },
+    uploadClsIcon(response) {
+      this.typeForm.clsIcon = response.data.url
     },
     createData() {
       this.$refs['dataForm'].validate(valid => {
@@ -464,9 +524,8 @@ export default {
           }
           createNews(obj)
             .then(response => {
-              console.log(response)
-              // this.list.unshift(response.data.data)
-              // this.dialogFormVisible = false
+              this.list.unshift(response.data.data)
+              this.dialogFormVisible = false
               this.$notify.success({
                 title: '成功',
                 message: '创建资讯成功'
@@ -481,17 +540,11 @@ export default {
         }
       })
     },
-    showContent(content) {
-      this.contentDetail = content
-      this.contentDialogVisible = true
-    },
-    handleUpdate(row) {
+    handleUpdate(row, str) {
       // this.dataForm = Object.assign({}, row)
-      console.log(row)
-      console.log(this.dataForm)
       for (const key in this.dataForm) {
         if (key !== 'clsId') {
-          if (key === 'name') {
+          if (key === 'name' && row.name) {
             this.tagArr = row.name.split(',') || []
           } else {
             this.dataForm[key] = row[key]
@@ -500,7 +553,7 @@ export default {
       }
       this.infoId = row.infoId
       this.contentId = row.contentId
-      this.dialogStatus = 'update'
+      this.dialogStatus = str
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -527,15 +580,8 @@ export default {
           }
           updateNews(obj)
             .then((res) => {
-              console.log(res)
-              // for (const v of this.list) {
-              //   if (v.id === this.dataForm.id) {
-              //     const index = this.list.indexOf(v)
-              //     this.list.splice(index, 1, this.dataForm)
-              //     break
-              //   }
-              // }
-              // this.dialogFormVisible = false
+              this.getList()
+              this.dialogFormVisible = false
               this.$notify.success({
                 title: '成功',
                 message: '更新资讯成功'
@@ -551,21 +597,28 @@ export default {
       })
     },
     handleDelete(row) {
-      deleteNews(row)
-        .then(response => {
-          this.$notify.success({
-            title: '成功',
-            message: '删除资讯成功'
+      this.$confirm('此操作将删除该条资讯, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteNews(row)
+          .then(response => {
+            this.getList()
+            this.$notify.success({
+              title: '成功',
+              message: '删除资讯成功'
+            })
           })
-          const index = this.list.indexOf(row)
-          this.list.splice(index, 1)
-        })
-        .catch(response => {
-          this.$notify.error({
-            title: '失败',
-            message: response.data.errmsg
+          .catch(response => {
+            this.$notify.error({
+              title: '失败',
+              message: response.data.errmsg
+            })
           })
-        })
+      }).catch(() => {
+
+      })
     },
     handleDownload() {
       this.downloadLoading = true

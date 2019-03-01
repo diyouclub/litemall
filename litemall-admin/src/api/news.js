@@ -33,7 +33,7 @@ export function updateNews(data) {
 
 export function deleteNews(data) {
   return request({
-    url: '/news/delete',
+    url: '/tabInfo/delete',
     method: 'post',
     data
   })
@@ -50,6 +50,27 @@ export function getNewsType(data) { // 获取资讯分类
   return request({
     url: '/infoClass/list',
     method: 'get',
+    params: data
+  })
+}
+export function redNewsType(data) { // 资讯分类编辑显示
+  return request({
+    url: '/infoClass/read',
+    method: 'get',
+    params: data
+  })
+}
+export function updateNewsType(data) { // 修改资讯分类
+  return request({
+    url: '/infoClass/update',
+    method: 'post',
+    data
+  })
+}
+export function deleteNewsType(data) { // 删除资讯分类
+  return request({
+    url: '/infoClass/delete',
+    method: 'post',
     data
   })
 }
