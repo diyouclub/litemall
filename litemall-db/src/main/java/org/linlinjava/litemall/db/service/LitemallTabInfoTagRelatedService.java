@@ -38,4 +38,13 @@ public class LitemallTabInfoTagRelatedService {
 
         return tabInfoTagRelatedMapper.selectByExample(example);
     }
+
+    public LitemallTabInfoTagRelated findTagExist(Integer info_id,Integer tag_id) {
+        LitemallTabInfoTagRelatedExample example = new LitemallTabInfoTagRelatedExample();
+
+        example.or().andInfoIdEqualTo(info_id).andTagIdEqualTo(tag_id).andDeletedEqualTo(false);
+        return tabInfoTagRelatedMapper.selectOneByExample(example);
+    }
+
+
 }

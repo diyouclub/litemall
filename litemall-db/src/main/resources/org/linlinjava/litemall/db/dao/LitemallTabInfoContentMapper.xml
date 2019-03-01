@@ -556,12 +556,12 @@
   </update>
 
     <sql id="Content_Detail">
-        a.content,a.author
+        a.content,a.author,a.id
     </sql>
     <select id="selectInfoContent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Content_Detail" />
         from litemall_tab_info_content a,litemall_tab_info b
-        where b.id=a.info_id and b.id=#{info_id,jdbcType=INTEGER}
+        where b.info_id=a.info_id and b.info_id=#{info_id,jdbcType=INTEGER}
     </select>
 </mapper>

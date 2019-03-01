@@ -50,4 +50,8 @@ public class LitemallTabInfoTagService {
         criteria.andDeletedEqualTo(false);
         return tabInfoTagMapper.selectAllTag(example);
     }
+
+    public LitemallTabInfoTag findTagName(Integer info_id) {
+        return tabInfoTagMapper.selectTagName(info_id);
+    }
 }

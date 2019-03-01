@@ -458,8 +458,19 @@
         select
         <include refid="Tag_Detail" />
         from litemall_tab_info_tag_related a,litemall_tab_info_tag b
-        where a.deleted=0 and a.tag_id=b.id and a.info_id=#{info_id,jdbcType=INTEGER}
+        where a.deleted=0 and b.deleted=0 and a.tag_id=b.id and a.info_id=#{info_id,jdbcType=INTEGER}
 
     </select>
 
+    <!--<sql id="Tag_Name">-->
+        <!--group_concat(b.name)as tag_name-->
+    <!--</sql>-->
+    <select id="selectTagName" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select group_concat(b.name)as name
+        <!--<include refid="Tag_Name" />-->
+
+        from litemall_tab_info_tag_related a,litemall_tab_info_tag b
+        where a.tag_id=b.id and a.deleted=0 and b.deleted=0 and a.info_id=#{info_id,jdbcType=INTEGER}
+
+    </select>
 </mapper>

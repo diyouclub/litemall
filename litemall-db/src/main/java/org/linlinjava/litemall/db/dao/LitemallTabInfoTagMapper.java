@@ -167,4 +167,6 @@ public interface LitemallTabInfoTagMapper {
      * 查询所有标签（限制6个）
      * */
     List<LitemallTabInfoTag> selectAllTag(LitemallTabInfoTagExample example);
+
+    LitemallTabInfoTag selectTagName(Integer info_id);
 }
