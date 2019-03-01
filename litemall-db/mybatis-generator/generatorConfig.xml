@@ -243,5 +243,9 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <!--公告表-->
+        <table tableName="litemall_notice">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>
