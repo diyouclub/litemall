@@ -960,4 +960,16 @@ public class LitemallUser {
             }
         }
     }
+
+
+
+    private LitemallUser parentUser ;
+
+    public LitemallUser getParentUser() {
+        return parentUser;
+    }
+
+    public void setParentUser(LitemallUser parentUser) {
+        this.parentUser = parentUser;
+    }
 }

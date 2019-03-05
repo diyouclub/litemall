@@ -33,7 +33,7 @@ public class AdminUserController {
 
     @GetMapping("/list")
     public Object list(@LoginAdmin Integer adminId,
-                       String username, String mobile,
+                       String username, String mobile,String startDate,String endDate,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
@@ -41,8 +41,8 @@ public class AdminUserController {
         if (adminId == null) {
             return ResponseUtil.unlogin();
         }
-        List<LitemallUser> userList = userService.querySelective(username, mobile, page, limit, sort, order);
-        int total = userService.countSeletive(username, mobile, page, limit, sort, order);
+        List<LitemallUser> userList = userService.querySelective(username, mobile,startDate,endDate, page, limit, sort, order);
+        int total = userService.countSeletive(username, mobile,startDate,endDate, page, limit, sort, order);
         Map<String, Object> data = new HashMap<>();
         data.put("total", total);
         data.put("items", userList);
@@ -56,7 +56,7 @@ public class AdminUserController {
             return ResponseUtil.unlogin();
         }
 
-        int total = userService.countSeletive(username, null, null, null, null, null);
+        int total = userService.countSeletive(username,null,null, null, null, null, null, null);
         if (total == 0) {
             return ResponseUtil.ok("不存在");
         }

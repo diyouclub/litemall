@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -46,7 +47,7 @@ public class LitemallUserService {
         return userMapper.updateByPrimaryKeySelective(user);
     }
 
-    public List<LitemallUser> querySelective(String username, String mobile, Integer page, Integer size, String sort, String order) {
+    public List<LitemallUser> querySelective(String username, String mobile,String startDate,String endDate, Integer page, Integer size, String sort, String order) {
         LitemallUserExample example = new LitemallUserExample();
         LitemallUserExample.Criteria criteria = example.createCriteria();
 
@@ -55,6 +56,12 @@ public class LitemallUserService {
         }
         if (!StringUtils.isEmpty(mobile)) {
             criteria.andMobileEqualTo(mobile);
+        }
+        if (!StringUtils.isEmpty(startDate)&&!StringUtils.isEmpty(endDate)) {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startTime = LocalDateTime.parse(startDate,df);
+            LocalDateTime endTime = LocalDateTime.parse(endDate,df);
+            criteria.andAddTimeBetween(startTime,endTime);
         }
         criteria.andDeletedEqualTo(false);
 
@@ -66,7 +73,7 @@ public class LitemallUserService {
         return userMapper.selectByExample(example);
     }
 
-    public int countSeletive(String username, String mobile, Integer page, Integer size, String sort, String order) {
+    public int countSeletive(String username, String mobile,String startDate,String endDate, Integer page, Integer size, String sort, String order) {
         LitemallUserExample example = new LitemallUserExample();
         LitemallUserExample.Criteria criteria = example.createCriteria();
 
@@ -75,6 +82,12 @@ public class LitemallUserService {
         }
         if (!StringUtils.isEmpty(mobile)) {
             criteria.andMobileEqualTo(mobile);
+        }
+        if (!StringUtils.isEmpty(startDate)&&!StringUtils.isEmpty(endDate)) {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startTime = LocalDateTime.parse(startDate,df);
+            LocalDateTime endTime = LocalDateTime.parse(endDate,df);
+            criteria.andAddTimeBetween(startTime,endTime);
         }
         criteria.andDeletedEqualTo(false);
 
