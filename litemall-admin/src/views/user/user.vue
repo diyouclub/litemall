@@ -3,11 +3,19 @@
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.username" clearable class="filter-item" style="width: 200px;" placeholder="请输入用户名"/>
-      <el-input v-model="listQuery.mobile" clearable class="filter-item" style="width: 200px;" placeholder="请输入手机号"/>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
-      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
+      <el-input v-model="listQuery.username" clearable style="width: 200px;" placeholder="请输入用户名"/>
+      <el-input v-model="listQuery.mobile" clearable style="width: 200px;" placeholder="请输入手机号"/>
+      <el-date-picker
+        v-model="dateValue"
+        type="daterange"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        range-separator="-"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        @change="changeDate"/>
+      <el-button type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
+      <el-button type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
+      <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
     </div>
 
     <!-- 查询结果 -->
@@ -41,7 +49,7 @@
           <el-tag>{{ statusDic[scope.row.status] }}</el-tag>
         </template>
       </el-table-column>
-
+      <el-table-column align="center" label="时间" prop="addTime"/>
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -113,6 +121,7 @@ export default {
       total: 0,
       listLoading: true,
       isReadOnly: false,
+      dateValue: '',
       listQuery: {
         page: 1,
         limit: 20,
@@ -152,9 +161,18 @@ export default {
     this.getList()
   },
   methods: {
+    changeDate(value) {
+
+    },
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
+      const [startDate, endDate] = this.dateValue ? this.dateValue : []
+      // let timeObj={
+      //   startDate:this.dateValue[0],
+      //   endDate:this.dateValue[1]
+      // };
+      const params = Object.assign(this.listQuery, { startDate, endDate })
+      fetchList(params).then(response => {
         this.list = response.data.data.items
         this.total = response.data.data.total
         this.listLoading = false
