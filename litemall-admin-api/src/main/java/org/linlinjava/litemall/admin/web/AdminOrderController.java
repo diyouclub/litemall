@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.admin.annotation.LoginAdmin;
 import org.linlinjava.litemall.core.express.SfExpressService;
+import org.linlinjava.litemall.core.express.dao.SfExpressOrderServiceInfo;
 import org.linlinjava.litemall.core.notify.NotifyService;
 import org.linlinjava.litemall.core.notify.NotifyType;
 import org.linlinjava.litemall.core.util.CharUtil;
@@ -63,6 +64,8 @@ public class AdminOrderController {
     private NotifyService notifyService;
     @Autowired
     private LitemallExpressOrderService expressOrderService;
+    @Autowired
+    private LitemallExpressOrderCargoService expressOrderCargoService;
     @Autowired
     private SfExpressService expressService;
 
@@ -293,13 +296,6 @@ public class AdminOrderController {
             return ResponseUtil.fail(ORDER_CONFIRM_NOT_ALLOWED, "订单不能确认收货");
         }
 
-//        order.setOrderStatus(OrderUtil.STATUS_SHIP);
-//        order.setShipSn(shipSn);
-//        order.setShipChannel(shipChannel);
-//        order.setShipTime(LocalDateTime.now());
-//        if (orderService.updateWithOptimisticLocker(order) == 0) {
-//            return ResponseUtil.updatedDateExpired();
-//        }
         //add by fujue 20190220
         //发货生成顺丰订单 并调用顺丰接口
         LitemallExpressOrder expressOrder = new LitemallExpressOrder();
@@ -331,16 +327,45 @@ public class AdminOrderController {
         expressOrder.setOrderSource("wxmall");
         expressOrder.setRemark("");
 
-        //订单货物
+        int iEO = expressOrderService.add(expressOrder);
+
+        //订单货物 简单参数
         List<LitemallOrderGoods> orderGoods = orderGoodsService.queryByOid(orderId);
         for (LitemallOrderGoods goods : orderGoods) {
             LitemallExpressOrderCargo cargo = new LitemallExpressOrderCargo();
             cargo.setName(goods.getGoodsName());
-            cargo.setCount(1);
+            //cargo.setCount(1);
+            //cargo.setUnit("个");
+            expressOrderCargoService.add(cargo);
+        }
+
+        //调用顺丰接口
+        Map map  = expressService.execOrderService(order.getOrderSn());
+
+        if (map != null && map.containsKey("code")) {
+            if ("OK".equals(map.get("code"))) {
+                SfExpressOrderServiceInfo orderServiceInfo = (SfExpressOrderServiceInfo) map.get("info");
+                // 订单处理
+                // 不修改订单状态，仅修改邮寄状态
+                order.setShipStatus((short) 110);
+                order.setShipSn(orderServiceInfo.getMailno());
+                order.setShipChannel("SF");
+                order.setShipTime(LocalDateTime.now());
+                if (orderService.updateWithOptimisticLocker(order) == 0) {
+                    return ResponseUtil.updatedDateExpired();
+                }
+
+            }else {
+                return ResponseUtil.fail(600,map.get("info").toString());
+            }
         }
 
 
-
+//        order.setOrderStatus(OrderUtil.STATUS_SHIP);
+//        order.setShipSn(shipSn);
+//        order.setShipChannel(shipChannel);
+//
+//
 
 
         //TODO 发送邮件和短信通知，这里采用异步发送

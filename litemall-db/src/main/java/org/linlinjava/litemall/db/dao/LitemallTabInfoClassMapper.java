@@ -1,10 +1,9 @@
 package org.linlinjava.litemall.db.dao;
 
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.linlinjava.litemall.db.domain.LitemallTabInfoClass;
 import org.linlinjava.litemall.db.domain.LitemallTabInfoClassExample;
-
-import java.util.List;
 
 public interface LitemallTabInfoClassMapper {
     /**

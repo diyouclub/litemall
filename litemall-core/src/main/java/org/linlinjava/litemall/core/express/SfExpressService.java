@@ -13,6 +13,9 @@ import org.linlinjava.litemall.db.service.LitemallExpressOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 顺丰丰桥物流服务
  * <p>
@@ -84,8 +87,8 @@ public class SfExpressService {
     /*
     下订单接口
      */
-    public String execOrderService(String orderid){
-
+    public Map execOrderService(String orderid){
+        Map map = new HashMap();
         try {
             properties = new SfExpressProperties();
             properties.setCheckWord("2aquhvzkddTu6JwQXEo7WReCrZRxpmqk");
@@ -103,22 +106,27 @@ public class SfExpressService {
             SfExpressResponse sfExpressResponse = objMap.readValue(respXml, SfExpressResponse.class);
             System.out.println(sfExpressResponse.getHead());
 
+            //记录请求记录 TODO
+            //处理执行结果
             ObjectMapper omBody = new XmlMapper();
             if (ExecSuccess.equals(sfExpressResponse.getHead())) {
                 //执行成功
                 SfExpressOrderServiceInfo orderServiceInfo = omBody.readValue(sfExpressResponse.getBody(), SfExpressOrderServiceInfo.class);
-
-                return orderServiceInfo.getOrderid();
+                map.put("info",orderServiceInfo);
+                map.put("code",ExecSuccess);
             }else  {
                 //执行出现错误
-                return sfExpressResponse.getERROR();
+                map.put("code",ExecError);
+                map.put("info",sfExpressResponse.getERROR());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            map.put("code",ExecError);
+            map.put("info","内部错误："+e.getMessage());
         }
 
-        return null;
+        return map;
     }
 
     private String initRequest(String reqType, String orderid) {
@@ -165,12 +173,12 @@ public class SfExpressService {
 
                 requestXml.append("<Cargo ");
                 requestXml.append(" name=").append(expressOrderCargo.getName());
-                requestXml.append(" count=").append(expressOrderCargo.getCount());
-                requestXml.append(" unit=").append(expressOrderCargo.getUnit());
-                requestXml.append(" weight=").append(expressOrderCargo.getWeight());
-                requestXml.append(" amount=").append(expressOrderCargo.getAmount());
-                requestXml.append(" currency=").append(expressOrderCargo.getCurrency());
-                requestXml.append(" source_area=").append(expressOrderCargo.getSourceArea());
+//                requestXml.append(" count=").append(expressOrderCargo.getCount());
+//                requestXml.append(" unit=").append(expressOrderCargo.getUnit());
+//                requestXml.append(" weight=").append(expressOrderCargo.getWeight());
+//                requestXml.append(" amount=").append(expressOrderCargo.getAmount());
+//                requestXml.append(" currency=").append(expressOrderCargo.getCurrency());
+//                requestXml.append(" source_area=").append(expressOrderCargo.getSourceArea());
 
                 requestXml.append("/>");
                 requestXml.append("/Order>");

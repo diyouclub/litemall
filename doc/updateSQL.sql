@@ -73,3 +73,8 @@ ADD COLUMN `sort_order` INT(11) NULL COMMENT '排序' AFTER `friend_type`;
 ALTER TABLE `litemall`.`litemall_news`
 CHANGE COLUMN `news_type` `news_type` INT(11) NULL COMMENT '资讯类型' ;
 
+
+
+-- 20190220 fujue
+ALTER TABLE `litemall`.`litemall_order`
+ADD COLUMN `ship_status`  SMALLINT(6) NULL DEFAULT 100 COMMENT '邮寄订单状态  100：未下单， 110 已下单;  301已发货' ;

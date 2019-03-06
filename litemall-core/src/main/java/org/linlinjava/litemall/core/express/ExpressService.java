@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.linlinjava.litemall.core.express.config.ExpressProperties;
 import org.linlinjava.litemall.core.express.dao.ExpressInfo;
 import org.linlinjava.litemall.core.util.HttpUtil;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 
 import java.net.URLEncoder;
@@ -16,6 +17,7 @@ import java.util.Map;
  * <p>
  * 3831775044640 韵达快递(YD)
  */
+@Service
 public class ExpressService {
     //请求url
     private String ReqURL = "http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";

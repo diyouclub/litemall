@@ -27,4 +27,7 @@ public class LitemallExpressOrderCargoService {
     }
 
 
+    public int add(LitemallExpressOrderCargo cargo) {
+        return cargoMapper.insert(cargo);
+    }
 }
