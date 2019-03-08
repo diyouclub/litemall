@@ -120,9 +120,9 @@
         <table tableName="litemall_keyword">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="litemall_order">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        <!--<table tableName="litemall_order">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
         <table tableName="litemall_order_goods">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="specifications" javaType="java.lang.String[]"
@@ -150,9 +150,9 @@
             <columnOverride column="goods" javaType="java.lang.Integer[]"
                             typeHandler="org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
-        <table tableName="litemall_user">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        <!--<table tableName="litemall_user">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
         <table tableName="litemall_system">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
