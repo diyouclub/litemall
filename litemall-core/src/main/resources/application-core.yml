@@ -1,4 +1,5 @@
 litemall:
+  debug: true
   # 开发者应该设置成自己的wx相关信息
   wx:
     app-id: wxcdef2c5ae634e0b5
